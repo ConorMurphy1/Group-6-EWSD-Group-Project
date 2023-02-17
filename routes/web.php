@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -23,14 +24,14 @@ Route::get('/', function () {
 /**
  * User related routes
  */
-Route::get('/login', [UserController::class, 'create'])->name('login');
-Route::post('/login', [UserController::class, 'login']);
-Route::post('/logout', [UserController::class, 'logout']);
+Route::get('/login', [UserController::class, 'create'])->name('login')->middleware('guest');
+Route::post('/login', [UserController::class, 'login'])->middleware('guest');
+Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 
 /** for first attempt */
-Route::get('/{user:username}/new', [UserController::class, 'newPassword']);
-Route::post('/{user:username}/change', [UserController::class, 'updatePassword']);
+Route::get('/update-password', [PasswordController::class, 'create'])->middleware('auth');
+Route::post('/update-password', [PasswordController::class, 'store'])->middleware('auth');
 
-Route::get('/register', [RegisterController::class, 'create'])->name('register');
-Route::post('/register', [RegisterController::class, 'store']);
+Route::get('/register', [RegisterController::class, 'create'])->name('register')->middleware('admin');
+Route::post('/register', [RegisterController::class, 'store'])->middleware('admin');
 

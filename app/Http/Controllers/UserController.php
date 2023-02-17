@@ -23,13 +23,14 @@ class UserController extends Controller
             return back()->withInput()->withErrors(['email' => 'Your prvoided credentials could not be verified']);
         }
 
+        session()->regenerate();
+
         /** if the user still haven't change the password for the password, user will keep redirected to */
         if(!auth()->user()->is_updated)
         {
-            return redirect('/'.auth()->user()->username.'/new');
+            return redirect('/update-password')->with('success', 'Please update your password for security concerns');
         }
 
-        session()->regenerate();
         return redirect()->route('home')->with('success', 'Welcome!!');
     }
 
@@ -41,15 +42,5 @@ class UserController extends Controller
         session()->flush();
 
         return redirect()->route('home')->with('success', 'Goodbye!');
-    }
-
-    public function newPassword()
-    {
-        return view('users.new');
-    }
-
-    public function updatePassword()
-    {
-        
     }
 }
