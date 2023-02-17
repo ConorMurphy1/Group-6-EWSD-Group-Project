@@ -18,7 +18,7 @@ class RegisterController extends Controller
     {
         /** username |firstname |lastname |email |password |active |is_updated |department_id |role_id */
 
-        $validatedFields = $request->validate([
+        $userData = $request->validate([
             'username' => ['required', Rule::unique('users', 'username'), 'max:50'],
             'firstname' => ['required', 'max:50'],
             'lastname' => ['required', 'max:50'],
@@ -26,13 +26,14 @@ class RegisterController extends Controller
             'password' => ['required', 'min:6', 'max:50', 'confirmed'],
         ]);
 
-        $validatedFields['active'] = true;
-        $validatedFields['is_updated'] = false;
-        /** TODO: update department and role id after other team members completed their crud work */
-        $validatedFields['department_id'] = 1;           
-        $validatedFields['role_id'] = 1;
+        /** is_updated column is set to false to ensure the user update their password for the first time */
+        $userData['is_updated'] = false;
 
-        User::create($validatedFields);
+        /** TODO: update department and role id after other team members completed their crud work */
+        $userData['department_id'] = 1;           
+        $userData['role_id'] = 1;
+
+        User::create($userData);
 
         return redirect()->route('home')->with('success', 'User enrolled successfully');
     }

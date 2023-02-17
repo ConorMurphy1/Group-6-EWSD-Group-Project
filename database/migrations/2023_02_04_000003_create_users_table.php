@@ -20,10 +20,10 @@ return new class extends Migration
             $table->string('lastname');
             $table->string('email')->unique();
             $table->string('password');
-            $table->boolean('active')->default(true);           // check whether is account is deleted or not
             $table->boolean('is_updated')->default(false);      // redirect user to update password if the password has not been updated for the first time
             $table->foreignId('department_id');
             $table->foreignId('role_id');
+            $table->softDeletes();
             $table->timestamps();
 
             /** constraints */
@@ -39,6 +39,10 @@ return new class extends Migration
      */
     public function down()
     {
+        // Schema::table('users', function(Blueprint $table) {
+        //     $table->dropSoftDeletes();
+        // });
+        
         Schema::dropIfExists('users');
     }
 };

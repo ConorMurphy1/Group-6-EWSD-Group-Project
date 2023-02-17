@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class PasswordController extends Controller
 {
@@ -16,6 +17,12 @@ class PasswordController extends Controller
         $newPassword = $request->validate([
             'password' => ['required', 'confirmed']
         ]);
+
+        /** if user attemps to update the same password */
+        if(Hash::check($newPassword['password'], auth()->user()->password))
+        {
+            return back()->withInput()->withErrors(['password' => 'The password and old password must be different.']);
+        }
 
         /** password is updated for the first time and will not be prompt again in subsequent login */
         $newPassword['is_updated'] = true;
