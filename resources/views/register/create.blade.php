@@ -32,7 +32,7 @@
                     <p class="text-red-500 text-sm">{{$message}}</p>
                 @enderror
             </div>
-            <div class="mb-4">
+            <div class="mb-20">
                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
                 <input type="email" id="email" name="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="johndoe@email.com" value="{{old('email')}}">
                 @error('email')
@@ -42,18 +42,17 @@
             <div class="mb-4">
                 <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
                 <select name="department" id="department" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option value="deptA">Department A</option>
-                    <option value="deptB">Department B</option>
-                    <option value="deptC">Department C</option>
-                    <option value="deptD">Department D</option>
+                    @foreach ($departments as $department)
+                        <option value="{{$department->id}}" {{old('department') == $department->id ? 'selected' : ''}}>{{$department->name}}</option>
+                    @endforeach
                 </select>
             </div>
-            <div class="mb-4">
+            <div class="mb-20">
                 <label for="role" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Role</label>
                 <select name="role" id="role" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option value="staff">Staff</option>
-                    <option value="qacoord">QA Coordinator</option>
-                    <option value="qamanager">QA Manager</option>
+                    @foreach ($roles as $role)
+                        <option value="{{$role->id}}" {{old('role') == $role->id ? 'selected' : ''}}>{{$role->role}}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="mb-4">

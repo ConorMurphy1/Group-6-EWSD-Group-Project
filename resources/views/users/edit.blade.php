@@ -1,7 +1,3 @@
-@props([
-    'user'
-])
-
 <x-layout>
     <div class="container mx-auto px-20 mt-20">
         <a href="/" class="space-x-1 text-blue-500 hover:text-blue-700">

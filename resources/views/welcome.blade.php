@@ -13,10 +13,6 @@
                     <a href="{{ route('profile') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Profile</a>
                 @else
                     <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
-
-                    @if (Route::has('register'))
-                        <a href="{{ route('register') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
-                    @endif
                 @endauth
             </div>
         @endif

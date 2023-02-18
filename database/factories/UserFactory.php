@@ -19,10 +19,10 @@ class UserFactory extends Factory
     {
         return [
             'username' => 'admin-master',
-            'firstname' => 'Super',
-            'lastname' => 'Admin',
+            'firstname' => 'Admin',
+            'lastname' => 'Master',
             'email' => 'admin@email.com',
-            'password' => bcrypt('password'),
+            'password' => 'password',
             'is_updated' => true,
 
             /** TODO: update department and role id after other team members completed their crud work */

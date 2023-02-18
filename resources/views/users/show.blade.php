@@ -1,7 +1,3 @@
-@props([
-    'user'
-])
-
 <x-layout>
     <nav class="bg-slate-50">
         <div class="container mx-auto bg-slate-50 py-5">
@@ -17,10 +13,15 @@
             </svg>
             <span>back</span>
         </a>
+
         <a href="{{route('profile.edit')}}" class="block py-2 px-3 bg-yellow-400 hover:bg-yellow-500 text-white text-center text-sm w-36 rounded-md">
             Edit Account
         </a>
-        
+        @if (strtolower(auth()->user()->role->role) == 'admin')
+            <a href="{{route('register')}}" class="block py-2 px-3 bg-yellow-400 hover:bg-yellow-500 text-white text-center text-sm w-36 rounded-md">
+                Register User
+            </a>
+        @endif
         <form action="{{route('profile.delete')}}" method="POST">
             @method('DELETE')
             @csrf

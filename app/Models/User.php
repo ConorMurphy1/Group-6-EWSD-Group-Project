@@ -53,5 +53,14 @@ class User extends Authenticatable
         $this->attributes['password'] = bcrypt($password);
     }
 
-    /** TODO: update relations */
+    /** relations */
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
 }

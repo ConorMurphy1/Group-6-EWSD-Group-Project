@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -11,7 +12,10 @@ class RegisterController extends Controller
 {
     public function create()
     {
-        return view('register.create');
+        return view('register.create', [
+            'departments' => Department::all(),
+            'roles' => Role::all()
+        ]);
     }
 
     public function store(Request $request)
@@ -30,8 +34,8 @@ class RegisterController extends Controller
         $userData['is_updated'] = false;
 
         /** TODO: update department and role id after other team members completed their crud work */
-        $userData['department_id'] = 1;           
-        $userData['role_id'] = 1;
+        $userData['department_id'] = $request->input('department');           
+        $userData['role_id'] = $request->input('role');
 
         User::create($userData);
 
