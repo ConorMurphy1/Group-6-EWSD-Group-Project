@@ -19,15 +19,6 @@ use App\Http\Controllers\{IdeaController};
 
 Route::get('/', function () {
     return view('welcome');
-<<<<<<< HEAD
-});
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::resource('ideas', IdeaController::class);
-=======
 })->name('home');
 
 
@@ -67,4 +58,3 @@ Route::delete('/profile', [UserController::class, 'destory'])
     ->name('profile.delete')
     ->middleware('auth');
 
->>>>>>> 05c77498d148d9708125fa5710e92d505efc6ac4
