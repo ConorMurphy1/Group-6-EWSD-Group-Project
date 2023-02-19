@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('idea_categories', function (Blueprint $table) {
             $table->id();
+            $table->integer('idea_id');
+            $table->integer('category_id');
             $table->timestamps();
         });
     }
