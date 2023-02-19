@@ -5,6 +5,9 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{IdeaController};
+// For Role Entry
+use App\Http\Controllers\rolecontroller;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -58,3 +61,12 @@ Route::delete('/profile', [UserController::class, 'destory'])
     ->name('profile.delete')
     ->middleware('auth');
 
+/**
+ * Role Entry related routes
+ */
+Route::view('role','roleEntry');
+Route::get('role',[RoleController::class,'show']);
+Route::post('role',[RoleController::class,'AddRole']);
+Route::get('deleteRole/{id}',[RoleController::class,'deleteRole']);
+Route::get('updateRole/{id}',[RoleController::class,'showdata']);
+Route::put('/updateRole/{id}', [RoleController::class, 'updateRole']);
