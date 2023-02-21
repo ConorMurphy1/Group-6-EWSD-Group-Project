@@ -38,7 +38,7 @@
                 <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th></th>
                             <th>Departments</th>
                             <th>Actions</th>
                         </tr>
@@ -46,7 +46,7 @@
                     <tbody>
                         @foreach($departments as $department)
                         <tr>
-                            <td>{{ $department->id }}</td>
+                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $department->name }}</td>
                             <td>
                             <form action="{{url('departments/'.$department->id)}}" method="POST">
