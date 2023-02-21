@@ -65,14 +65,11 @@ class CategoryController extends Controller
         $category = Category::find($id);
 
         $request->validate([
-            'name' => 'required|min:2|max:30|unique:categories',
+            'name' => 'required|min:2|max:30',
             'updated_at' => now()
         ]);
 
         $category->fill($request->post())->save();
-
-        $input = $request->all();
-        $category->update($input);
         return redirect('category')->with('success', 'Category Updated!');
     }
 
@@ -84,10 +81,9 @@ class CategoryController extends Controller
      */
     public function deleteCategory(Request $request, string $id)
     {
-        $list = IdeaCategory::find($id, ['category_id']);
+        $list = IdeaCategory::where('category_id',$id)->first();
         
-        
-        if($list = true)
+        if(is_null($list))
         {
             $category = Category::find($id);
             $category->delete();
