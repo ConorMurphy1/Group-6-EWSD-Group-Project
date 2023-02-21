@@ -35,7 +35,7 @@
                         <button class="close" data-dismiss="alert"> &times; </button>
                     </div>
                 @endif
-                <table>
+                <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
                             <th>ID</th>
