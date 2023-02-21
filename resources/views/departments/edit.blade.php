@@ -7,8 +7,8 @@
             <div class="col-md-6">
                 <h3>Update Departments</h3>
                 <form action="{{ url('departments/'.$department->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
+                    {{ csrf_field() }}
+                    {{ method_field('PUT') }}
                     <div class="form-group">
                         <label for="department_name">Department Name</label>
                         <input type="text" class="form-control" name="department_name" id="department_name"

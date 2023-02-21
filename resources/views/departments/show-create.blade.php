@@ -7,7 +7,7 @@
             <div class="col-md-6">
                 <h3>Departments</h3>
                 <form action="{{ url('departments') }}" method="POST">
-                    @csrf
+                    {{ csrf_field() }}
                     <div class="form-group">
                         <label for="department_name">Department Name</label>
                         <input type="text" class="form-control" name="department_name" id="department_name"
@@ -32,7 +32,7 @@
                 @if(Session('successAlert'))
                     <div class="alert alert-success alert-dismissible show fade">
                         <strong>{{ Session('successAlert')}}</strong>
-                        <button class="close" data-dismiss="alert"> &times; </button>
+                        <button class="close" data-dismiss="alert">&times;</button>
                     </div>
                 @endif
                 <table class="table table-bordered table-hover">
@@ -50,8 +50,8 @@
                             <td>{{ $department->name }}</td>
                             <td>
                             <form action="{{url('departments/'.$department->id)}}" method="POST">
-                                @csrf
-                                @method=('DELETE')
+                                {{ csrf_field() }}
+                                {{ method_field('DELETE') }}
                                 <a href="{{ url('departments/'.$department->id.'/edit')}}">
                                     <button type="button" class="btn btn-success btn-sm">
                                         <i class="fa fa-edit"></i> Edit

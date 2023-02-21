@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Department;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class DepartmentController extends Controller
 {
@@ -33,7 +34,7 @@ class DepartmentController extends Controller
         ]);
 
         Department::create([
-            'department_name' => $request->department_name
+            'name' => $request->department_name
         ]);
 
         return redirect('departments')->with('successAlert','New Department Added successfully!');
@@ -49,7 +50,7 @@ class DepartmentController extends Controller
     public function editDepartment(string $id)
     {
         $department = Department::find($id);
-        return view('departments.edit', compact('departments'));
+        return view('departments.edit', compact('department'));
     }
 
     /**
