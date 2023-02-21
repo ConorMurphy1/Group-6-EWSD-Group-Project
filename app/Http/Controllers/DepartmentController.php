@@ -12,20 +12,13 @@ class DepartmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function showDepartments()
     {
-        //
+        $departments = Department::all();
+
+        return view ('departments.show-create', compact('departments'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -33,21 +26,19 @@ class DepartmentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function addDepartment(Request $request)
     {
-        //
+        $request->validate([
+            'name' => ['required|max:30',Rule::unique('departments')]
+        ]);
+
+        Department::create([
+            'department_name' => $request->department_name
+        ]);
+
+        return redirect('departments')->with('successAlert','New Department Added successfully!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Department  $department
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Department $department)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -55,9 +46,10 @@ class DepartmentController extends Controller
      * @param  \App\Models\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function edit(Department $department)
+    public function editDepartment(string $id)
     {
-        //
+        $department = Department::find($id);
+        return view('departments.edit', compact('departments'));
     }
 
     /**
@@ -67,9 +59,19 @@ class DepartmentController extends Controller
      * @param  \App\Models\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Department $department)
+    public function updateDepartment(Request $request, string $id)
     {
-        //
+
+        $request->validate([
+            'name' => ['required|max:30',Rule::unique('departments')]
+        ]);
+
+        Department::find($id)->update([
+            'name' => $request->department_name,
+            'updated_at' => now()
+        ]);
+
+        return redirect('departments')->with('successAlert', 'Department Name Updated!');
     }
 
     /**
@@ -78,8 +80,10 @@ class DepartmentController extends Controller
      * @param  \App\Models\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Department $department)
+    public function deleteDepartment(Department $department, $id)
     {
-        //
+        Department::find($id)->delete();
+
+        return redirect('departments')->with('successAlert', 'Department deleted successfully!');
     }
 }

@@ -11,6 +11,9 @@ use App\Http\Controllers\rolecontroller;
 // For Category
 use App\Http\Controllers\CategoryController;
 
+// For Department
+use App\Http\Controllers\DepartmentController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -82,5 +85,14 @@ Route::post('/category',[CategoryController::class,'addCategory']);
 Route::delete('/category/{id}',[CategoryController::class,'deleteCategory']);
 Route::get('/category/{id}/edit', [CategoryController::class, 'editCategory']);
 Route::put('/category/{id}', [CategoryController::class, 'updateCategory']);
+
+/**
+ * Department(Dashboard) related routes
+ */
+Route::get('/departments',[DepartmentController::class,'showDepartments']);
+Route::post('/departments',[DepartmentController::class,'addDepartment']);
+Route::delete('/departments/{id}',[DepartmentController::class,'deleteDepartment']);
+Route::get('/departments/{id}/edit', [DepartmentController::class, 'editDepartment']);
+Route::put('/departments/{id}', [DepartmentController::class, 'updateDepartment']);
 
 

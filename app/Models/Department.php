@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Department extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+    protected $fillable = ['name'];
 
     /** relations */
     public function users()
