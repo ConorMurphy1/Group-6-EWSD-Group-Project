@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\IdeaCategory;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 
 class CategoryController extends Controller
@@ -16,18 +17,9 @@ class CategoryController extends Controller
      */
     public function showCategory()
     {
-        $categories = Category::all()->where('is_deleted', false);
-        return view ('categories.show-create', compact('categories'));
-    }
+        $categories = Category::all();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return view ('categories.show-create', compact('categories'));
     }
 
     /**
@@ -40,25 +32,14 @@ class CategoryController extends Controller
     {
 
         $request->validate([
-            'name' => 'required|min:2|max:30|unique:categories,name'
+            'name' => 'required|min:2|max:30'
         ]);
 
         Category::create($request->post());
 
         return redirect('category')->with('success','Category has been created successfully.');
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Category $category)
-    {
-        //
-    }
-
+    
     /**
      * Show the form for editing the specified resource.
      *
@@ -70,6 +51,14 @@ class CategoryController extends Controller
         $category = Category::find($id);
         return view('categories.edit', compact('category'));
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Category  $category
+     * @return \Illuminate\Http\Response
+     */
 
     public function updateCategory(Request $request, string $id)
     {
@@ -100,7 +89,8 @@ class CategoryController extends Controller
         
         if($list = true)
         {
-            Category::find($id)->update(array('is_deleted' => true));
+            $category = Category::find($id);
+            $category->delete();
 
             return redirect('category')->with('success', 'Category deleted successfully.');
         }
