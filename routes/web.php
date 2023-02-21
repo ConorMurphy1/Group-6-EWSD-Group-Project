@@ -8,6 +8,9 @@ use App\Http\Controllers\{IdeaController};
 // For Role Entry
 use App\Http\Controllers\rolecontroller;
 
+// For Category
+use App\Http\Controllers\CategoryController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -70,3 +73,14 @@ Route::post('role',[RoleController::class,'AddRole']);
 Route::get('deleteRole/{id}',[RoleController::class,'deleteRole']);
 Route::get('updateRole/{id}',[RoleController::class,'showdata']);
 Route::put('/updateRole/{id}', [RoleController::class, 'updateRole']);
+
+/**
+ * Category(Dashboard) related routes
+ */
+Route::get('/category',[CategoryController::class,'showCategory']);
+Route::post('/category',[CategoryController::class,'addCategory']);
+Route::delete('/category/{id}',[CategoryController::class,'deleteCategory']);
+Route::get('/category/{id}/edit', [CategoryController::class, 'editCategory']);
+Route::put('/category/{id}', [CategoryController::class, 'updateCategory']);
+
+
