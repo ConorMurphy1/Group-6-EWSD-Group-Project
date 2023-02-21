@@ -71,13 +71,6 @@ class CategoryController extends Controller
         return view('categories.edit', compact('category'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
     public function updateCategory(Request $request, string $id)
     {
         $category = Category::find($id);
