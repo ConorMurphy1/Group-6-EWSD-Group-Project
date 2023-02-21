@@ -5,6 +5,12 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{IdeaController};
+// For Role Entry
+use App\Http\Controllers\rolecontroller;
+
+// For Category
+use App\Http\Controllers\CategoryController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,15 +25,6 @@ use App\Http\Controllers\{IdeaController};
 
 Route::get('/', function () {
     return view('welcome');
-<<<<<<< HEAD
-});
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::resource('ideas', IdeaController::class);
-=======
 })->name('home');
 
 
@@ -67,4 +64,23 @@ Route::delete('/profile', [UserController::class, 'destory'])
     ->name('profile.delete')
     ->middleware('auth');
 
->>>>>>> 05c77498d148d9708125fa5710e92d505efc6ac4
+/**
+ * Role Entry related routes
+ */
+Route::view('role','roleEntry');
+Route::get('role',[RoleController::class,'show']);
+Route::post('role',[RoleController::class,'AddRole']);
+Route::get('deleteRole/{id}',[RoleController::class,'deleteRole']);
+Route::get('updateRole/{id}',[RoleController::class,'showdata']);
+Route::put('/updateRole/{id}', [RoleController::class, 'updateRole']);
+
+/**
+ * Category(Dashboard) related routes
+ */
+Route::get('/category',[CategoryController::class,'showCategory']);
+Route::post('/category',[CategoryController::class,'addCategory']);
+Route::delete('/category/{id}',[CategoryController::class,'deleteCategory']);
+Route::get('/category/{id}/edit', [CategoryController::class, 'editCategory']);
+Route::put('/category/{id}', [CategoryController::class, 'updateCategory']);
+
+

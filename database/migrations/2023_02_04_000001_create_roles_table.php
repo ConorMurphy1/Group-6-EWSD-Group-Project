@@ -13,18 +13,33 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('role_entry', function (Blueprint $table) {
             $table->id();
-            $table->string('role')->unique();
+            $table->string('role');
             $table->timestamps();
+            $table->softDeletes();
         });
+
+        // Insert some initial data
+        DB::table('role_entry')->insert([
+            [
+                'role' => 'QA Manager',
+               
+            ],
+            [
+                'role' => 'QA Coordinator',
+               
+            ],
+            [
+                'role' => 'Admin',
+                
+            ],
+        ]);
+    
+
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+    
     public function down()
     {
         Schema::dropIfExists('roles');

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\IdeaCategory;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+
 
 class CategoryController extends Controller
 {
@@ -12,19 +15,11 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function showCategory()
     {
-        //
-    }
+        $categories = Category::all();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return view ('categories.show-create', compact('categories'));
     }
 
     /**
@@ -33,31 +28,28 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function addCategory(Request $request)
     {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Category $category)
-    {
-        //
-    }
+        $request->validate([
+            'name' => 'required|min:2|max:30'
+        ]);
 
+        Category::create($request->post());
+
+        return redirect('category')->with('success','Category has been created successfully.');
+    }
+    
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function editCategory(string $id)
     {
-        //
+        $category = Category::find($id);
+        return view('categories.edit', compact('category'));
     }
 
     /**
@@ -67,9 +59,21 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+
+    public function updateCategory(Request $request, string $id)
     {
-        //
+        $category = Category::find($id);
+
+        $request->validate([
+            'name' => 'required|min:2|max:30|unique:categories',
+            'updated_at' => now()
+        ]);
+
+        $category->fill($request->post())->save();
+
+        $input = $request->all();
+        $category->update($input);
+        return redirect('category')->with('success', 'Category Updated!');
     }
 
     /**
@@ -78,8 +82,21 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function deleteCategory(Request $request, string $id)
     {
-        //
+        $list = IdeaCategory::find($id, ['category_id']);
+        
+        
+        if($list = true)
+        {
+            $category = Category::find($id);
+            $category->delete();
+
+            return redirect('category')->with('success', 'Category deleted successfully.');
+        }
+        else
+        {
+            return redirect('category')->with('failure', 'Cannot delete. Category is currently in use.');
+        }
     }
 }
