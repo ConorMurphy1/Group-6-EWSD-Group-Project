@@ -18,9 +18,6 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-<<<<<<< HEAD
-    protected $guarded = [];
-=======
     // protected $fillable = [
     //     'name',
     //     'email',
@@ -28,10 +25,7 @@ class User extends Authenticatable
     // ];
 
     /** allow mass assignable */
-    protected $guarded = [
-
-    ];
->>>>>>> 05c77498d148d9708125fa5710e92d505efc6ac4
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -60,11 +54,11 @@ class User extends Authenticatable
     /** relations */
     public function role()
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo('App\Models\Role', 'role_id')->withDefault();
     }
 
     public function department()
     {
-        return $this->belongsTo(Department::class);
+        return $this->belongsTo('App\Models\Department', 'department_id')->withDefault();
     }
 }

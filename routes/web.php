@@ -67,32 +67,34 @@ Route::delete('/profile', [UserController::class, 'destory'])
     ->name('profile.delete')
     ->middleware('auth');
 
-/**
- * Role Entry related routes
- */
-Route::view('role','roleEntry');
-Route::get('role',[RoleController::class,'show']);
-Route::post('role',[RoleController::class,'AddRole']);
-Route::get('deleteRole/{id}',[RoleController::class,'deleteRole']);
-Route::get('updateRole/{id}',[RoleController::class,'showdata']);
-Route::put('/updateRole/{id}', [RoleController::class, 'updateRole']);
+Route::group(['middleware' => ['web', 'auth']], function(){
+    /**
+     * Role Entry related routes
+     */
+    Route::view('role','roleEntry');
+    Route::get('role',[RoleController::class,'show']);
+    Route::post('role',[RoleController::class,'AddRole']);
+    Route::get('deleteRole/{id}',[RoleController::class,'deleteRole']);
+    Route::get('updateRole/{id}',[RoleController::class,'showdata']);
+    Route::put('/updateRole/{id}', [RoleController::class, 'updateRole']);
 
-/**
- * Category(Dashboard) related routes
- */
-Route::get('/category',[CategoryController::class,'showCategory']);
-Route::post('/category',[CategoryController::class,'addCategory']);
-Route::delete('/category/{id}',[CategoryController::class,'deleteCategory']);
-Route::get('/category/{id}/edit', [CategoryController::class, 'editCategory']);
-Route::put('/category/{id}', [CategoryController::class, 'updateCategory']);
+    /**
+     * Category(Dashboard) related routes
+     */
+    Route::get('category',[CategoryController::class,'showCategory']);
+    Route::post('/category',[CategoryController::class,'addCategory']);
+    Route::delete('/category/{id}',[CategoryController::class,'deleteCategory']);
+    Route::get('/category/{id}/edit', [CategoryController::class, 'editCategory']);
+    Route::put('/category/{id}', [CategoryController::class, 'updateCategory']);
 
-/**
- * Department(Dashboard) related routes
- */
-Route::get('/departments',[DepartmentController::class,'showDepartments']);
-Route::post('/departments',[DepartmentController::class,'addDepartment']);
-Route::delete('/departments/{id}',[DepartmentController::class,'deleteDepartment']);
-Route::get('/departments/{id}/edit', [DepartmentController::class, 'editDepartment']);
-Route::put('/departments/{id}', [DepartmentController::class, 'updateDepartment']);
+    /**
+     * Department(Dashboard) related routes
+     */
+    Route::get('/departments',[DepartmentController::class,'showDepartments']);
+    Route::post('/departments',[DepartmentController::class,'addDepartment']);
+    Route::delete('/departments/{id}',[DepartmentController::class,'deleteDepartment']);
+    Route::get('/departments/{id}/edit', [DepartmentController::class, 'editDepartment']);
+    Route::put('/departments/{id}', [DepartmentController::class, 'updateDepartment']);
 
 
+});

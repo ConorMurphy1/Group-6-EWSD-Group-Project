@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\IdeaCategory;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use RealRashid\SweetAlert\Facades\Alert;
 
 
 class CategoryController extends Controller
@@ -18,6 +19,13 @@ class CategoryController extends Controller
     public function showCategory()
     {
         $categories = Category::all();
+
+        // Alert::toast('Hello', 'success');
+        // Alert::toast('Hello', 'warning');
+        // Alert::toast('Hello', 'info');
+        // Alert::toast('Hello', 'error');
+        // Alert::toast('Hello', 'alert');
+        // Alert::toast('Hello', 'question');
 
         return view ('categories.show-create', compact('categories'));
     }
