@@ -47,7 +47,7 @@ class UserController extends Controller
         return redirect()->route('profile')->with('success', 'Profile Updated Successfully!');
     }
 
-    public function destory()
+    public function destroy()
     {
         /** soft delete the user account */
         auth()->user()->delete();
@@ -69,7 +69,7 @@ class UserController extends Controller
 
         session()->regenerate();
 
-        /** if the user still haven't change the password for the password, user will keep redirected to */
+        /** if the user still haven't change the password for the first the first time, user will keep redirected to */
         if(!auth()->user()->is_updated)
         {
             return redirect('/update-password')->with('success', 'Please update your password for security concerns');

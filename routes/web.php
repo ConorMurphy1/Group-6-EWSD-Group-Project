@@ -42,7 +42,7 @@ Route::post('/login', [UserController::class, 'login'])
 Route::post('/logout', [UserController::class, 'logout'])
     ->middleware('auth');
 
-/** for first attempt */
+/** for first attempt - the user will have to update their password for security concerns */
 Route::get('/update-password', [PasswordController::class, 'create'])
     ->middleware('auth');
 Route::post('/update-password', [PasswordController::class, 'store'])
@@ -63,7 +63,7 @@ Route::get('/profile/edit', [UserController::class, 'edit'])
 Route::put('/profile', [UserController::class, 'update'])
     ->name('profile.update')
     ->middleware('auth');
-Route::delete('/profile', [UserController::class, 'destory'])
+Route::delete('/profile', [UserController::class, 'destroy'])
     ->name('profile.delete')
     ->middleware('auth');
 
