@@ -11,12 +11,12 @@ class Idea extends Model
 
     protected $guarded=[];
 
-    public function user()
+    public function createdBy()
     {
-        return $this->belongsTo('App\Models\User', 'user_id')->withDefult();
+        return $this->belongsTo('App\Models\User', 'user_id')->withDefault();
     }
     public function department()
     {
-        return $this->belongsTo('App\Models\Department', 'department_id')->withDefult();
+        return $this->belongsTo('App\Models\Department', 'department_id')->withDefault();
     }
 }

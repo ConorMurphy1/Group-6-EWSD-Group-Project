@@ -35,7 +35,7 @@
                                         <td>{{ $category->created_at }}</td>
                                         <td>{{ $category->updated_at }}</td>
                                         <td>
-                                        <a href="{{ url('category/'. $category->id. '/edit') }}" title="Edit Student"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>    
+                                        <a href="{{ url('category/'. $category->id. '/edit') }}" title="Edit Student"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
                                             <form method="POST" action="{{ url('category', $category->id) }}" accept-charset="UTF-8" style="display:inline">
                                                 {{ method_field('DELETE') }}
                                                 {{ csrf_field() }}
@@ -52,5 +52,5 @@
             </div>
         </div>
     </div>
-    @include('sweetalert::alert')
+    {{-- @include('sweetalert::alert') --}}
 @endsection

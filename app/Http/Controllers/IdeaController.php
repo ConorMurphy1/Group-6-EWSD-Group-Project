@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Idea;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use App\Http\Trait\UploadTrait;
+use RealRashid\SweetAlert\Facades\Alert;
 class IdeaController extends Controller
 {
+    use UploadTrait;
     /**
      * Display a listing of the resource.
      *
@@ -39,22 +41,37 @@ class IdeaController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->document);
         $data = $request->validate([
             'title' => 'required|string',
-            'image_path' => 'nullable|image|mimes:jpg,png,jpeg',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg',
             'description' => 'required|string',
-            'is_anonymous' => 'required|boolean',
-            'document_path' => 'nullable|string',
+            'is_anonymous' => 'nullable|string',
+            'document' => 'nullable|string',
             'closure_date' => 'required|date'
         ]);
+        if($request->image){
+            $imageName = $this->uploadImage('image','images');
+            $data['image'] = $imageName;
+        }
+        if($request->document){
+            $documentName = time() . '_' . $request->file('document')->getClientOriginalName();
+            $request->file('document')->storeAs('public/storage/documents', $documentName);
+            $data['document'] = $documentName;
+        }
+
+        $is_anonymous = $request->is_anonymous === 'yes' ? 'Yes' : 'No';
+
+        $data['user_id'] = auth()->user()->id;
+        $data['is_anonymous'] = $is_anonymous;
+        $data['department_id'] = auth()->user()->department_id;
+
         // dd($data);
 
-        $imageName = $this->uploadImage('image','images');
-
-        $data['image'] = $imageName;
-        $data['user_id'] = auth()->user()->id;
-        $data['department_id'] = auth()->user()->department_id;
         Idea::create($data);
+
+        Alert::toast('Idea created successfully', 'success');
+
         return redirect('ideas')->with('success', 'Idea created successfully!');
     }
 
@@ -101,6 +118,9 @@ class IdeaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $idea = Idea::findOrFail($id);
+        $idea->delete();
+        Alert::toast('Congrats!', 'You have successfully deleted a Idea', 'success');
+        return back();
     }
 }

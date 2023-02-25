@@ -4,7 +4,7 @@ use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{IdeaController};
+use App\Http\Controllers\{IdeaController, TestController};
 // For Role Entry
 use App\Http\Controllers\rolecontroller;
 
@@ -27,7 +27,7 @@ use App\Http\Controllers\DepartmentController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layouts.app');
 })->name('home');
 
 
@@ -81,8 +81,8 @@ Route::group(['middleware' => ['web', 'auth']], function(){
     /**
      * Category(Dashboard) related routes
      */
-    Route::get('category',[CategoryController::class,'showCategory']);
-    Route::post('/category',[CategoryController::class,'addCategory']);
+    Route::get('category',[CategoryController::class,'showCategory'])->name('category.index');
+    Route::post('/category-create',[CategoryController::class,'addCategory']);
     Route::delete('/category/{id}',[CategoryController::class,'deleteCategory']);
     Route::get('/category/{id}/edit', [CategoryController::class, 'editCategory']);
     Route::put('/category/{id}', [CategoryController::class, 'updateCategory']);
@@ -95,6 +95,12 @@ Route::group(['middleware' => ['web', 'auth']], function(){
     Route::delete('/departments/{id}',[DepartmentController::class,'deleteDepartment']);
     Route::get('/departments/{id}/edit', [DepartmentController::class, 'editDepartment']);
     Route::put('/departments/{id}', [DepartmentController::class, 'updateDepartment']);
+
+    /**
+     * Idea(Dashboard) related routes
+     */
+    Route::resource('ideas', IdeaController::class);
+
 
 
 });
