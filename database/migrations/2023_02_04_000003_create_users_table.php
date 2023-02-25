@@ -29,8 +29,8 @@ return new class extends Migration
             $table->timestamps();
 
             /** constraints */
-            // $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');
-            // $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
+            $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');
+            $table->foreign('role_id')->references('id')->on('role_entry')->onDelete('cascade');
         });
     }
 

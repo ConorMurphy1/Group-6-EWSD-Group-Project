@@ -25,9 +25,6 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        $admin = Role::factory(1)->create([
-            'role' => 'Admin'
-        ]);
 
         $department = Department::factory(1)->create([
             'name' => 'Department A'
@@ -35,7 +32,7 @@ class DatabaseSeeder extends Seeder
         
         User::factory(1)->create([
             'department_id' => $department->first()->id,
-            'role_id' => $admin->first()->id,
+            'role_id' => 3,
         ]);
     }
 }

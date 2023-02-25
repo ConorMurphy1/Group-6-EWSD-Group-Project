@@ -25,9 +25,9 @@ class UserFactory extends Factory
             'password' => 'password',
             'is_updated' => true,
 
-            /** TODO: update department and role id after other team members completed their crud work */
+            /** TODO: update department */
             'department_id' => 1,
-            'role_id' => 1,
+            'role_id' => 3,
         ];
     }
 }
