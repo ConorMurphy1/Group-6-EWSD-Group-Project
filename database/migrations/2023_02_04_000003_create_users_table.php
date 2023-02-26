@@ -22,9 +22,9 @@ return new class extends Migration
             $table->string('password');
             $table->boolean('is_updated')->default(false);      // redirect user to update password if the password has not been updated for the first time
             // $table->foreignId('department_id');
-            $table->integer('department_id');
+            $table->unsignedBigInteger('department_id');
             // $table->foreignId('role_id');
-            $table->integer('role_id');
+            $table->unsignedBigInteger('role_id');
             $table->softDeletes();
             $table->timestamps();
 
