@@ -4,7 +4,7 @@ use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{IdeaController, IdeaNewsfeedController, NewsFeedController, TestController};
+use App\Http\Controllers\{IdeaController, IdeaNewsfeedController, IdeaReactionController, NewsFeedController, TestController};
 // For Role Entry
 use App\Http\Controllers\rolecontroller;
 
@@ -71,7 +71,16 @@ Route::delete('/profile', [UserController::class, 'destroy'])
  * Newsfeed displaying ideas 
  */
 Route::middleware(['auth'])->group(function() {
-    Route::get('/newsfeed/ideas', [NewsFeedController::class, 'index']);
+    Route::get('/newsfeed/ideas', [NewsFeedController::class, 'index'])->name('newsfeed');
+});
+
+/**
+ * Idea Reactions
+ */
+Route::middleware(['auth'])->group(function() {
+    Route::post('/ideas/react', [IdeaReactionController::class, 'store'])->name('react');
+    Route::put('/ideas/react/{id}', [IdeaReactionController::class, 'update'])->name('re-react');
+    Route::delete('/ideas/react/{id}', [IdeaReactionController::class, 'update'])->name('un-react');
 });
 
 

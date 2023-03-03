@@ -19,4 +19,11 @@ class Idea extends Model
     {
         return $this->belongsTo('App\Models\Department', 'department_id')->withDefault();
     }
+
+    public function reactions()
+    {
+        return $this->belongsToMany(User::class, 'idea_reactions')
+            ->withPivot('reaction')
+            ->withTimestamps();
+    }
 }

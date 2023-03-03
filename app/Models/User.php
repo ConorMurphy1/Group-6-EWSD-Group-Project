@@ -54,4 +54,11 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Models\Department', 'department_id')->withDefault();
     }
+
+    public function reactions()
+    {
+        return $this->belongsToMany(Idea::class, 'idea_reactions')
+            ->withPivot('reaction')
+            ->withTimestamps();
+    }
 }
