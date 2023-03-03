@@ -10,15 +10,15 @@ trait HandleReactions
 {
     public function like(Request $request)
     {
-        $this->handeReaction($request, 'like');
+        $this->handleReaction($request, 'like');
     }
 
     public function unlike(Request $request)
     {
-        $this->handeReaction($request, 'unlike');
+        $this->handleReaction($request, 'unlike');
     }
 
-    protected function handeReaction(Request $request, string $reaction)
+    protected function handleReaction(Request $request, string $reaction)
     {
         $user_id = auth()->id();
 
