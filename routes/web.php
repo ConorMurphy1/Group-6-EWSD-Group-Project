@@ -71,17 +71,17 @@ Route::delete('/profile', [UserController::class, 'destroy'])
  * Newsfeed displaying ideas 
  */
 Route::middleware(['auth'])->group(function() {
-    Route::get('/newsfeed/ideas', [NewsFeedController::class, 'index'])->name('newsfeed');
+    Route::get('/newsfeed', [NewsFeedController::class, 'index'])->name('newsfeed');
 });
 
 /**
  * Idea Reactions
  */
 Route::middleware(['auth'])->group(function() {
-    Route::post('/ideas/react', [IdeaReactionController::class, 'store'])->name('react');
-    Route::put('/ideas/react/{id}', [IdeaReactionController::class, 'update'])->name('re-react');
-    Route::delete('/ideas/react/{id}', [IdeaReactionController::class, 'update'])->name('un-react');
+    Route::post('/ideas/like', [IdeaReactionController::class, 'like'])->name('like');
+    Route::post('/ideas/unlike', [IdeaReactionController::class, 'unlike'])->name('unlike');
 });
+
 
 
 Route::group(['middleware' => ['web', 'auth']], function(){
@@ -110,11 +110,7 @@ Route::group(['middleware' => ['web', 'auth']], function(){
     /**
      * Department(Dashboard) related routes
      */
-    Route::get('/departments',[DepartmentController::class,'showDepartments']);
-    Route::post('/departments',[DepartmentController::class,'addDepartment']);
-    Route::delete('/departments/{id}',[DepartmentController::class,'deleteDepartment']);
-    Route::get('/departments/{id}/edit', [DepartmentController::class, 'editDepartment']);
-    Route::put('/departments/{id}', [DepartmentController::class, 'updateDepartment']);
+    Route::resource('departments', DepartmentController::class);
 
     /**
      * Idea(Dashboard) related routes

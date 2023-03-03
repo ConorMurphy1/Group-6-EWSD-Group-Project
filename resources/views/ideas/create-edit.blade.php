@@ -60,8 +60,7 @@
             </div>
             <div class="my-2">
                 <label for="" class="d-block text-muted">Description</label>
-                <textarea name="description" id="" cols="30" rows="10" class="form-control" >{{$idea->description ?? ''}}
-                </textarea>
+                <textarea name="description" id="" cols="30" rows="10" class="form-control" >{{$idea->description ?? ''}}</textarea>
             </div>
             <div class="my-2">
                 <label for="" class="d-block text-muted">Closure Date</label>

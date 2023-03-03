@@ -21,7 +21,7 @@ return new class extends Migration
             $table->timestamps();
 
             /** constraints */
-            $table->unique(['user_id', 'idea_id']);       // user can react to more than 1 reaction to each idea
+            $table->unique(['user_id', 'idea_id']);       // user can't react to more than 1 reaction to each idea
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('idea_id')->references('id')->on('ideas')->onDelete('cascade');
         });
