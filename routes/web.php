@@ -71,16 +71,15 @@ Route::delete('/profile', [UserController::class, 'destroy'])
  * Newsfeed displaying ideas 
  */
 Route::middleware(['auth'])->group(function() {
-    Route::get('/newsfeed/ideas', [NewsFeedController::class, 'index'])->name('newsfeed');
+    Route::get('/newsfeed', [NewsFeedController::class, 'index'])->name('newsfeed');
 });
 
 /**
  * Idea Reactions
  */
 Route::middleware(['auth'])->group(function() {
-    Route::post('/ideas/react', [IdeaReactionController::class, 'store'])->name('react');
-    Route::put('/ideas/react/{id}', [IdeaReactionController::class, 'update'])->name('re-react');
-    Route::delete('/ideas/react/{id}', [IdeaReactionController::class, 'update'])->name('un-react');
+    Route::post('/ideas/like', [IdeaReactionController::class, 'like'])->name('like');
+    Route::post('/ideas/unlike', [IdeaReactionController::class, 'unlike'])->name('unlike');
 });
 
 
