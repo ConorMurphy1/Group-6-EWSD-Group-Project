@@ -2,46 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Idea;
-use App\Models\IdeaReaction;
+use App\Http\Traits\HandleReactions;
 use Illuminate\Http\Request;
 
 class IdeaReactionController extends Controller
 {
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $idea = Idea::find($request->input('idea'));
-        $idea->reactions()->attach(auth()->user(), ['reaction' => $request->input('reaction')]);
-
-        return redirect()->route('newsfeed');
+    use HandleReactions {
+        like as traitLike;
+        unlike as traitUnlike;
     }
 
-    /** 
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\IdeaReaction  $ideaReaction
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, IdeaReaction $ideaReaction)
+    public function like(Request $request)
     {
-        //
+        $this->traitLike($request);
+        return redirect()->back();
+    }
+    
+    public function unlike(Request $request)
+    {
+        $this->traitUnlike($request);
+        return redirect()->back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\IdeaReaction  $ideaReaction
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(IdeaReaction $ideaReaction)
+    public function table()
     {
-        //
+        return 'idea_reactions';
+    }
+
+    public function reactionable_id_name()
+    {
+        return 'idea_id';
     }
 }

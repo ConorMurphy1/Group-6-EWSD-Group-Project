@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Idea;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Trait\UploadTrait;
+use App\Http\Traits\UploadTrait;
 use RealRashid\SweetAlert\Facades\Alert;
 class IdeaController extends Controller
 {
