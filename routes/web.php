@@ -84,6 +84,7 @@ Route::middleware(['auth'])->group(function() {
 });
 
 
+
 Route::group(['middleware' => ['web', 'auth']], function(){
     /**
      * Role Entry related routes
@@ -107,11 +108,7 @@ Route::group(['middleware' => ['web', 'auth']], function(){
     /**
      * Department(Dashboard) related routes
      */
-    Route::get('/departments',[DepartmentController::class,'showDepartments']);
-    Route::post('/departments',[DepartmentController::class,'addDepartment']);
-    Route::delete('/departments/{id}',[DepartmentController::class,'deleteDepartment']);
-    Route::get('/departments/{id}/edit', [DepartmentController::class, 'editDepartment']);
-    Route::put('/departments/{id}', [DepartmentController::class, 'updateDepartment']);
+    Route::resource('departments', DepartmentController::class);
 
     /**
      * Idea(Dashboard) related routes

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Department;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Trait\UploadTrait;
+use App\Models\Department;
 use Illuminate\Validation\Rule;
 
 class DepartmentController extends Controller
@@ -13,13 +16,23 @@ class DepartmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function showDepartments()
+    public function index()
     {
         $departments = Department::all();
 
-        return view ('departments.show-create', compact('departments'));
+        return view ('departments.index', compact('departments'));
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $department = new department();
+        return view('departments.create-edit', compact('department'));
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -27,44 +40,55 @@ class DepartmentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function addDepartment(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required|max:30',Rule::unique('departments')]
+            'name' => ['required|max:30']
         ]);
 
         Department::create([
             'name' => $request->department_name
         ]);
 
-        return redirect('departments')->with('successAlert','New Department Added successfully!');
+        Alert::toast('New Department Added successfully', 'success');
+
+        return redirect('departments')->with('success','New Department Added successfully!');
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Department  $department
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function editDepartment(string $id)
+    public function edit($id)
     {
-        $department = Department::find($id);
-        return view('departments.edit', compact('department'));
+        $department = Department::findOrFail($id);
+        return view('departments.create-edit', compact('department'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Department  $department
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function updateDepartment(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-
         $request->validate([
-            'name' => ['required|max:30',Rule::unique('departments')]
+            'name' => ['required|max:30']
         ]);
 
         Department::find($id)->update([
@@ -72,19 +96,22 @@ class DepartmentController extends Controller
             'updated_at' => now()
         ]);
 
-        return redirect('departments')->with('successAlert', 'Department Name Updated!');
+        Alert::toast('Department updated successfully', 'success');
+
+        return redirect('departments')->with('success','Department updated successfully!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Department  $department
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function deleteDepartment(Department $department, $id)
+    public function destroy($id)
     {
-        Department::find($id)->delete();
-
-        return redirect('departments')->with('successAlert', 'Department deleted successfully!');
+        $department = Department::findOrFail($id);
+        $department->delete();
+        Alert::toast('You have successfully deleted a department', 'warning');
+        return back();
     }
 }
