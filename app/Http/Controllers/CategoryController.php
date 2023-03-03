@@ -16,7 +16,7 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function showCategory()
+    public function index()
     {
         $categories = Category::all();
 
@@ -26,8 +26,8 @@ class CategoryController extends Controller
         // Alert::toast('Hello', 'error');
         // Alert::toast('Hello', 'alert');
         // Alert::toast('Hello', 'question');
-
-        return view ('categories.show-create', compact('categories'));
+        
+        return view ('categories.index', compact('categories'));
     }
 
     /**
@@ -36,28 +36,41 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function addCategory(Request $request)
+    public function create(Request $request)
     {
-
-        $request->validate([
-            'name' => 'required|min:2|max:30'
-        ]);
-
-        Category::create($request->post());
-
-        return redirect('category')->with('success','Category has been created successfully.');
+        $category = new Category();
+        return view('categories.create-edit', compact('category'));
     }
     
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|min:2|max:20',
+        ]);
+
+        Category::create($data);
+
+        Alert::toast('Category created successfully', 'success');
+
+        return redirect('categories')->with('success', 'Category created successfully!');
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function editCategory(string $id)
+    public function edit(string $id)
     {
         $category = Category::find($id);
-        return view('categories.edit', compact('category'));
+        return view('categories.create-edit', compact('category'));
     }
 
     /**
@@ -68,17 +81,21 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function updateCategory(Request $request, string $id)
+    public function update(Request $request, string $id)
     {
         $category = Category::find($id);
 
-        $request->validate([
-            'name' => 'required|min:2|max:30',
+        $data = $request ->validate([
+            'name' => 'required|min:2|max:20',
             'updated_at' => now()
         ]);
 
-        $category->fill($request->post())->save();
-        return redirect('category')->with('success', 'Category Updated!');
+        $category->update($data);
+
+        Alert::toast('Category updated successfully', 'success');
+
+        return redirect('categories')->with('success', 'Category Updated!');
+
     }
 
     /**
@@ -87,7 +104,7 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function deleteCategory(Request $request, string $id)
+    public function destroy(Request $request, string $id)
     {
         $list = IdeaCategory::where('category_id',$id)->first();
         
@@ -96,11 +113,16 @@ class CategoryController extends Controller
             $category = Category::find($id);
             $category->delete();
 
-            return redirect('category')->with('success', 'Category deleted successfully.');
+            Alert::toast('Category deleted successfully', 'success');
+
+            return redirect('categories')->with('success', 'Category deleted successfully.');
+            
         }
         else
         {
-            return redirect('category')->with('failure', 'Cannot delete. Category is currently in use.');
+            Alert::toast('Cannot delete. Category is currently in use.', 'error');
+
+            return redirect('categories')->with('failure', 'Cannot delete. Category is currently in use.');
         }
     }
 }
