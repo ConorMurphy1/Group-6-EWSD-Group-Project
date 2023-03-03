@@ -4,7 +4,7 @@ use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{IdeaController, TestController};
+use App\Http\Controllers\{IdeaController, IdeaNewsfeedController, NewsFeedController, TestController};
 // For Role Entry
 use App\Http\Controllers\rolecontroller;
 
@@ -66,6 +66,14 @@ Route::put('/profile', [UserController::class, 'update'])
 Route::delete('/profile', [UserController::class, 'destroy'])
     ->name('profile.delete')
     ->middleware('auth');
+
+/**
+ * Newsfeed displaying ideas 
+ */
+Route::middleware(['auth'])->group(function() {
+    Route::get('/newsfeed/ideas', [NewsFeedController::class, 'index']);
+});
+
 
 Route::group(['middleware' => ['web', 'auth']], function(){
     /**
