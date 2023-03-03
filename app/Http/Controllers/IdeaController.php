@@ -95,7 +95,7 @@ class IdeaController extends Controller
     public function edit($id)
     {
         $idea = Idea::findOrFail($id);
-        return view('idea.create-edit', compact('idea'));
+        return view('ideas.create-edit', compact('idea'));
     }
 
     /**

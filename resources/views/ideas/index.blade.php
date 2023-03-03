@@ -4,7 +4,7 @@
     <div class="col-xs-12">
         <div class="center">
             <div class="box-content">
-                <h4 class="box-title">Purchases</h4>
+                <h4 class="box-title">Ideas</h4>
                 <div>
                     <a href="{{route('ideas.create')}}" class="btn btn-success justify-content-end">+Add New</a>
                 </div>

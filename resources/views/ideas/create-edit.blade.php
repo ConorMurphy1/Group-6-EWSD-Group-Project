@@ -35,36 +35,37 @@
             @csrf
             </div>
             <div class="my-2">
-                <label for="" class="d-block text-muted">Cover Photo</label>
-                <input name="image" type="file" accept="image/*" id="imgInp" >
+                <label for="" class="d-block text-muted">Image</label>
+                <input name="image" type="file" accept="image/*" id="imgInp" value="{{$idea->image ?? ''}}">
                 <div class="d-flex justify-content-center">
-                    <img id="displayImg" src="{{ asset('images/img.png') }}" alt="your image" class="w-50" />
+                    <img id="displayImg" src="{{ asset('storage/images/'.$idea->image) }}" alt="your image" class="w-50" />
                 </div>
             </div>
             <div class="my-2">
                 <label for="" class="d-block text-muted">File</label>
-                <input name="document" type="file" accept="application/pdf,xls,doc" >
+                <input name="document" type="file" accept="application/pdf,xls,doc" value="{{$idea->document ?? ''}}">
             </div>
             <div class="my-2">
                 <label for="" class="d-block text-muted">Title</label>
-                <input name="title" type="text" class="form-control" required>
+                <input name="title" type="text" class="form-control" required value="{{$idea->title ?? ''}}">
             </div>
             <div class="my-2">
                 <label for="" class="d-block text-muted">Anonymous</label>
                 {{-- <input name="is_anonymous" type="checkbox" value="yes"> --}}
                 <select name="is_anymous" id="" required>
                     <option >Choose option</option>
-                    <option value="no">No</option>
-                    <option value="yes">Yes</option>
+                    <option value="no" {{strtolower($idea->is_anonymous) == 'no' ? 'selected' : ''}}>No</option>
+                    <option value="yes" {{strtolower($idea->is_anonymous) == 'yes' ? 'selected' : ''}}>Yes</option>
                 </select>
             </div>
             <div class="my-2">
                 <label for="" class="d-block text-muted">Description</label>
-                <textarea name="description" id="" cols="30" rows="10" class="form-control" ></textarea>
+                <textarea name="description" id="" cols="30" rows="10" class="form-control" >{{$idea->description ?? ''}}
+                </textarea>
             </div>
             <div class="my-2">
                 <label for="" class="d-block text-muted">Closure Date</label>
-                <input name="closure_date" type="date" class="form-control">
+                <input name="closure_date" type="date" class="form-control" value="{{$idea->closure_date ?? ''}}">
             </div>
             <div class="d-flex justify-content-end my-2">
                 <button type="submit" class="btn btn-primary btn-ladda">Save</button>
