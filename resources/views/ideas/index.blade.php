@@ -56,7 +56,7 @@
                                 <td>{{ $idea->department->name }}</td>
                                 <td>{{ $idea->is_anonymous}}</td>
                                 <td>@if ($idea->document)
-                                        <a url="{{asset('storage/documents/'.$idea->document)}}" ></a>
+                                        <a href="{{asset('storage/documents/'.$idea->document)}}" target="_blank" >{{$idea->document}}</a>
                                     @else
                                         <span> No Doc uploaded </span>
                                     @endif
@@ -82,6 +82,7 @@
                         </tbody>
                     </table>
                 </div>
+                {{ $ideas->appends(request()->query())->links() }}
                 <!-- /.table-responsive -->
             </div>
             <!-- /.box-content -->
