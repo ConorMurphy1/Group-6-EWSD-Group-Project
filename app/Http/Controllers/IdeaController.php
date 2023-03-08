@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Idea;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Trait\UploadTrait;
+use App\Http\Traits\UploadTrait;
 use RealRashid\SweetAlert\Facades\Alert;
 class IdeaController extends Controller
 {
@@ -41,29 +41,28 @@ class IdeaController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->document);
         $data = $request->validate([
             'title' => 'required|string',
             'image' => 'nullable|image|mimes:jpg,png,jpeg',
             'description' => 'required|string',
             'is_anonymous' => 'nullable|string',
-            'document' => 'nullable|string',
+            'document' => 'nullable|mimes:pdf,xls,doc',
             'closure_date' => 'required|date'
         ]);
         if($request->image){
             $imageName = $this->uploadImage('image','images');
             $data['image'] = $imageName;
         }
-        if($request->document){
-            $documentName = time() . '_' . $request->file('document')->getClientOriginalName();
-            $request->file('document')->storeAs('public/storage/documents', $documentName);
+        if ($request->hasFile('document')) {
+            $documentName = $this->uploadDoc('document', 'documents');
             $data['document'] = $documentName;
         }
 
-        $is_anonymous = $request->is_anonymous === 'yes' ? 'Yes' : 'No';
+        $is_anonymous_final = $request->is_anonymous === "yes" ? 'Yes' : 'No';
+
 
         $data['user_id'] = auth()->user()->id;
-        $data['is_anonymous'] = $is_anonymous;
+        $data['is_anonymous'] = $is_anonymous_final;
         $data['department_id'] = auth()->user()->department_id;
 
         // dd($data);
@@ -95,7 +94,7 @@ class IdeaController extends Controller
     public function edit($id)
     {
         $idea = Idea::findOrFail($id);
-        return view('idea.create-edit', compact('idea'));
+        return view('ideas.create-edit', compact('idea'));
     }
 
     /**

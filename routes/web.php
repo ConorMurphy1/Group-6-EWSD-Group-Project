@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{IdeaController, TestController};
 // For Role Entry
 use App\Http\Controllers\rolecontroller;
+use App\Http\Controllers\RoleEntryController;
 
 // For Category
 use App\Http\Controllers\CategoryController;
@@ -68,16 +69,7 @@ Route::delete('/profile', [UserController::class, 'destroy'])
     ->middleware('auth');
 
 Route::group(['middleware' => ['web', 'auth']], function(){
-    /**
-     * Role Entry related routes
-     */
-    Route::view('role','roleEntry');
-    Route::get('role',[RoleController::class,'show']);
-    Route::post('role',[RoleController::class,'AddRole']);
-    Route::get('deleteRole/{id}',[RoleController::class,'deleteRole']);
-    Route::get('updateRole/{id}',[RoleController::class,'showdata']);
-    Route::put('/updateRole/{id}', [RoleController::class, 'updateRole']);
-
+    
     /**
      * Category(Dashboard) related routes
      */
@@ -100,6 +92,26 @@ Route::group(['middleware' => ['web', 'auth']], function(){
      * Idea(Dashboard) related routes
      */
     Route::resource('ideas', IdeaController::class);
+
+    /**
+     * Role Entry related routes
+     */
+    // Route::view('role','roleEntry');
+    // Route::get('role',[RoleController::class,'show']);
+    // Route::post('role',[RoleController::class,'AddRole']);
+    // Route::get('deleteRole/{id}',[RoleController::class,'deleteRole']);
+    // Route::get('updateRole/{id}',[RoleController::class,'showdata']);
+    // Route::put('/updateRole/{id}', [RoleController::class, 'updateRole']);
+
+    Route::resource('role', RoleEntryController::class);
+    Route::get('role/{id}/delete',[RoleEntryController::class,'destroy']);
+    Route::put('role/{id}/edit', [RoleEntryController::class, 'update']);
+
+    /**
+     * Report
+     */
+    Route::view('report','report.index');
+
 
 
 
