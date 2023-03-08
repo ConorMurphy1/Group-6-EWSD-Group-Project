@@ -68,7 +68,7 @@ Route::delete('/profile', [UserController::class, 'destroy'])
     ->middleware('auth');
 
 /**
- * Newsfeed displaying ideas 
+ * Newsfeed displaying ideas
  */
 Route::middleware(['auth'])->group(function() {
     Route::get('/newsfeed', [NewsFeedController::class, 'index'])->name('newsfeed');
@@ -112,10 +112,15 @@ Route::group(['middleware' => ['web', 'auth']], function(){
      */
     Route::resource('departments', DepartmentController::class);
 
+    Route::resource('tese', TestController::class);
+
+
     /**
      * Idea(Dashboard) related routes
      */
     Route::resource('ideas', IdeaController::class);
+
+    // Route::get('users', )
 
 
 
