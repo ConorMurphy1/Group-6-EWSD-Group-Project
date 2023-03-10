@@ -112,8 +112,6 @@ Route::group(['middleware' => ['web', 'auth']], function(){
      */
     Route::resource('departments', DepartmentController::class);
 
-    Route::resource('tese', TestController::class);
-
 
     /**
      * Idea(Dashboard) related routes
