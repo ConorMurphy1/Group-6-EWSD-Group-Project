@@ -4,7 +4,7 @@
     <div class="col-xs-12">
         <div class="center">
             <div class="box-content">
-                <h4 class="box-title">Purchases</h4>
+                <h4 class="box-title">Ideas</h4>
                 <div>
                     <a href="{{route('ideas.create')}}" class="btn btn-success justify-content-end">+Add New</a>
                 </div>
@@ -56,7 +56,7 @@
                                 <td>{{ $idea->department->name }}</td>
                                 <td>{{ $idea->is_anonymous}}</td>
                                 <td>@if ($idea->document)
-                                        <a url="{{asset('storage/documents/'.$idea->document)}}" ></a>
+                                        <a href="{{asset('storage/documents/'.$idea->document)}}" target="_blank" >{{$idea->document}}</a>
                                     @else
                                         <span> No Doc uploaded </span>
                                     @endif
@@ -82,6 +82,7 @@
                         </tbody>
                     </table>
                 </div>
+                {{ $ideas->appends(request()->query())->links() }}
                 <!-- /.table-responsive -->
             </div>
             <!-- /.box-content -->

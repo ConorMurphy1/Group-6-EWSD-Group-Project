@@ -57,9 +57,9 @@
   </div>
   
   <div class="form-group">
-    <label for="options">Choose an option:</label>
+    <label for="options">Choose an event:</label>
     <select class="form-control" id="options">
-      <option value="A">Per Department</option>
+      <option value="A">valentine's day</option>
       <option value="B">B</option>
     </select>
   </div>
@@ -68,8 +68,8 @@
     <div class="chartCard">
         <div class="chartBox">
           <canvas id="myChart"></canvas>
-          <input type="date" onchange="filterDate()" id="startdate">
-          <input type="date" onchange="filterDate()" id="enddate">
+          <input type="date" onchange="filterDate()" id="startdate" value="2021-08-25">
+          <input type="date" onchange="filterDate()" id="enddate" value="2021-08-31">
         </div>
       </div>
   </div>
@@ -116,11 +116,13 @@ options.addEventListener('change', function() {
 
 <script>
     // setup 
+    const labels = ['2021-08-25', '2021-08-26', '2021-08-27', '2021-08-28', '2021-08-29', '2021-08-30', '2021-08-31'];
+    const datapoints = [1,2,3,4,5,6,7]; 
     const data = {
-      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      labels: labels,
       datasets: [{
         label: 'Weekly Sales',
-        data: [18, 12, 6, 9, 12, 3, 9],
+        data: datapoints,
         backgroundColor: [
           'rgba(255, 26, 104, 0.2)',
           'rgba(54, 162, 235, 0.2)',
@@ -165,6 +167,36 @@ options.addEventListener('change', function() {
     // Instantly assign Chart.js version
     const chartVersion = document.getElementById('chartVersion');
     chartVersion.innerText = Chart.version;
+
+    function filterDate() 
+    {
+      const labels2 = [...labels];
+      console.log(labels2);
+
+      const startdata = document.getElementById('startdate');
+      const enddate = document.getElementById('enddate');
+
+      //get the index number in array
+      const indexstartdate = labels2 .indexOf(startdate.value);
+      const indexenddate = labels2 .indexOf(enddate.value);
+      // console.log(indexstartdate);
+
+      // slice the array only showing the selected section
+      const filterDate = labels2.slice(indexstartdate, indexenddate +1 );
+
+      //replace the labels in the chart
+      myChart.config.data.labels = filterDate;
+
+      //datapoints
+      const datapoints2 = [...datapoints];
+      const filterDatapoints = datapoints2.slice(indexstartdate, indexenddate +1 ); 
+      myChart.config.data.datasets[0].data = filterDatapoints;
+
+     myChart.update();
+
+      
+    }
+    
     </script>
 
 

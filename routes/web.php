@@ -96,12 +96,7 @@ Route::group(['middleware' => ['web', 'auth']], function(){
     /**
      * Role Entry related routes
      */
-    // Route::view('role','roleEntry');
-    // Route::get('role',[RoleController::class,'show']);
-    // Route::post('role',[RoleController::class,'AddRole']);
-    // Route::get('deleteRole/{id}',[RoleController::class,'deleteRole']);
-    // Route::get('updateRole/{id}',[RoleController::class,'showdata']);
-    // Route::put('/updateRole/{id}', [RoleController::class, 'updateRole']);
+
 
     Route::resource('role', RoleEntryController::class);
     Route::get('role/{id}/delete',[RoleEntryController::class,'destroy']);

@@ -2,84 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\IdeaReaction;
+use App\Http\Traits\HandleReactions;
 use Illuminate\Http\Request;
 
 class IdeaReactionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+    use HandleReactions {
+        like as traitLike;
+        unlike as traitUnlike;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function like(Request $request)
     {
-        //
+        $this->traitLike($request);
+        return redirect()->back();
+    }
+    
+    public function unlike(Request $request)
+    {
+        $this->traitUnlike($request);
+        return redirect()->back();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function table()
     {
-        //
+        return 'idea_reactions';
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\IdeaReaction  $ideaReaction
-     * @return \Illuminate\Http\Response
-     */
-    public function show(IdeaReaction $ideaReaction)
+    public function reactionable_id_name()
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\IdeaReaction  $ideaReaction
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(IdeaReaction $ideaReaction)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\IdeaReaction  $ideaReaction
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, IdeaReaction $ideaReaction)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\IdeaReaction  $ideaReaction
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(IdeaReaction $ideaReaction)
-    {
-        //
+        return 'idea_id';
     }
 }
