@@ -43,11 +43,13 @@ class DepartmentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required|max:30']
+            'name' => ['required|max:30'],
+            'description' => ['required']
         ]);
 
         Department::create([
-            'name' => $request->department_name
+            'name' => $request->department_name,
+            'description' => $request->department_des
         ]);
 
         Alert::toast('New Department Added successfully', 'success');
@@ -88,11 +90,13 @@ class DepartmentController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => ['required|max:30']
+            'name' => ['required|max:30'],
+            'description' => ['required']
         ]);
 
         Department::find($id)->update([
             'name' => $request->department_name,
+            'description' => $request->department_des,
             'updated_at' => now()
         ]);
 
