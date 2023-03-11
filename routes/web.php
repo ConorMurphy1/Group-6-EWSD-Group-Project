@@ -4,7 +4,7 @@ use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{IdeaController, TestController};
+use App\Http\Controllers\{IdeaController, IdeaReactionController, NewsFeedController, TestController};
 // For Role Entry
 use App\Http\Controllers\rolecontroller;
 use App\Http\Controllers\RoleEntryController;
@@ -17,7 +17,7 @@ use App\Http\Controllers\DepartmentController;
 
 // For Comments
 use App\Http\Controllers\CommentController;
-
+use App\Models\IdeaReaction;
 
 /*
 |--------------------------------------------------------------------------
