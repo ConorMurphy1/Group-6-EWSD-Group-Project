@@ -86,7 +86,14 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/ideas/unlike', [IdeaReactionController::class, 'unlike'])->name('unlike');
 });
 
+/**
+ * Comment CRUD
+ */
 
+Route::resource('comments', CommentController::class);
+
+// (for not working with seeder yet)
+// Route::resource('departments', DepartmentController::class);
 
 Route::group(['middleware' => ['web', 'auth']], function(){
     
