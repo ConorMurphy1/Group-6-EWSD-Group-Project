@@ -27,6 +27,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Department</th>
+                                <th>Description</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -35,6 +36,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $department->name }}</td>
+                                <td>{{ $department->description }}</td>
                                 <td class="flex-warp">
                                     <div class="mx-3 text-center">
                                         <form action="{{ route('departments.destroy', $department->id) }}" method="post">

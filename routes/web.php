@@ -14,6 +14,9 @@ use App\Http\Controllers\CategoryController;
 // For Department
 use App\Http\Controllers\DepartmentController;
 
+// For Comments
+use App\Http\Controllers\CommentController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -82,7 +85,9 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/ideas/unlike', [IdeaReactionController::class, 'unlike'])->name('unlike');
 });
 
-
+// for not working with seeder yet 
+// Route::resource('comments', CommentController::class);
+// Route::resource('departments', DepartmentController::class);
 
 Route::group(['middleware' => ['web', 'auth']], function(){
     /**
@@ -112,7 +117,11 @@ Route::group(['middleware' => ['web', 'auth']], function(){
      */
     Route::resource('departments', DepartmentController::class);
 
-    Route::resource('tese', TestController::class);
+    /**
+     * comments related routes
+     */
+
+    Route::resource('comments', CommentController::class);
 
 
     /**
