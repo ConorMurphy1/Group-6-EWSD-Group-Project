@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
+use RealRashid\SweetAlert\Facades\Alert;
+use App\Http\Trait\UploadTrait;
 
 class CommentController extends Controller
 {
@@ -14,7 +18,9 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+        $comments = Comment::paginate(5);
+
+        return view('comments.index', compact('comments'));
     }
 
     /**
@@ -24,7 +30,8 @@ class CommentController extends Controller
      */
     public function create()
     {
-        //
+        $comment = new comment();
+        return view('comments.create-edit', compact('comment'));
     }
 
     /**
@@ -35,16 +42,30 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'is_anonymous' => 'nullable|string',
+            'comment' => 'required|string',
+        ]);
+
+        $is_anonymous_final = $request->is_anonymous === "yes" ? 'Yes' : 'No';
+
+        // $data['user_id'] = auth()->user()->id;
+        $data['is_anonymous'] = $is_anonymous_final;
+
+        Comment::create($data);
+
+        Alert::toast('comment success!', 'success');
+
+        return redirect('comments')->with('success', 'comment success!');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Comment  $comment
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Comment $comment)
+    public function show($id)
     {
         //
     }
@@ -52,34 +73,52 @@ class CommentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Comment  $comment
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Comment $comment)
+    public function edit($id)
     {
-        //
+        $comment = Comment::findOrFail($id);
+        return view('comments.create-edit', compact('comment'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Comment  $comment
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Comment $comment)
+    public function update(Request $request, $id)
     {
-        //
+        $data = $request->validate([
+            'is_anonymous' => 'nullable|string',
+            'comment' => 'required|string',
+        ]);
+
+        $is_anonymous_final = $request->is_anonymous === "yes" ? 'Yes' : 'No';
+
+        // $data['user_id'] = auth()->user()->id;
+        $data['is_anonymous'] = $is_anonymous_final;
+
+        Comment::find($id)->update($data);
+
+        Alert::toast('Comment edited successfully', 'success');
+
+        return redirect('comments')->with('success','Comment edited successfully!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Comment  $comment
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comment $comment)
+    public function destroy($id)
     {
-        //
+        $comment = Comment::findOrFail($id);
+        $comment->delete();
+        Alert::toast('Congrats!', 'You have successfully deleted your Comment', 'success');
+        return back();
     }
 }

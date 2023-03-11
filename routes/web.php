@@ -15,6 +15,9 @@ use App\Http\Controllers\CategoryController;
 // For Department
 use App\Http\Controllers\DepartmentController;
 
+// For Comments
+use App\Http\Controllers\CommentController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -68,6 +71,30 @@ Route::delete('/profile', [UserController::class, 'destroy'])
     ->name('profile.delete')
     ->middleware('auth');
 
+/**
+ * Newsfeed displaying ideas
+ */
+Route::middleware(['auth'])->group(function() {
+    Route::get('/newsfeed', [NewsFeedController::class, 'index'])->name('newsfeed');
+});
+
+/**
+ * Idea Reactions
+ */
+Route::middleware(['auth'])->group(function() {
+    Route::post('/ideas/like', [IdeaReactionController::class, 'like'])->name('like');
+    Route::post('/ideas/unlike', [IdeaReactionController::class, 'unlike'])->name('unlike');
+});
+
+/**
+ * Comment CRUD
+ */
+
+Route::resource('comments', CommentController::class);
+
+// (for not working with seeder yet)
+// Route::resource('departments', DepartmentController::class);
+
 Route::group(['middleware' => ['web', 'auth']], function(){
 
     /**
@@ -83,6 +110,8 @@ Route::group(['middleware' => ['web', 'auth']], function(){
      * Department(Dashboard) related routes
      */
     Route::resource('departments', DepartmentController::class);
+
+
 
 
     /**
@@ -103,8 +132,5 @@ Route::group(['middleware' => ['web', 'auth']], function(){
      * Report
      */
     Route::view('report','report.index');
-
-
-
 
 });

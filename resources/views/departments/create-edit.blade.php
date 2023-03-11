@@ -43,6 +43,15 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
+            <div class="my-2">
+                <label for="department_des" class="d-block text-muted">Department Description</label>
+                <input name="department_des" id="department_des" type="text" class="form-control" 
+                @error('department_des')is-invalid @enderror
+                required value="{{$department->description ?? ''}}">
+                @error('department_des')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
             <div class="d-flex justify-content-end my-2">
                 <button type="submit" class="btn btn-primary btn-ladda">Save</button>
             </div>
