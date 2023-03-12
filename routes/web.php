@@ -4,7 +4,7 @@ use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{IdeaController, IdeaReactionController, NewsFeedController, TestController};
+use App\Http\Controllers\{IdeaController, IdeaReactionController, NewsFeedController, EventController};
 // For Role Entry
 use App\Http\Controllers\rolecontroller;
 use App\Http\Controllers\RoleEntryController;
@@ -30,9 +30,7 @@ use App\Models\IdeaReaction;
 |
 */
 
-Route::get('/', function () {
-    return view('layouts.app');
-})->name('home');
+
 
 
 /**
@@ -44,7 +42,7 @@ Route::get('/login', [UserController::class, 'create'])
 Route::post('/login', [UserController::class, 'login'])
     ->middleware('guest');
 Route::post('/logout', [UserController::class, 'logout'])
-    ->middleware('auth');
+    ->middleware('auth')->name('logout');
 
 /** for first attempt - the user will have to update their password for security concerns */
 Route::get('/update-password', [PasswordController::class, 'create'])
@@ -95,24 +93,29 @@ Route::resource('comments', CommentController::class);
 // (for not working with seeder yet)
 // Route::resource('departments', DepartmentController::class);
 
-Route::group(['middleware' => ['web', 'auth']], function(){
+Route::get('/', function () {
+    return view('auth.login');
+})->name('home');
 
+// dd(auth()->user());
+// if (auth()->user()->role->role === "Admin"){
+// Route::group(['middleware' => ['web', 'auth']], function(){
+    Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
     /**
      * Category(Dashboard) related routes
      */
-    Route::get('category',[CategoryController::class,'showCategory'])->name('category.index');
-    Route::post('/category-create',[CategoryController::class,'addCategory']);
-    Route::delete('/category/{id}',[CategoryController::class,'deleteCategory']);
-    Route::get('/category/{id}/edit', [CategoryController::class, 'editCategory']);
-    Route::put('/category/{id}', [CategoryController::class, 'updateCategory']);
+    // Route::get('category',[CategoryController::class,'showCategory'])->name('category.index');
+    // Route::post('/category-create',[CategoryController::class,'addCategory']);
+    // Route::delete('/category/{id}',[CategoryController::class,'deleteCategory']);
+    // Route::get('/category/{id}/edit', [CategoryController::class, 'editCategory']);
+    // Route::put('/category/{id}', [CategoryController::class, 'updateCategory']);
+
+    Route::resource('categories', CategoryController::class);
 
     /**
      * Department(Dashboard) related routes
      */
     Route::resource('departments', DepartmentController::class);
-
-
-
 
     /**
      * Idea(Dashboard) related routes
@@ -122,8 +125,6 @@ Route::group(['middleware' => ['web', 'auth']], function(){
     /**
      * Role Entry related routes
      */
-
-
     Route::resource('role', RoleEntryController::class);
     Route::get('role/{id}/delete',[RoleEntryController::class,'destroy']);
     Route::put('role/{id}/edit', [RoleEntryController::class, 'update']);
@@ -133,4 +134,16 @@ Route::group(['middleware' => ['web', 'auth']], function(){
      */
     Route::view('report','report.index');
 
+    /**
+     * Event
+     */
+    Route::resource('events', EventController::class);
+
 });
+// }
+// else{
+    
+Route::group(['middleware' => ['web', 'auth']], function(){
+
+    });
+// }

@@ -103,7 +103,7 @@
 
 	<!-- Sweet Alert -->
 	<link rel="stylesheet" href="{{asset('adminpanel/assets/plugin/sweet-alert/sweetalert.css')}}">
-	
+
 	<!-- Percent Circle -->
 	<link rel="stylesheet" href="{{asset('adminpanel/assets/plugin/percircle/css/percircle.css')}}">
 
@@ -131,9 +131,12 @@
 			<div class="control-wrap js__drop_down">
 				<i class="fa fa-caret-down js__drop_down_button"></i>
 				<div class="control-list">
-					<div class="control-item"><a href="profile.html"><i class="fa fa-user"></i> Profile</a></div>
-					<div class="control-item"><a href="#"><i class="fa fa-gear"></i> Settings</a></div>
-					<div class="control-item"><a href="#"><i class="fa fa-sign-out"></i> Log out</a></div>
+                    <form action="{{route('logout')}}" method="post">
+                        @csrf
+                        <div class="control-item"><a href="profile.html"><i class="fa fa-user"></i> Profile</a></div>
+                        <div class="control-item"><a href="#"><i class="fa fa-gear"></i> Settings</a></div>
+                        <div class="control-item"><button ><i class="fa fa-sign-out"></i> Log out</button></div>
+                    </form>
 				</div>
 				<!-- /.control-list -->
 			</div>
@@ -143,7 +146,7 @@
 	</header>
 	<!-- /.header -->
 	<div class="content">
-
+dfdff
 		<div class="navigation">
 			<h5 class="title">Navigation</h5>
 			<!-- /.title -->
@@ -518,10 +521,10 @@
 		<div class="row small-spacing">
 
 			@yield('content')
-            
+
             @include('sweetalert::alert')
 			<!-- /.col-lg-6 col-xs-12 -->
-		<!-- /.row -->		
+		<!-- /.row -->
 		<footer class="footer">
 			<ul class="list-inline">
 				<li>2023 © NinjaAdmin.</li>
@@ -538,7 +541,7 @@
 		<script src="assets/script/html5shiv.min.js"></script>
 		<script src="assets/script/respond.min.js"></script>
 	<![endif]-->
-	<!-- 
+	<!--
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="{{asset('adminpanel/assets/scripts/jquery.min.js')}}"></script>

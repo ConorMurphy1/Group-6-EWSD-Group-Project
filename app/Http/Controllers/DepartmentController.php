@@ -44,7 +44,7 @@ class DepartmentController extends Controller
     {
         $request->validate([
             'name' => ['required|max:30'],
-            'description' => ['required']
+            'description' => ['nullable']
         ]);
 
         Department::create([

@@ -75,7 +75,12 @@ class UserController extends Controller
             return redirect('/update-password')->with('success', 'Please update your password for security concerns');
         }
 
-        return redirect()->route('home')->with('success', 'Welcome!!');
+        if(auth()->user()->role->role === "Admin"){
+            return redirect()->route('home')->with('success', 'Welcome!!');
+        }
+        else{
+            return redirect()->route('ideas.index')->with('success', 'Welcome!!');
+        }
     }
 
     public function logout()
@@ -85,6 +90,6 @@ class UserController extends Controller
         /** remove all data from a session */
         session()->flush();
 
-        return redirect()->route('home')->with('success', 'Goodbye!');
+        return redirect()->route('login')->with('success', 'Goodbye!');
     }
 }
