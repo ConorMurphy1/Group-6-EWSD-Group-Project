@@ -4,7 +4,7 @@ use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{IdeaController, IdeaReactionController, NewsFeedController, EventController};
+use App\Http\Controllers\{IdeaController, IdeaReactionController, NewsFeedController, EventController, UserDashboardController};
 // For Role Entry
 use App\Http\Controllers\rolecontroller;
 use App\Http\Controllers\RoleEntryController;
@@ -142,8 +142,11 @@ Route::get('/', function () {
 });
 // }
 // else{
-    
+
 Route::group(['middleware' => ['web', 'auth']], function(){
 
     });
 // }
+
+
+Route::get('posts', [UserDashboardController::class, 'posts'])->name('user.posts');
