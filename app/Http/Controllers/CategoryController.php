@@ -19,13 +19,6 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
-
-        // Alert::toast('Hello', 'success');
-        // Alert::toast('Hello', 'warning');
-        // Alert::toast('Hello', 'info');
-        // Alert::toast('Hello', 'error');
-        // Alert::toast('Hello', 'alert');
-        // Alert::toast('Hello', 'question');
         
         return view ('categories.index', compact('categories'));
     }

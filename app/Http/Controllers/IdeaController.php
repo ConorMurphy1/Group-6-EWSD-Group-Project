@@ -18,6 +18,7 @@ class IdeaController extends Controller
      */
     public function index()
     {
+        // dd(auth()->user()->role->role);
         $ideas = Idea::paginate(5);
 
         return view('ideas.index', compact('ideas'));
