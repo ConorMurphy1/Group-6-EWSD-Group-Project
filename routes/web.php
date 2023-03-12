@@ -3,6 +3,7 @@
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\IdeaReportController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{IdeaController, TestController};
 // For Role Entry
@@ -131,6 +132,7 @@ Route::group(['middleware' => ['web', 'auth']], function(){
     /**
      * Report
      */
-    Route::view('report','report.index');
+    // Route::resource('report',[IdeaReportController::class, 'chartData']);
+    Route::resource('report', IdeaReportController::class );
 
 });

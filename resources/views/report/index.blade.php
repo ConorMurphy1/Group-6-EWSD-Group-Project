@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Page Title</title>
+  <title>Report Analysis</title>
   
 <!-- Bootstrap CSS file -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -66,21 +66,33 @@
   
   <div id="containerA">
     <div class="chartCard">
-        <div class="chartBox">
-          <canvas id="myChart"></canvas>
-          <input type="date" onchange="filterDate()" id="startdate" value="2021-08-25">
-          <input type="date" onchange="filterDate()" id="enddate" value="2021-08-31">
-        </div>
+      <div class="chartBox">
+        <canvas id="myChart"></canvas>
+        <input type="date" onchange="filterDate()" id="startdate" value="2021-08-25">
+        <input type="date" onchange="filterDate()" id="enddate" value="2021-08-31">
       </div>
+    </div>
   </div>
   
   <div class="container-box d-none" id="containerB">
-    <p>Text passage B goes here</p>
+    <div class="chartCard">
+      <div class="chartBox">
+        <canvas id="ideaPerDeptPercent"></canvas>
+        <input type="date" onchange="filterDate()" id="startdate" value="2021-08-25">
+        <input type="date" onchange="filterDate()" id="enddate" value="2021-08-31">
+      </div>
+    </div>
   </div>
 
     
   <div class="container-box d-none" id="containerC">
-    <p>Text passage C goes here</p>
+    <div class="chartCard">
+      <div class="chartBox">
+        <canvas id="usersPerDept"></canvas>
+        <input type="date" onchange="filterDate()" id="startdate" value="2021-08-25">
+        <input type="date" onchange="filterDate()" id="enddate" value="2021-08-31">
+      </div>
+    </div>
   </div>
 
 
@@ -116,31 +128,43 @@ options.addEventListener('change', function() {
 
 <script>
     // setup 
-    const labels = ['2021-08-25', '2021-08-26', '2021-08-27', '2021-08-28', '2021-08-29', '2021-08-30', '2021-08-31'];
-    const datapoints = [1,2,3,4,5,6,7]; 
+
+    function getRandomColor() {
+      var min = 1;  // minimum value for each color component
+      var max = 256;  // maximum value for each color component
+      var red = Math.floor(Math.random() * (max - min) + min);
+      var green = Math.floor(Math.random() * (max - min) + min);
+      var blue = Math.floor(Math.random() * (max - min) + min);
+      return 'rgba(' + red + ',' + green + ',' + blue + ',0.2)';
+    }
+
+    var backgroundColors = [];
+    var borderColors = [];
+
+    for (var i = 0; i < 9; i++) {
+      var color = getRandomColor();
+      backgroundColors.push(color);
+      borderColors.push(color.replace('0.2', '1'));
+    }
+
+
+    var departments = @json($departmentsArray);
+
+    var ideaCounts = @json($ideaCountArray);
+
+    var idea_Dept_Percentage = @json($idea_Department_Percentage);
+
+    var usersPerDept = @json($usersPerDept);
+    
+    console.log(usersPerDept);
+
+
     const data = {
-      labels: labels,
+      labels: departments,
       datasets: [{
-        label: 'Weekly Sales',
-        data: datapoints,
-        backgroundColor: [
-          'rgba(255, 26, 104, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
-          'rgba(0, 0, 0, 0.2)'
-        ],
-        borderColor: [
-          'rgba(255, 26, 104, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-          'rgba(0, 0, 0, 1)'
-        ],
+        data: ideaCounts,
+        backgroundColor: backgroundColors,
+        borderColor: borderColors,
         borderWidth: 1
       }]
     };
@@ -150,13 +174,114 @@ options.addEventListener('change', function() {
       type: 'bar',
       data,
       options: {
-        scales: {
-          y: {
-            beginAtZero: true
+          plugins: {
+            legend: {
+                display: false // hide the legend
+            },
+            tooltip: {
+              callbacks : {
+                label : (context) => {
+                  console.log(context.raw)
+                  return ` value: ${context.raw.value} , Department : ${context.raw.status}`;
+                }
+              }
+            }
+          },
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
           }
-        }
       }
     };
+
+    // config for percentage ideas count per department
+    
+    const IdeaDeptPercentData = {
+      labels: departments,
+      datasets: [{
+        data: idea_Dept_Percentage,
+        backgroundColor: backgroundColors,
+        borderColor: borderColors,
+        borderWidth: 1
+      }]
+    };
+
+    // config 
+    const Idea_Dept_Percent_config = {
+      type: 'bar',
+      data: IdeaDeptPercentData,
+      options: {
+          plugins: {
+            legend: {
+                display: false // hide the legend
+            },
+            tooltip: {
+              callbacks : {
+                label : (context) => {
+                  console.log(context.raw)
+                  return ` value: ${context.raw.value} , Department : ${context.raw.status}`;
+                }
+              }
+            }
+          },
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+          }
+      }
+    };
+
+    // Contributors per Department
+    
+    const contributorsPerDept = {
+      labels: departments,
+      datasets: [{
+        data: usersPerDept,
+        backgroundColor: backgroundColors,
+        borderColor: borderColors,
+        borderWidth: 1
+      }]
+    };
+
+// config 
+  const usersPerDept_config = {
+    type: 'bar',
+    data: contributorsPerDept, // add the data property here
+    options: {
+      plugins: {
+        legend: {
+          display: false // hide the legend
+        },
+        tooltip: {
+          callbacks: {
+            label: (context) => {
+              console.log(context.raw)
+              return ` ${context.raw.value} users uploaded idea from ${context.raw.status} Department`;
+            }
+          }
+        }
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  };
+
+
+
+
+
+ 
 
     // render init block
     const myChart = new Chart(
@@ -164,9 +289,20 @@ options.addEventListener('change', function() {
       config
     );
 
+    const Idea_Dept_Percent = new Chart(
+      document.getElementById('ideaPerDeptPercent'),
+      Idea_Dept_Percent_config
+    );
+
+    const usersPerDeptChart = new Chart(
+      document.getElementById('usersPerDept'),
+      usersPerDept_config
+    );
+
     // Instantly assign Chart.js version
     const chartVersion = document.getElementById('chartVersion');
     chartVersion.innerText = Chart.version;
+
 
     function filterDate() 
     {
