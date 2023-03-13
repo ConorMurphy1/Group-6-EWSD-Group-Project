@@ -97,7 +97,8 @@
 			<ul class="menu js__accordion">
 
 				<li>
-					<a class="waves-effect" href="{{route('calendar.index')}}"><i class="menu-icon fa fa-calendar"></i><span>Calendar</span></a>
+					{{-- <a class="waves-effect" href="{{route('calendar.index')}}"><i class="menu-icon fa fa-calendar"></i><span>Calendar</span></a> --}}
+					<a class="waves-effect" href=""><i class="menu-icon fa fa-calendar"></i><span>Calendar</span></a>
 				</li>
 				<li>
 					<a class="waves-effect" href="{{route('events.index')}}"><i class="menu-icon fa fa-calendar"></i><span>Events</span></a>

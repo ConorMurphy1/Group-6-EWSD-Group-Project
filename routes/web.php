@@ -100,7 +100,7 @@ Route::get('/', function () {
 // dd(auth()->user());
 // if (auth()->user()->role->role === "Admin"){
 // Route::group(['middleware' => ['web', 'auth']], function(){
-    Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
+    Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(){
     /**
      * Category(Dashboard) related routes
      */
