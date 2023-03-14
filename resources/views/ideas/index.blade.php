@@ -31,6 +31,7 @@
                                 <th>Description</th>
                                 <th>User</th>
                                 <th>Department</th>
+                                <th>Event</th>
                                 <th>Anonymous</th>
                                 <th>Document</th>
                                 <th>Closure Date</th>
@@ -54,6 +55,7 @@
                                 <td>{{ $idea->description }}</td>
                                 <td>{{ $idea->createdBy->username }}</td>
                                 <td>{{ $idea->department->name }}</td>
+                                <td>{{ $idea->event->name }}</td>
                                 <td>{{ $idea->is_anonymous}}</td>
                                 <td>@if ($idea->document)
                                         <a href="{{asset('storage/documents/'.$idea->document)}}" target="_blank" >{{$idea->document}}</a>

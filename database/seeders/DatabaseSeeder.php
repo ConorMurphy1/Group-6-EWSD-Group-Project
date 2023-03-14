@@ -34,5 +34,9 @@ class DatabaseSeeder extends Seeder
             'department_id' => $department->first()->id,
             'role_id' => 3,
         ]);
+
+        $this->call([
+            UserSeeder::class,
+        ]);
     }
 }

@@ -17,17 +17,28 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        // return [
+        //     'username' => 'admin-master',
+        //     'firstname' => 'Admin',
+        //     'lastname' => 'Master',
+        //     'email' => 'admin@email.com',
+        //     'password' => 'password',
+        //     'is_updated' => true,
+
+        //     /** TODO: update department */
+        //     'department_id' => 1,
+        //     'role_id' => 3,
+        // ];
+
         return [
-            'username' => 'admin-master',
-            'firstname' => 'Admin',
-            'lastname' => 'Master',
-            'email' => 'admin@email.com',
+            'username' => $this->faker->userName(),
+            'firstname' => $this->faker->firstName(),
+            'lastname' => $this->faker->lastName(),
+            'email' => $this->faker->unique()->safeEmail(),
             'password' => 'password',
             'is_updated' => true,
-
-            /** TODO: update department */
-            'department_id' => 1,
-            'role_id' => 3,
+            'department_id' => $this->faker->numberBetween(1, 5),
+            'role_id' => $this->faker->numberBetween(1, 5),
         ];
     }
 }

@@ -104,12 +104,6 @@ Route::get('/', function () {
     /**
      * Category(Dashboard) related routes
      */
-    // Route::get('category',[CategoryController::class,'showCategory'])->name('category.index');
-    // Route::post('/category-create',[CategoryController::class,'addCategory']);
-    // Route::delete('/category/{id}',[CategoryController::class,'deleteCategory']);
-    // Route::get('/category/{id}/edit', [CategoryController::class, 'editCategory']);
-    // Route::put('/category/{id}', [CategoryController::class, 'updateCategory']);
-
     Route::resource('categories', CategoryController::class);
 
     /**
