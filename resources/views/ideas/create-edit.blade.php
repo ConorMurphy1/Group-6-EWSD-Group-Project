@@ -50,10 +50,10 @@
                     </div>
                     <div class="my-2">
                         <label for="" class="d-block text-muted">Events</label>
-                        <select name="event_id" required>
+                        <select name="event_id">
                             <option >Choose an Event</option>
                             @foreach ($events as $event)
-                                <option value="{{ $event->id }}" @if ($idea->event_id == $event->id)
+                                <option required value="{{ $event->id }}" @if ($idea->event_id == $event->id)
                                     selected
                                 @endif > {{ $event->name }} </option>
                             @endforeach
@@ -63,25 +63,58 @@
                         <label for="" class="d-block text-muted">Closure Date</label>
                         <input name="closure_date" type="date" class="form-control" value="{{$idea->closure_date ?? ''}}">
                     </div>
+
+                    <button type="button" onclick="conditionsModal()" class="btn btn-primary btn-ladda">Save </button>
+                </div>
+
+                <div hidden id="termsCondition">
+                    <h1>Terms and Conditions</h1>
+                    <p>Welcome to our website. If you continue to browse and use this website, you are agreeing to comply with and be bound by the following terms and conditions of use:</p>
+                    <ul>
+                        <li>Use of the Website</li>
+                        <li>Disclaimer</li>
+                        <li>Intellectual Property</li>
+                        <li>Third-Party Links</li>
+                        <li>Privacy Policy</li>
+                        <li>Limitation of Liability</li>
+                        <li>Governing Law</li>
+                        <li>Changes to the Terms and Conditions</li>
+                    </ul>
+                    <p>If you disagree with any part of these terms and conditions, please do not use our website
+                        <br>
+                    <input type="checkbox" id="agree" onclick="enableSave()"> <label for="">Accept Terms & Condition</label>
                     <div class="d-flex justify-content-end my-2">
-                        <button type="submit" class="btn btn-primary btn-ladda">Save</button>
+                        <button type="submit" class="btn btn-primary btn-ladda" id="save" disabled>Save</button>
+                    </div>
                     </div>
                 </form>
-                </div>
+            </div>
             <!-- /.card-content -->
             </div>
         <!-- /.box-content -->
+
+
         </div>
     </div>
 </div>
 @endsection
 @section('javascript')
 <script>
+    // Code displays the image
     imgInp.onchange = evt => {
     const [file] = imgInp.files
         if (file) {
             displayImg.src = URL.createObjectURL(file)
         }
+    }
+    // The terms and conditions Modal
+    function conditionsModal() {
+        // alert('Conditions');
+        document.getElementById("termsCondition").removeAttribute('hidden');
+    }
+
+    function enableSave(){
+        document.getElementById("save").removeAttribute('disabled');
     }
 </script>
 @endsection

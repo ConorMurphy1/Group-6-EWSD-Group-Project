@@ -58,6 +58,8 @@
 	<script src="{{asset('adminpanel/assets/scripts/main.min.js')}}"></script>
 	<script src="{{asset('adminpanel/assets/color-switcher/color-switcher.min.js')}}"></script>
 
+
+
     @yield('javascript')
 </body>
 </html>
