@@ -7,7 +7,6 @@ use App\Http\Controllers\IdeaReportController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{IdeaController, IdeaReactionController, NewsFeedController, EventController, UserDashboardController};
 // For Role Entry
-use App\Http\Controllers\rolecontroller;
 use App\Http\Controllers\RoleEntryController;
 
 // For Category

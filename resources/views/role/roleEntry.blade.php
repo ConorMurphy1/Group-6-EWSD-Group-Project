@@ -132,7 +132,7 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="/role" method="POST">
+            <form method="POST">
              @csrf
                 <div class="modal-body">
                 <div class="group">
@@ -182,8 +182,8 @@
                     <td>{{$roleMember['created_at']}}</td>
                     <td>{{$roleMember['updated_at']}}</td>
                     <td>
-                        <a href="{{ url('role/'.$roleMember['id'].'/edit') }}" class="text-white btn btn-success ml-2 pt-2"><i class='bx bx-edit-alt'></i></a>
-                        <a  href="{{ url('role/'.$roleMember['id'].'/delete') }}"  class="text-white btn btn-danger ml-2 pt-2"><i class='bx bxs-trash'></i></a>
+                        <a href="{{ url('admin/role/'.$roleMember['id'].'/edit') }}" class="text-white btn btn-success ml-2 pt-2"><i class='bx bx-edit-alt'></i></a>
+                        <a  href="{{ url('admin/role/'.$roleMember['id'].'/delete') }}"  class="text-white btn btn-danger ml-2 pt-2"><i class='bx bxs-trash'></i></a>
                     </td>
                     <!-- href={{"updateRole/".$roleMember['id']}}  href={{"deleteRole/".$roleMember['id']}}  -->
                 @endif   
