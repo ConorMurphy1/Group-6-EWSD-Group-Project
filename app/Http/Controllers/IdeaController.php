@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Traits\UploadTrait;
 use App\Models\Event;
 use RealRashid\SweetAlert\Facades\Alert;
+
 class IdeaController extends Controller
 {
     use UploadTrait;

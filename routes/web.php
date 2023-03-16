@@ -3,10 +3,10 @@
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\IdeaReportController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{IdeaController, IdeaReactionController, NewsFeedController, EventController, UserDashboardController};
 // For Role Entry
-use App\Http\Controllers\rolecontroller;
 use App\Http\Controllers\RoleEntryController;
 
 // For Category
@@ -126,7 +126,8 @@ Route::get('/', function () {
     /**
      * Report
      */
-    Route::view('report','report.index');
+    // Route::resource('report',[IdeaReportController::class, 'chartData']);
+    Route::resource('report', IdeaReportController::class );
 
     /**
      * Event

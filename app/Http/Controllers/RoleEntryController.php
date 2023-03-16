@@ -16,7 +16,7 @@ class RoleEntryController extends Controller
     public function index()
     {
         $roleData = role::all();
-        return view('roleEntry',['roleMembers'=>$roleData]);
+        return view('role.roleEntry',['roleMembers'=>$roleData]);
     }
 
     /**
@@ -42,7 +42,11 @@ class RoleEntryController extends Controller
         $roles->created_at = now();
         $roles->updated_at = now();  
         $roles->save();
-        return redirect('role');
+
+        Alert::toast('Role created successfully', 'success');
+        return redirect('admin\role')->with('success', 'Role created successfully!');
+
+
     }
 
     /**
@@ -54,7 +58,7 @@ class RoleEntryController extends Controller
     public function show($id)
     {
         $roleData = role::find($id);
-        return view('updateRole',['roleMembers'=>$roleData]);
+        return view('role.updateRole',['roleMembers'=>$roleData]);
     }
 
     /**
@@ -66,7 +70,7 @@ class RoleEntryController extends Controller
     public function edit($id)
     {
          $roleData = role::find($id);
-        return view('updateRole',['roleMembers'=>$roleData]);
+        return view('role.updateRole',['roleMembers'=>$roleData]);
     }
 
     /**
@@ -82,7 +86,8 @@ class RoleEntryController extends Controller
         $roles->role = $request->input('roleUpdate');
         $roles->updated_at = now();  
         $roles->save();
-        return redirect('role');
+    
+        return redirect('admin\role')->with('success', 'Idea created successfully!');
     }
 
     /**

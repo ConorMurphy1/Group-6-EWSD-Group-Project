@@ -8,6 +8,7 @@ use App\Models\Department;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Database\Seeders\DepartmentSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -27,7 +28,7 @@ class DatabaseSeeder extends Seeder
 
 
         $department = Department::factory(1)->create([
-            'name' => 'Department A'
+            'name' => 'Admin'
         ]);
         
         User::factory(1)->create([
@@ -37,6 +38,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             UserSeeder::class,
+            DepartmentSeeder::class,
         ]);
     }
 }
