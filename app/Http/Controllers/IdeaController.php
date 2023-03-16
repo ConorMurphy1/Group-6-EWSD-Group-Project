@@ -6,6 +6,7 @@ use App\Models\Idea;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Traits\UploadTrait;
+use App\Models\Event;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class IdeaController extends Controller
@@ -32,7 +33,9 @@ class IdeaController extends Controller
     public function create()
     {
         $idea = new Idea();
-        return view('ideas.create-edit', compact('idea'));
+        $events = Event::whereDate('end_date', '>', now()->format('Y-m-d'))->get();
+
+        return view('ideas.create-edit', compact('idea', 'events'));
     }
 
     /**
@@ -48,6 +51,7 @@ class IdeaController extends Controller
             'image' => 'nullable|image|mimes:jpg,png,jpeg',
             'description' => 'required|string',
             'is_anonymous' => 'nullable|string',
+            'event_id' => 'required|integer',
             'document' => 'nullable|mimes:pdf,xls,doc',
             'closure_date' => 'required|date'
         ]);
@@ -73,7 +77,7 @@ class IdeaController extends Controller
 
         Alert::toast('Idea created successfully', 'success');
 
-        return redirect('ideas')->with('success', 'Idea created successfully!');
+        return redirect('admin\ideas')->with('success', 'Idea created successfully!');
     }
 
     /**
@@ -96,7 +100,9 @@ class IdeaController extends Controller
     public function edit($id)
     {
         $idea = Idea::findOrFail($id);
-        return view('ideas.create-edit', compact('idea'));
+        $events = Event::all();
+
+        return view('ideas.create-edit', compact('idea', 'events'));
     }
 
     /**

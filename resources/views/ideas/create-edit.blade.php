@@ -49,6 +49,17 @@
                         <textarea name="description" id="" cols="30" rows="10" class="form-control" >{{$idea->description ?? ''}}</textarea>
                     </div>
                     <div class="my-2">
+                        <label for="" class="d-block text-muted">Events</label>
+                        <select name="event_id" required>
+                            <option >Choose an Event</option>
+                            @foreach ($events as $event)
+                                <option value="{{ $event->id }}" @if ($idea->event_id == $event->id)
+                                    selected
+                                @endif > {{ $event->name }} </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="my-2">
                         <label for="" class="d-block text-muted">Closure Date</label>
                         <input name="closure_date" type="date" class="form-control" value="{{$idea->closure_date ?? ''}}">
                     </div>

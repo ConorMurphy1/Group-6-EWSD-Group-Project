@@ -15,9 +15,15 @@ class Idea extends Model
     {
         return $this->belongsTo('App\Models\User', 'user_id')->withDefault();
     }
+
     public function department()
     {
         return $this->belongsTo('App\Models\Department', 'department_id')->withDefault();
+    }
+
+    public function event()
+    {
+        return $this->belongsTo('App\Models\Event', 'event_id')->withDefault();
     }
 
     public function reactions()

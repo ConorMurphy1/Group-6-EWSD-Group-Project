@@ -101,16 +101,10 @@ Route::get('/', function () {
 // dd(auth()->user());
 // if (auth()->user()->role->role === "Admin"){
 // Route::group(['middleware' => ['web', 'auth']], function(){
-    Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
+    Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(){
     /**
      * Category(Dashboard) related routes
      */
-    // Route::get('category',[CategoryController::class,'showCategory'])->name('category.index');
-    // Route::post('/category-create',[CategoryController::class,'addCategory']);
-    // Route::delete('/category/{id}',[CategoryController::class,'deleteCategory']);
-    // Route::get('/category/{id}/edit', [CategoryController::class, 'editCategory']);
-    // Route::put('/category/{id}', [CategoryController::class, 'updateCategory']);
-
     Route::resource('categories', CategoryController::class);
 
     /**
