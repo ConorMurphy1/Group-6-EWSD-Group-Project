@@ -2,165 +2,150 @@
 @section('content')
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Report Analysis</title>
-  
-<!-- Bootstrap CSS file -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- Bootstrap CSS file -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-<!-- Bootstrap JavaScript file -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<style>
-.container-box {
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin-top: 10px;
-}
+  <!-- Bootstrap JavaScript file -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-.d-none {
-  display: none;
-}
+  <style>
+    .container-box {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-top: 10px;
+    }
+
+    .d-none {
+      display: none;
+    }
 
 
-.chartCard {
+    .chartCard {
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.chartBox {
-  width: 700px;
-  padding: 20px;
-  border-radius: 20px;
-  border: solid 3px rgba(54, 162, 235, 1);
-  background: white;
-}
-    
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-</style>
+    .chartBox {
+      width: 700px;
+      padding: 20px;
+      border-radius: 20px;
+      border: solid 3px rgba(54, 162, 235, 1);
+      background: white;
+    }
+  </style>
 
 </head>
+
 <body>
-<br><br><br><br>
-<div class="container">
-  <div class="form-group">
-    <label for="options">Choose an option:</label>
-    <select class="form-control" id="options">
-      <option value="A">Ideas Per Department</option>
-      <option value="B">Ideas Per Department in %</option>
-      <option value="C">Num of Contributors Per Department</option>
-    </select>
-  </div>
-  
-  <form method="GET" action="{{ route('report.index') }}">
-  
-    <div id="containerA">
+  <br><br><br><br>
+  <div class="container">
+    <div class="form-group">
+      <label for="options">Choose an option:</label>
+      <select class="form-control" id="options">
+        <option value="A">Ideas Per Department</option>
+        <option value="B">Ideas Per Department in %</option>
+        <option value="C">Num of Contributors Per Department</option>
+      </select>
+    </div>
+
+    <form method="GET" action="{{ route('report.index') }}">
+
       <div class="form-group">
         <label for="options">Choose an event:</label>
-        <select class="form-control" id="event-selectA" name="ideasPerDepartment">
-          <option value="" >Select Event to Filter</option>
+        <select class="form-control" id="event-select">
+          <option value="">Select Event to Filter</option>
           @foreach (\App\Models\Event::all() as $event)
-              <option value="{{ $event->id }}">{{ $event->name }}</option>
+          <option value="{{ $event->id }}">{{ $event->name }}</option>
           @endforeach
-        </select>    
-        <input type="hidden" id="selected-eventA" value="" name="event">
+        </select>
+        <input type="hidden" id="selected-event" value="" name="event">
         <br>
-        <button type="submit">Filter</button>
+        <button type="submit" class="btn btn-primary">Filter</button>
+
       </div>
 
-      <div class="chartCard">
-        
-        <div class="chartBox">
-          <canvas id="myChart"></canvas>
-          
+      @if (session()->has('error'))
+        <div class="alert alert-danger">{{ session()->get('error') }}</div>
+    @endif
+
+
+      <div id="containerA">
+
+        <div class="chartCard">
+
+          <div class="chartBox">
+            <canvas id="myChart"></canvas>
+
+          </div>
         </div>
       </div>
-    </div>
-    
-    <div class=" d-none" id="containerB">
 
-      <div class="form-group">
-        <label for="options">Choose an event:</label>
-        <select class="form-control" id="options">
-          @foreach (\App\Models\Event::all() as $event)
-              <option value="{{ $event->id }}">{{ $event->name }}</option>
-          @endforeach
-        </select>    
-      </div>
+      <div class=" d-none" id="containerB">
+        <div class="chartCard">
+          <div class="chartBox">
+            <canvas id="ideaPerDeptPercent"></canvas>
 
-      <div class="chartCard">
-        <div class="chartBox">
-          <canvas id="ideaPerDeptPercent"></canvas>
-        
+          </div>
         </div>
       </div>
-    </div>
 
-      
-    <div class=" d-none" id="containerC">
 
-      <div class="form-group">
-        <label for="options">Choose an event:</label>
-        <select class="form-control" id="options">
-          @foreach (\App\Models\Event::all() as $event)
-              <option value="{{ $event->id }}">{{ $event->name }}</option>
-          @endforeach
-        </select>    
-      </div>
+      <div class=" d-none" id="containerC">
+        <div class="chartCard">
+          <div class="chartBox">
+            <canvas id="usersPerDept"></canvas>
 
-      <div class="chartCard">
-        <div class="chartBox">
-          <canvas id="usersPerDept"></canvas>
-          
+          </div>
         </div>
       </div>
-    </div>
 
-  </form>
+    </form>
 
-</div>
-
-
-<script>
-var options = document.getElementById('options');
-var containerA = document.getElementById('containerA');
-var containerB = document.getElementById('containerB');
-
-options.addEventListener('change', function() {
-  if (options.value === 'A') {
-    containerA.classList.remove('d-none');
-    containerB.classList.add('d-none');
-    containerC.classList.add('d-none');
-  } 
-  else if (options.value === 'B') {
-    containerB.classList.remove('d-none');
-    containerA.classList.add('d-none');
-    containerC.classList.add('d-none');
-  }
-  else if (options.value === 'C') {
-    containerC.classList.remove('d-none');
-    containerA.classList.add('d-none');
-    containerB.classList.add('d-none');
-  }
-});
-
-</script>
+  </div>
 
 
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
+  <script>
+    var options = document.getElementById('options');
+    var containerA = document.getElementById('containerA');
+    var containerB = document.getElementById('containerB');
 
-<script>
+    options.addEventListener('change', function() {
+      if (options.value === 'A') {
+        containerA.classList.remove('d-none');
+        containerB.classList.add('d-none');
+        containerC.classList.add('d-none');
+      } else if (options.value === 'B') {
+        containerB.classList.remove('d-none');
+        containerA.classList.add('d-none');
+        containerC.classList.add('d-none');
+      } else if (options.value === 'C') {
+        containerC.classList.remove('d-none');
+        containerA.classList.add('d-none');
+        containerB.classList.add('d-none');
+      }
+    });
+  </script>
+
+
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
+
+  <script>
     // setup 
 
     function getRandomColor() {
-      var min = 1;  // minimum value for each color component
-      var max = 256;  // maximum value for each color component
+      var min = 1; // minimum value for each color component
+      var max = 256; // maximum value for each color component
       var red = Math.floor(Math.random() * (max - min) + min);
       var green = Math.floor(Math.random() * (max - min) + min);
       var blue = Math.floor(Math.random() * (max - min) + min);
@@ -184,7 +169,7 @@ options.addEventListener('change', function() {
     var idea_Dept_Percentage = @json($idea_Department_Percentage);
 
     var usersPerDept = @json($usersPerDept);
-    
+
     console.log(usersPerDept);
 
 
@@ -203,31 +188,31 @@ options.addEventListener('change', function() {
       type: 'bar',
       data,
       options: {
-          plugins: {
-            legend: {
-                display: false // hide the legend
-            },
-            tooltip: {
-              callbacks : {
-                label : (context) => {
-                  console.log(context.raw)
-                  return ` value: ${context.raw.value} , Department : ${context.raw.status}`;
-                }
+        plugins: {
+          legend: {
+            display: false // hide the legend
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                console.log(context.raw)
+                return ` value: ${context.raw.value} , Department : ${context.raw.status}`;
               }
             }
-          },
-          scales: {
-              yAxes: [{
-                  ticks: {
-                      beginAtZero: true
-                  }
-              }]
           }
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
       }
     };
 
     // config for percentage ideas count per department
-    
+
     const IdeaDeptPercentData = {
       labels: departments,
       datasets: [{
@@ -243,31 +228,31 @@ options.addEventListener('change', function() {
       type: 'bar',
       data: IdeaDeptPercentData,
       options: {
-          plugins: {
-            legend: {
-                display: false // hide the legend
-            },
-            tooltip: {
-              callbacks : {
-                label : (context) => {
-                  console.log(context.raw)
-                  return ` value: ${context.raw.value} , Department : ${context.raw.status}`;
-                }
+        plugins: {
+          legend: {
+            display: false // hide the legend
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                console.log(context.raw)
+                return ` value: ${context.raw.value} , Department : ${context.raw.status}`;
               }
             }
-          },
-          scales: {
-              yAxes: [{
-                  ticks: {
-                      beginAtZero: true
-                  }
-              }]
           }
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
       }
     };
 
     // Contributors per Department
-    
+
     const contributorsPerDept = {
       labels: departments,
       datasets: [{
@@ -278,39 +263,39 @@ options.addEventListener('change', function() {
       }]
     };
 
-// config 
-  const usersPerDept_config = {
-    type: 'bar',
-    data: contributorsPerDept, // add the data property here
-    options: {
-      plugins: {
-        legend: {
-          display: false // hide the legend
-        },
-        tooltip: {
-          callbacks: {
-            label: (context) => {
-              console.log(context.raw)
-              return ` ${context.raw.value} users uploaded idea from ${context.raw.status} Department`;
+    // config 
+    const usersPerDept_config = {
+      type: 'bar',
+      data: contributorsPerDept, // add the data property here
+      options: {
+        plugins: {
+          legend: {
+            display: false // hide the legend
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                console.log(context.raw)
+                return ` ${context.raw.value} users uploaded idea from ${context.raw.status} Department`;
+              }
             }
           }
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
         }
-      },
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true
-          }
-        }]
       }
-    }
-  };
+    };
 
 
 
 
 
- 
+
 
     // render init block
     const myChart = new Chart(
@@ -327,22 +312,19 @@ options.addEventListener('change', function() {
       document.getElementById('usersPerDept'),
       usersPerDept_config
     );
- 
-    
-    </script>
+  </script>
 
-<script>
- document.getElementById('event-selectA').addEventListener('change', function() {
-  document.getElementById('selected-eventA').value = this.value;
-});
-
-
-</script>
+  <script>
+    document.getElementById('event-select').addEventListener('change', function() {
+      document.getElementById('selected-event').value = this.value;
+    });
+  </script>
 
 
 
-  
+
 </body>
+
 </html>
 
 @endsection
