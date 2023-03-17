@@ -15,10 +15,16 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->string('comment');
-            $table->string('is_anonymous')->nullable();
+            $table->foreignId('user_id');
+            $table->foreignId('idea_id');
+            $table->text('comment');
+            $table->boolean('is_anonymous')->nullable();
             $table->softDeletes();
             $table->timestamps();
+
+            /** constraints */
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('idea_id')->references('id')->on('ideas')->onDelete('cascade');
         });
     }
 

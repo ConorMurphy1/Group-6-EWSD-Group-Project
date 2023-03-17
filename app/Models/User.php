@@ -44,6 +44,11 @@ class User extends Authenticatable
         $this->attributes['password'] = bcrypt($password);
     }
 
+    public function getFullNameAttribute()
+    {
+        return "{$this->firstname} {$this->lastname}";
+    }
+
     /** relations */
     public function role()
     {
@@ -60,5 +65,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Idea::class, 'idea_reactions')
             ->withPivot('reaction')
             ->withTimestamps();
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

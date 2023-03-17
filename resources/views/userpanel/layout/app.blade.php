@@ -129,7 +129,7 @@
                                 </svg></i>
                         </a>
                         <div class="tt-avatar-icon tt-size-md">
-                            <a href="profile_user.html" class="tt-btn-icon">
+                            <a href="#" class="tt-btn-icon">
                                 <i class="tt-icon"><svg>
                                     <use xlink:href="#icon-ava-a"></use>
                                 </svg></i>
@@ -403,7 +403,7 @@
 
 
     <!-- create icon -->
-    <a href="page-create-topic.html" class="tt-btn-create-topic">
+    <a href="#" class="tt-btn-create-topic">
         <span class="tt-icon">
         <svg>
           <use xlink:href="#icon-create_new"></use>

@@ -32,4 +32,9 @@ class Idea extends Model
             ->withPivot('reaction')
             ->withTimestamps();
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

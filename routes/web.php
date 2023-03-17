@@ -144,4 +144,4 @@ Route::group(['middleware' => ['web', 'auth']], function(){
 // }
 
 
-Route::get('posts', [UserDashboardController::class, 'posts'])->name('user.posts');
+// Route::get('posts', [UserDashboardController::class, 'posts'])->name('user.posts');

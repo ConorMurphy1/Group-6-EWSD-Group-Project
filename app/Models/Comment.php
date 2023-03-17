@@ -12,13 +12,13 @@ class Comment extends Model
     protected $guarded = [];
 
     /** relations */
-    public function users()
+    public function user()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function idea()
     {
-        return $this->belongsTo('App\Model\Idea', 'idea_id')->withDefult();
+        return $this->belongsTo(Idea::class);
     }
 }

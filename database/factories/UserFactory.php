@@ -37,7 +37,7 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'password' => 'password',
             'is_updated' => true,
-            'department_id' => $this->faker->numberBetween(1, 5),
+            'department_id' => $this->faker->numberBetween(1, 6),
             'role_id' => $this->faker->numberBetween(1, 5),
         ];
     }

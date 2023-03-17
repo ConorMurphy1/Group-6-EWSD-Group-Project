@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
             'email' => 'qamanager@email.com',
             'password' => 'password',
             'is_updated' => true,
-            'department_id' => 1,
+            // 'department_id' => 1,
             'role_id' => 1,
         ]);
         User::factory()->create([
@@ -42,7 +42,7 @@ class UserSeeder extends Seeder
             'email' => 'qacoordinator@email.com',
             'password' => 'password',
             'is_updated' => true,
-            'department_id' => 1,
+            // 'department_id' => 1,
             'role_id' => 2,
         ]);
     }
