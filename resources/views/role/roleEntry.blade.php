@@ -1,3 +1,5 @@
+@extends('layouts.app')
+@section('content')
 <!doctype html>
 <html lang="en">
   <head>
@@ -109,19 +111,7 @@
   </head>
   <body>
     @include('sweetalert::alert')
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Role Entry for University Ideas Management <span class="sr-only">(current)</span></a>
-                </li>
-                
-            </ul>
-        </div>
-    </nav>
+  
     <br><br>
     <div class="modal fade" class="md" id="examplemodal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -154,6 +144,7 @@
         </div>
     </div>
 
+  <br><br><br>
     <div class="container">
         <table class="table mx-auto table-bordered table-hover table-striped" allign="center">
             <thead>
@@ -197,8 +188,8 @@
         </table>
     </div>
     
-    <div class="container">
-        <button data-loading-text="loading..." class="btn btn-warning mx-auto"  type="Button" data-toggle="modal" data-target="#examplemodal">Add Role</button>
+    <div class="container ">
+        <button data-loading-text="loading..." class="btn btn-warning mx-auto float-right"  type="Button" data-toggle="modal" data-target="#examplemodal">Add Role</button>
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -208,3 +199,4 @@
 	<script src="{{asset('adminpanel/assets/plugin/sweet-alert/sweetalert.min.js')}}"></script>
   </body>
 </html>
+@endsection

@@ -1,3 +1,5 @@
+@extends('layouts.app')
+@section('content')
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,7 +47,7 @@
 
 </head>
 <body>
-  
+<br><br><br><br>
 <div class="container">
   <div class="form-group">
     <label for="options">Choose an option:</label>
@@ -56,47 +58,74 @@
     </select>
   </div>
   
-  <div class="form-group">
-    <label for="options">Choose an event:</label>
-    <select class="form-control" id="options">
-      <option value="A">valentine's day</option>
-      <option value="B">B</option>
-    </select>
-  </div>
+  <form method="GET" action="{{ route('report.index') }}">
   
-  <div id="containerA">
-    <div class="chartCard">
-      <div class="chartBox">
-        <canvas id="myChart"></canvas>
-        <input type="date" onchange="filterDate()" id="startdate" value="2021-08-25">
-        <input type="date" onchange="filterDate()" id="enddate" value="2021-08-31">
+    <div id="containerA">
+      <div class="form-group">
+        <label for="options">Choose an event:</label>
+        <select class="form-control" id="event-selectA" name="ideasPerDepartment">
+          <option value="" >Select Event to Filter</option>
+          @foreach (\App\Models\Event::all() as $event)
+              <option value="{{ $event->id }}">{{ $event->name }}</option>
+          @endforeach
+        </select>    
+        <input type="hidden" id="selected-eventA" value="" name="event">
+        <br>
+        <button type="submit">Filter</button>
       </div>
-    </div>
-  </div>
-  
-  <div class="container-box d-none" id="containerB">
-    <div class="chartCard">
-      <div class="chartBox">
-        <canvas id="ideaPerDeptPercent"></canvas>
-        <input type="date" onchange="filterDate()" id="startdate" value="2021-08-25">
-        <input type="date" onchange="filterDate()" id="enddate" value="2021-08-31">
-      </div>
-    </div>
-  </div>
 
+      <div class="chartCard">
+        
+        <div class="chartBox">
+          <canvas id="myChart"></canvas>
+          
+        </div>
+      </div>
+    </div>
     
-  <div class="container-box d-none" id="containerC">
-    <div class="chartCard">
-      <div class="chartBox">
-        <canvas id="usersPerDept"></canvas>
-        <input type="date" onchange="filterDate()" id="startdate" value="2021-08-25">
-        <input type="date" onchange="filterDate()" id="enddate" value="2021-08-31">
+    <div class=" d-none" id="containerB">
+
+      <div class="form-group">
+        <label for="options">Choose an event:</label>
+        <select class="form-control" id="options">
+          @foreach (\App\Models\Event::all() as $event)
+              <option value="{{ $event->id }}">{{ $event->name }}</option>
+          @endforeach
+        </select>    
+      </div>
+
+      <div class="chartCard">
+        <div class="chartBox">
+          <canvas id="ideaPerDeptPercent"></canvas>
+        
+        </div>
       </div>
     </div>
-  </div>
 
+      
+    <div class=" d-none" id="containerC">
+
+      <div class="form-group">
+        <label for="options">Choose an event:</label>
+        <select class="form-control" id="options">
+          @foreach (\App\Models\Event::all() as $event)
+              <option value="{{ $event->id }}">{{ $event->name }}</option>
+          @endforeach
+        </select>    
+      </div>
+
+      <div class="chartCard">
+        <div class="chartBox">
+          <canvas id="usersPerDept"></canvas>
+          
+        </div>
+      </div>
+    </div>
+
+  </form>
 
 </div>
+
 
 <script>
 var options = document.getElementById('options');
@@ -298,45 +327,22 @@ options.addEventListener('change', function() {
       document.getElementById('usersPerDept'),
       usersPerDept_config
     );
-
-    // Instantly assign Chart.js version
-    const chartVersion = document.getElementById('chartVersion');
-    chartVersion.innerText = Chart.version;
-
-
-    function filterDate() 
-    {
-      const labels2 = [...labels];
-      console.log(labels2);
-
-      const startdata = document.getElementById('startdate');
-      const enddate = document.getElementById('enddate');
-
-      //get the index number in array
-      const indexstartdate = labels2 .indexOf(startdate.value);
-      const indexenddate = labels2 .indexOf(enddate.value);
-      // console.log(indexstartdate);
-
-      // slice the array only showing the selected section
-      const filterDate = labels2.slice(indexstartdate, indexenddate +1 );
-
-      //replace the labels in the chart
-      myChart.config.data.labels = filterDate;
-
-      //datapoints
-      const datapoints2 = [...datapoints];
-      const filterDatapoints = datapoints2.slice(indexstartdate, indexenddate +1 ); 
-      myChart.config.data.datasets[0].data = filterDatapoints;
-
-     myChart.update();
-
-      
-    }
+ 
     
     </script>
+
+<script>
+ document.getElementById('event-selectA').addEventListener('change', function() {
+  document.getElementById('selected-eventA').value = this.value;
+});
+
+
+</script>
 
 
 
   
 </body>
 </html>
+
+@endsection

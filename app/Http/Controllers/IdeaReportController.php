@@ -9,7 +9,9 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class IdeaReportController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
+
+        $eventId = $request->input('event');
 
         $ideasPerDept = Idea::selectRaw('department_id, count(*) as dep_idea_count')
                     ->groupBy('department_id')
@@ -24,7 +26,6 @@ class IdeaReportController extends Controller
         $totalIdeas = $ideasPerDept->sum('dep_idea_count');
 
         $departmentNames = $departments->pluck('name')->toArray();
-        $departmentNames1 = $departments->pluck('name')->toArray();
 
         $ideaCountPerDept = $departments->map(function ($dept) use ($ideasPerDept) {
             $ideaCount = $ideasPerDept->where('department_id', $dept->id)->first();
@@ -54,7 +55,6 @@ class IdeaReportController extends Controller
     
 
         return view('report.index')->with('departmentsArray', $departmentNames)
-                                    ->with('departmentsArray1', $departmentNames1)
                                     ->with('ideaCountArray', $ideaCountPerDept)
                                     ->with('idea_Department_Percentage', $deaptIdeaPercent)
                                     ->with('usersPerDept', $contributorsPerDepartment);
