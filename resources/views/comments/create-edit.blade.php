@@ -44,6 +44,16 @@
                     <option value="yes" {{strtolower($comment->is_anonymous) == 'yes' ? 'selected' : ''}}>Yes</option>
                 </select>
             </div>
+            <div class="my-2">
+                <label for="" class="d-block text-muted">Select ideas</label>
+                {{-- <input name="is_anonymous" type="checkbox" value="yes"> --}}
+                <select name="id" id="" required>
+                    <option >Choose Ideas</option>
+                    @foreach ($ideas as $idea)
+                        <option value="{{$idea->id}}">{{$idea->id}}</option>
+                    @endforeach
+                </select>
+            </div>
 
             <div class="my-2">
                 <label for="comment" class="d-block text-muted">Comment</label>

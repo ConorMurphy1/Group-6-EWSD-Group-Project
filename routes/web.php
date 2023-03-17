@@ -5,7 +5,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\IdeaReportController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{IdeaController, IdeaReactionController, NewsFeedController, EventController, UserDashboardController};
+use App\Http\Controllers\{IdeaController, IdeaReactionController, NewsFeedController, EventController, IdeaCommentController, UserDashboardController};
 // For Role Entry
 use App\Http\Controllers\RoleEntryController;
 
@@ -87,6 +87,9 @@ Route::middleware(['auth'])->group(function() {
 /**
  * Comment CRUD
  */
+Route::middleware(['auth'])->group(function() {
+    Route::post('/ideas/{idea:id}/comment', [IdeaCommentController::class, 'store'])->name('idea.comments.store');
+});
 
 Route::resource('comments', CommentController::class);
 

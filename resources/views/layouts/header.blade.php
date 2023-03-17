@@ -42,7 +42,7 @@
 <body>
 <div class="main-menu">
 	<header class="header">
-		<a href="index.html" class="logo">NinjaTeam</a>
+		<a href="{{route('home')}}" class="logo">NinjaTeam</a>
 		<button type="button" class="button-close fa fa-times js__menu_close"></button>
 		<div class="user">
 			<a href="#" class="avatar"><img src="http://placehold.it/80x80" alt=""><span class="status online"></span></a>

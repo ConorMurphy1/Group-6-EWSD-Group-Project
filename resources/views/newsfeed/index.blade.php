@@ -69,9 +69,10 @@
         <section>
             {{-- comment box --}}
             <h2 class="text-sm mb-1">Comments</h2>
-            <form action="{{ route('comments.store') }}" method="POST">
+            <form action="{{ route('idea.comments.store', ['idea' => $idea->id]) }}" method="POST">
                 @csrf
                 <div class="relative">
+                    <input type="hidden" name="id" value="{{$idea->id}}">
                     <textarea name="comment" id="comment" class="resize-none bg-gray-50 border-2 border-blue-300 text-gray-900 text-sm rounded-lg focus:outline-blue-500 focus:border-blue-500 block w-full py-1.5 pl-2 pr-10 overflow-hidden"></textarea>
                     <button type="submit" class="absolute top-4 right-2 px-2">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-700 hover:text-black">

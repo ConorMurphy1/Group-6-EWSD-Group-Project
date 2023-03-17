@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Trait\UploadTrait;
+use App\Models\Idea;
 
 class CommentController extends Controller
 {
@@ -31,7 +32,8 @@ class CommentController extends Controller
     public function create()
     {
         $comment = new comment();
-        return view('comments.create-edit', compact('comment'));
+        $ideas = Idea::all();
+        return view('comments.create-edit', compact('comment', 'ideas'));
     }
 
     /**
@@ -47,10 +49,11 @@ class CommentController extends Controller
             'comment' => 'required|string',
         ]);
 
-        $is_anonymous_final = $request->is_anonymous === "yes" ? 'Yes' : 'No';
+        $is_anonymous_final = $request->is_anonymous === "yes" ? true : false;
 
-        // $data['user_id'] = auth()->user()->id;
         $data['is_anonymous'] = $is_anonymous_final;
+        $data['user_id'] = auth()->id();
+        $data['idea_id'] = $request->input('id');
 
         Comment::create($data);
 

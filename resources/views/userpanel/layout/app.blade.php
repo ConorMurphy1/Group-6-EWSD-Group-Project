@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="{{asset('usertemplate/build/css/style.css')}}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<script src="https://cdn.tailwindcss.com"></script>
+    	<!-- Sweet Alert -->
+	<link rel="stylesheet" href="{{asset('adminpanel/assets/plugin/sweet-alert/sweetalert.css')}}">
     
     <style>
         .fix-left {
@@ -72,7 +74,7 @@
                     <div class="tt-desktop-menu">
                         <nav>
                             <ul>
-                                <li><a href="home.html"><span>Home</span></a></li>
+                                <li><a href="{{ route('ideas.feed') }}"><span>Home</span></a></li>
                                 <li><a href="user_event.html"><span>Events</span></a></li>
                                 <li><a href="topic_create.html"><span>Create</span></a></li>
                             </ul>
