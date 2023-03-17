@@ -73,7 +73,7 @@ Route::delete('/profile', [UserController::class, 'destroy'])
  * Newsfeed displaying ideas
  */
 Route::middleware(['auth'])->group(function() {
-    Route::get('/newsfeed', [NewsFeedController::class, 'index'])->name('newsfeed');
+    Route::get('/newsfeed', [NewsFeedController::class, 'index'])->name('ideas.feed');
 });
 
 /**
@@ -93,9 +93,9 @@ Route::resource('comments', CommentController::class);
 // (for not working with seeder yet)
 // Route::resource('departments', DepartmentController::class);
 
-Route::get('/', function () {
-    return view('auth.login');
-})->name('home');
+Route::get('/', function() {
+    return view('home');
+})->name('home')->middleware('auth');
 
 // dd(auth()->user());
 // if (auth()->user()->role->role === "Admin"){

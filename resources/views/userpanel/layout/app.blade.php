@@ -14,6 +14,8 @@
 
     <link rel="stylesheet" href="{{asset('usertemplate/build/css/style.css')}}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="https://cdn.tailwindcss.com"></script>
+    
     <style>
         .fix-left {
             top: 0;
@@ -367,152 +369,8 @@
                         <div class="tt-title">Lastest</div>
 
                     </div> -->
-                    <div class="col-md-12 col-lg-12">
-                        <div class="tt-item">
-                            <div class="tt-item-layout">
-                                <div class="tt-innerwrapper">
-                                    <h2 class="tt-title"> What are you think</h2>
-                                    <div class="d-flex justify-content-between">
-                                        <h6 class="tt"> Department</h6>
-                                        <h6 class="tt">Event</h6>
-                                    </div>
-                                    <div class="tt-item-layout">
-                                        <div class="innerwrapper">
-                                            Lets discuss about whats happening around the world politics ... <a href="view_detail_topic.html" class="tt-title">see more</a>
-                                        </div>
-                                        <div class="tt-innerwrapper">
-                                            <h6 class="tt-title">Category</h6>
-                                            <ul class="tt-list-badge">
-                                                <li><a href="#"><span class="tt-badge ">movies</span></a></li>
-                                                <li><a href="#"><span class="tt-badge ">new movies</span></a></li>
-
-                                            </ul>
-                                        </div>
-                                        <a href="#" class="tt-btn-icon">
-                                            <i class="tt-icon"><svg><use xlink:href="#icon-favorite"></use></svg></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-lg-12">
-                        <div class="tt-item">
-                            <div class="tt-item-layout">
-                                <div class="tt-innerwrapper">
-                                    <h2 class="tt-title"> What are you think</h2>
-                                    <div class="d-flex justify-content-between">
-                                        <h6 class="tt"> Department</h6>
-                                        <h6 class="tt">Event</h6>
-                                    </div>
-                                    <div class="tt-item-layout">
-                                        <div class="innerwrapper">
-                                            Lets discuss about whats happening around the world politics ... <a href="view_detail_topic.html" class="tt-title">see more</a>
-                                        </div>
-                                        <div class="tt-innerwrapper">
-                                            <h6 class="tt-title">Category</h6>
-                                            <ul class="tt-list-badge">
-                                                <li><a href="#"><span class="tt-badge ">movies</span></a></li>
-                                                <li><a href="#"><span class="tt-badge ">new movies</span></a></li>
-
-                                            </ul>
-                                        </div>
-                                        <a href="#" class="tt-btn-icon">
-                                            <i class="tt-icon"><svg><use xlink:href="#icon-favorite"></use></svg></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-lg-12">
-                        <div class="tt-item">
-                            <div class="tt-item-layout">
-                                <div class="tt-innerwrapper">
-                                    <h2 class="tt-title"> What are you think</h2>
-                                    <div class="d-flex justify-content-between">
-                                        <h6 class="tt"> Department</h6>
-                                        <h6 class="tt">Event</h6>
-                                    </div>
-                                    <div class="tt-item-layout">
-                                        <div class="innerwrapper">
-                                            Lets discuss about whats happening around the world politics ... <a href="view_detail_topic.html" class="tt-title">see more</a>
-                                        </div>
-                                        <div class="tt-innerwrapper">
-                                            <h6 class="tt-title">Category</h6>
-                                            <ul class="tt-list-badge">
-                                                <li><a href="#"><span class="tt-badge ">movies</span></a></li>
-                                                <li><a href="#"><span class="tt-badge ">new movies</span></a></li>
-
-                                            </ul>
-                                        </div>
-                                        <a href="#" class="tt-btn-icon">
-                                            <i class="tt-icon"><svg><use xlink:href="#icon-favorite"></use></svg></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-lg-12">
-                        <div class="tt-item">
-                            <div class="tt-item-layout">
-                                <div class="tt-innerwrapper">
-                                    <h2 class="tt-title"> What are you think</h2>
-                                    <div class="d-flex justify-content-between">
-                                        <h6 class="tt"> Department</h6>
-                                        <h6 class="tt">Event</h6>
-                                    </div>
-                                    <div class="tt-item-layout">
-                                        <div class="innerwrapper">
-                                            Lets discuss about whats happening around the world politics ... <a href="view_detail_topic.html" class="tt-title">see more</a>
-                                        </div>
-                                        <div class="tt-innerwrapper">
-                                            <h6 class="tt-title">Category</h6>
-                                            <ul class="tt-list-badge">
-                                                <li><a href="#"><span class="tt-badge ">movies</span></a></li>
-                                                <li><a href="#"><span class="tt-badge ">new movies</span></a></li>
-
-                                            </ul>
-                                        </div>
-                                        <a href="#" class="tt-btn-icon">
-                                            <i class="tt-icon"><svg><use xlink:href="#icon-favorite"></use></svg></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-lg-12">
-                        <div class="tt-item">
-                            <div class="tt-item-layout">
-                                <div class="tt-innerwrapper">
-                                    <h2 class="tt-title"> What are you think</h2>
-                                    <div class="d-flex justify-content-between">
-                                        <h6 class="tt"> Department</h6>
-                                        <h6 class="tt">Event</h6>
-                                    </div>
-                                    <div class="tt-item-layout">
-                                        <div class="innerwrapper">
-                                            Lets discuss about whats happening around the world politics ... <a href="view_detail_topic.html" class="tt-title">see more</a>
-                                        </div>
-                                        <div class="tt-innerwrapper">
-                                            <h6 class="tt-title">Category</h6>
-                                            <ul class="tt-list-badge">
-                                                <li><a href="#"><span class="tt-badge ">movies</span></a></li>
-                                                <li><a href="#"><span class="tt-badge ">new movies</span></a></li>
-
-                                            </ul>
-                                        </div>
-                                        <a href="#" class="tt-btn-icon">
-                                            <i class="tt-icon"><svg><use xlink:href="#icon-favorite"></use></svg></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- pagincation -->
+                    
+                    @yield('content')                    
 
                     <div class="col-12 d-flex justify-content-end   ">
                         <div class="tt-row-btn ">
@@ -535,7 +393,6 @@
                                     </li>
                                 </ul>
                             </nav>
-
                         </div>
                     </div>
                     <!-- end pagination -->

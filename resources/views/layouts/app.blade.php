@@ -113,7 +113,11 @@
 			<!-- /.toggle-content -->
 		</div>
 
-		<a href="#" class="ico-item fa fa-power-off js__logout"></a>
+        <form action="{{route('logout')}}" method="POST" class="inline">
+            @csrf
+            {{-- <a href="#" class="ico-item fa fa-power-off js__logout"></a> --}}
+            <button type="submit" class="ico-item fa fa-power-off"></button>
+        </form>
 	</div>
 	<!-- /.pull-right -->
 </div>
