@@ -12,6 +12,30 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class IdeaCommentController extends Controller
 {
+    public function index(Request $request, Idea $idea)
+    {
+        $sort = $request->query('sort');
+
+        switch ($sort) {
+            case 'oldest':
+                $comments = $idea->comments()->oldest()->get();
+                break;
+            // case 'likes':
+                // $comments = $idea->comments()->oldest()->get();
+                // break;
+            default:
+                $comments = $idea->comments()->latest()->get();
+                break;
+        }
+
+        /** Load the comment view as string and sent it back as json response */
+        $commentsHtml = view('newsfeed.comments', compact('comments'))->render();
+
+        return response()->json([
+            'html' => $commentsHtml,
+        ]);
+    }
+
     public function store(Request $request, Idea $idea)
     {
         $data = $request->validate([

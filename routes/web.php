@@ -85,10 +85,12 @@ Route::middleware(['auth'])->group(function() {
 });
 
 /**
- * Comment CRUD
+ * Comment CRUD 
+ * Comment that relates to the specific idea
  */
 Route::middleware(['auth'])->group(function() {
-    Route::post('/ideas/{idea:id}/comment', [IdeaCommentController::class, 'store'])->name('idea.comments.store');
+    Route::get('/idea/{idea:id}/comment', [IdeaCommentController::class, 'index'])->name('idea.comments.index');
+    Route::post('/idea/{idea:id}/comment', [IdeaCommentController::class, 'store'])->name('idea.comments.store');
 });
 
 Route::resource('comments', CommentController::class);

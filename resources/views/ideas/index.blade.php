@@ -47,7 +47,9 @@
                                 <td>{{ $idea->title }}</td>
                                 <td>
                                     @if ($idea->image)
-                                        <img src="{{asset('storage/images/'.$idea->image)}}" alt="" width="200" height="200">
+                                        <img src="{{file_exists(asset('storage/'.$idea->image))
+                                            ? asset('storage/'.$idea->image) 
+                                            : asset($idea->image)}}" alt="" width="200" height="200">
                                     @else
                                         <span> No image uploaded </span>
                                     @endif

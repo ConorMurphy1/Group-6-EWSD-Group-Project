@@ -24,9 +24,11 @@
             </p>
         </div>
 
+        @if ($idea->image ?? false)
         <div class="bg-gray-200 border border-gray-300 rounded w-96 h-60 flex justify-center items-center">
             <img src="{{ asset($idea->image) }}" alt="" style="max-width: 100%; max-height: 100%; object-fit:contain">
         </div>
+        @endif
 
         <div class="py-1.5">
             {{$idea->description}}
@@ -67,13 +69,49 @@
 
         <!-- Comment Section -->
         <section>
+            <div class="flex justify-between items-center py-1 border-t">
+                <h1>Comments</h1>
+                <div>
+                    <span class="text-xs text-gray-600">Sorted by</span>
+                    <select name="comments" id="comments-{{ $idea->id }}" class="text-sm p-1 border border-slate-300 rounded text-gray-600 focus:outline-none">
+                        <option value="latest"><a href="{{ route('idea.comments.index', ['idea' => $idea->id]) }}">Latest</a></option>
+                        <option value="oldest"><a href="{{ route('idea.comments.index', ['idea' => $idea->id]) }}">Oldest</a></option>
+                        {{-- <option value="likes"><a href="">Likes</a></option> --}}
+                    </select>
+                    <script>
+                        document.getElementById('comments-{{$idea->id}}').addEventListener('change', function() {
+                            let value = this.value;
+                            let ideaId = {{ $idea->id }};
+                            let url = '/idea/' + {{ $idea->id }} + '/comment?sort=' + value;
+                            console.log(url);
+
+                            // Send AJAX request 
+                            fetch(url, {
+                                method: 'GET',
+                            })
+                            .then(function(response) {
+                                if(!response.ok) {
+                                    throw new Error('Internal Server Error');
+                                }
+                                return response.json();
+                            })
+                            .then(function(data) {
+                                console.log(data);
+                                document.getElementById('comments-section-{{ $idea->id }}').innerHTML = data.html;
+                            })
+                            .catch(function(error) {
+                                console.log(error.message);
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
             {{-- comment box --}}
-            <h2 class="text-sm mb-1">Comments</h2>
             <form action="{{ route('idea.comments.store', ['idea' => $idea->id]) }}" method="POST">
                 @csrf
                 <div class="relative">
                     <input type="hidden" name="id" value="{{$idea->id}}">
-                    <textarea name="comment" id="comment" class="resize-none bg-gray-50 border-2 border-blue-300 text-gray-900 text-sm rounded-lg focus:outline-blue-500 focus:border-blue-500 block w-full py-1.5 pl-2 pr-10 overflow-hidden"></textarea>
+                    <textarea name="comment" id="comment-{{$idea->id}}" placeholder="What are your thoughts on this?" class="resize-none bg-gray-50 border-2 border-blue-300 text-gray-900 text-sm rounded-lg focus:outline-blue-500 focus:border-blue-500 block w-full py-1.5 pl-2 pr-10 overflow-hidden"></textarea>
                     <button type="submit" class="absolute top-4 right-2 px-2 focus:outline-none">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-700 hover:text-black">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
@@ -81,11 +119,13 @@
                     </button>
                 </div>
             </form>
+
             @unless ($idea->comments->isEmpty())
-            <div class="max-h-60 px-3 mt-1 border rounded-lg divide-y overflow-y-auto">
-                @foreach ($idea->comments as $comment)
+            <section id="comments-section-{{ $idea->id }}" class="relative max-h-60 px-3 mt-1 border rounded-lg divide-y overflow-y-auto">
+                @foreach ($idea->comments()->latest()->get() as $comment)
                     <div class="flex items-center py-3">
                         <div class="w-12 self-start border rounded-full py-2 px-1">
+                            {{-- <img src="{{ asset($user->image) }}" alt="" width="100%"> --}}
                             <img src="{{ asset('images/test.png') }}" alt="" width="100%">
                         </div>
                         <div class="flex-1 ml-3">
@@ -102,42 +142,13 @@
                         </div>
                     </div>
                 @endforeach
-            </div>
+            </section>
             @endunless
+
         </section>
     </div>
 @endforeach
 @else
     <p class="mt-10 text-center">There are currently no posts. <a href="{{route('ideas.create')}}" class="block text-blue-500 hover:text-blue-700 text-center">Post some ideas</a></p>
 @endif
-
-{{-- <div class="col-md-12 col-lg-12">
-    <div class="tt-item">
-        <div class="tt-item-layout">
-            <div class="tt-innerwrapper">
-                <h2 class="tt-title"> What are you think</h2>
-                <div class="d-flex justify-content-between">
-                    <h6 class="tt"> Department</h6>
-                    <h6 class="tt">Event</h6>
-                </div>
-                <div class="tt-item-layout">
-                    <div class="innerwrapper">
-                        Lets discuss about whats happening around the world politics ... <a href="view_detail_topic.html" class="tt-title">see more</a>
-                    </div>
-                    <div class="tt-innerwrapper">
-                        <h6 class="tt-title">Category</h6>
-                        <ul class="tt-list-badge">
-                            <li><a href="#"><span class="tt-badge ">movies</span></a></li>
-                            <li><a href="#"><span class="tt-badge ">new movies</span></a></li>
-
-                        </ul>
-                    </div>
-                    <a href="#" class="tt-btn-icon">
-                        <i class="tt-icon"><svg><use xlink:href="#icon-favorite"></use></svg></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> --}}
 @endsection

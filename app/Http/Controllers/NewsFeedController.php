@@ -10,7 +10,8 @@ class NewsFeedController extends Controller
     public function index()
     {
         // $ideas = Idea::paginate(5);
-        $ideas = Idea::all();
+        $ideas = Idea::latest()->get();
+
         return view('newsfeed.index', compact('ideas'));
     }
 }
