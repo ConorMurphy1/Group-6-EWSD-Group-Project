@@ -54,6 +54,7 @@ class IdeaCommentController extends Controller
 
         $user = $idea->user;
 
+        // TODO: implement with queues 
         Mail::send('emails.notify', [
             'comment' => $comment->comment,
             'user' => $user,

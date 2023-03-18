@@ -33,9 +33,7 @@ class Idea extends Model
 
     public function reactions()
     {
-        return $this->belongsToMany(User::class, 'idea_reactions')
-            ->withPivot('reaction')
-            ->withTimestamps();
+        return $this->hasMany(IdeaReaction::class);
     }
 
     public function comments()

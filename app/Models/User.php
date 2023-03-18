@@ -62,9 +62,7 @@ class User extends Authenticatable
 
     public function reactions()
     {
-        return $this->belongsToMany(Idea::class, 'idea_reactions')
-            ->withPivot('reaction')
-            ->withTimestamps();
+        return $this->hasMany(IdeaReaction::class);
     }
 
     public function comments()

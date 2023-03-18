@@ -80,8 +80,8 @@ Route::middleware(['auth'])->group(function() {
  * Idea Reactions
  */
 Route::middleware(['auth'])->group(function() {
-    Route::post('/ideas/like', [IdeaReactionController::class, 'like'])->name('like');
-    Route::post('/ideas/unlike', [IdeaReactionController::class, 'unlike'])->name('unlike');
+    Route::post('/idea/{idea:id}/like', [IdeaReactionController::class, 'like'])->name('like');
+    Route::post('/idea/{idea:id}/unlike', [IdeaReactionController::class, 'unlike'])->name('unlike');
 });
 
 /**

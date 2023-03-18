@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Traits\HandleReactions;
+use App\Models\Idea;
 use Illuminate\Http\Request;
 
 class IdeaReactionController extends Controller
@@ -12,16 +13,24 @@ class IdeaReactionController extends Controller
         unlike as traitUnlike;
     }
 
-    public function like(Request $request)
+    public function like(Request $request, Idea $idea)
     {
         $this->traitLike($request);
-        return redirect()->back();
+
+        $likes = $idea->reactions()->where('reaction', '=', 'like')->count();
+        $unlikes = $idea->reactions()->where('reaction', '=', 'unlike')->count();
+
+        return response()->json(['likes' => $likes, 'unlikes' => $unlikes]);
     }
     
-    public function unlike(Request $request)
+    public function unlike(Request $request, Idea $idea)
     {
         $this->traitUnlike($request);
-        return redirect()->back();
+
+        $likes = $idea->reactions()->where('reaction', '=', 'like')->count();
+        $unlikes = $idea->reactions()->where('reaction', '=', 'unlike')->count();
+
+        return response()->json(['likes' => $likes, 'unlikes' => $unlikes]);
     }
 
     public function table()

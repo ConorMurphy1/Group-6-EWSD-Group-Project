@@ -23,7 +23,7 @@ trait HandleReactions
         $user_id = auth()->id();
 
         /** reactionable_id is the id for the model like Idea or Comment which the users can react to */
-        $reactionable_id = $request->input('id');
+        $reactionable_id = $request->json('id');
 
         $existing_reaction = DB::table($this->table())
             ->where('user_id', $user_id)
