@@ -50,8 +50,6 @@ class IdeaCommentController extends Controller
         $data['idea_id'] = $idea->id;
 
         $comment = Comment::create($data);
-        Alert::toast('comment success!', 'success');
-
         $user = $idea->user;
 
         // TODO: implement with queues 
@@ -64,7 +62,8 @@ class IdeaCommentController extends Controller
             $mail->to($user->email, $user->name)->subject('New comment on you idea post');
         });
         
-        return redirect()->back()->with('success', 'comment success!');
+        $newComment = view('comments.comment', compact('comment'))->render();
+        return response()->json($newComment);
     }
 
     public function edit($id)
