@@ -20,7 +20,22 @@ class IdeaReactionController extends Controller
         $likes = $idea->reactions()->where('reaction', '=', 'like')->count();
         $unlikes = $idea->reactions()->where('reaction', '=', 'unlike')->count();
 
-        return response()->json(['likes' => $likes, 'unlikes' => $unlikes]);
+        if($idea->reactions()->where('user_id', auth()->id())->where('reaction', 'like')->exists())
+        {
+            $likeIcon = view('components.icons.like-solid')->render();
+            $unlikeIcon = view('components.icons.unlike-outline')->render();
+        }
+        else 
+        {
+            $likeIcon = view('components.icons.like-outline')->render();
+            $unlikeIcon = view('components.icons.unlike-outline')->render();
+        }
+
+        return response()->json(['likes' => $likes, 
+            'unlikes' => $unlikes, 
+            'likeIcon' => $likeIcon, 
+            'unlikeIcon' => $unlikeIcon
+        ]);
     }
     
     public function unlike(Request $request, Idea $idea)
@@ -30,7 +45,23 @@ class IdeaReactionController extends Controller
         $likes = $idea->reactions()->where('reaction', '=', 'like')->count();
         $unlikes = $idea->reactions()->where('reaction', '=', 'unlike')->count();
 
-        return response()->json(['likes' => $likes, 'unlikes' => $unlikes]);
+        if($idea->reactions()->where('user_id', auth()->id())->where('reaction', 'unlike')->exists())
+        {
+            $unlikeIcon = view('components.icons.unlike-solid')->render();
+            $likeIcon = view('components.icons.like-outline')->render();
+        }
+        else 
+        {
+            $unlikeIcon = view('components.icons.unlike-outline')->render();
+            $likeIcon = view('components.icons.like-outline')->render();
+        }
+
+        return response()->json([
+            'likes' => $likes, 
+            'unlikes' => $unlikes, 
+            'unlikeIcon' => $unlikeIcon, 
+            'likeIcon' => $likeIcon]
+        );
     }
 
     public function table()
