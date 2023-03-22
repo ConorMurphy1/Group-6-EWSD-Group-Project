@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendEmailNotification;
 use App\Mail\CommentNotification;
 use App\Mail\NewCommentNotification;
 use App\Models\Comment;
 use App\Models\Idea;
+use App\Models\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -50,21 +54,12 @@ class IdeaCommentController extends Controller
         $data['idea_id'] = $idea->id;
 
         $comment = Comment::create($data);
-        Alert::toast('comment success!', 'success');
-
         $user = $idea->user;
 
-        // TODO: implement with queues 
-        Mail::send('emails.notify', [
-            'comment' => $comment->comment,
-            'user' => $user,
-            'title' => $idea->title
-        ], function($mail) use ($user) {
-            $mail->from('example@laravel.ac.uk', 'Laravel');
-            $mail->to($user->email, $user->name)->subject('New comment on you idea post');
-        });
+        SendEmailNotification::dispatch($comment, $user, $idea);
         
-        return redirect()->back()->with('success', 'comment success!');
+        $newComment = view('comments.comment', compact('comment'))->render();
+        return response()->json($newComment);
     }
 
     public function edit($id)

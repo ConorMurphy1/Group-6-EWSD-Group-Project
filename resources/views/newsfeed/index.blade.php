@@ -6,23 +6,21 @@
 
     {{-- TODO: later convert tailwind to BS-4 --}}
     <div class="col-md-8 col-lg-8 px-2 py-5">
-        <div class="flex justify-between items-center">
-            <div class="mb-2">
-                <div class="mb-1">
-                    <h1 class="text-black font-medium">{{$idea->createdBy->firstname.' '.$idea->createdBy->lastname}}</h1>
-                    <p class="text-sm m-0 text-gray-500">From <span>{{$idea->department->name}}</span> department</p>
+        <div>
+            <div class="flex justify-between items-center">
+                <div class="mb-1 basis-1/2">
+                    <h1 class="text-black font-medium">{{$idea->createdBy->full_name}}</h1>
+                    <p class="text-sm mt-1 text-gray-500"><span>{{$idea->department->name}}</span></p>
                 </div>
-                <p class="text-lg m-0">{{$idea->title}}</p>
+                <ul class="tt-list-badge mx-2">
+                    <li><a href="#"><span class="tt-badge ">movies</span></a></li>
+                    <li><a href="#"><span class="tt-badge ">new movies</span></a></li>
+                </ul>
+                <div>
+                    Event <a href="#" class="text-blue-500">{{$idea->event->name}}</a>
+                </div>
             </div>
-
-            <ul class="tt-list-badge mx-2">
-                <li><a href="#"><span class="tt-badge ">movies</span></a></li>
-                <li><a href="#"><span class="tt-badge ">new movies</span></a></li>
-            </ul>
-
-            <p>
-                Event <a href="#" class="text-blue-500">{{$idea->event->name}}</a>
-            </p>
+            <p class="text-lg py-1 my-2">{{$idea->title}}</p>
         </div>
 
         @if ($idea->image ?? false)
@@ -60,7 +58,6 @@
                     let value = 'like';
                     let ideaId = {{ $idea->id }};
                     let url = '{{ route("like", ["idea" => $idea->id]) }}';
-
                     fetch(url, {
                         method: 'POST',
                         headers: {
@@ -79,6 +76,9 @@
                         console.log(data);
                         document.getElementById('like-count-{{ $idea->id }}').textContent = data.likes;
                         document.getElementById('unlike-count-{{ $idea->id }}').textContent = data.unlikes;
+
+                        document.getElementById('like-{{ $idea->id }}').innerHTML = data.likeIcon;
+                        document.getElementById('unlike-{{ $idea->id }}').innerHTML = data.unlikeIcon;
                     })
                     .catch(function(error) {
                         console.log(error.message);
@@ -110,7 +110,6 @@
                     let value = 'unlike';
                     let ideaId = {{ $idea->id }};
                     let url = '{{ route("unlike", ["idea" => $idea->id]) }}';
-
                     fetch(url, {
                         method: 'POST',
                         headers: {
@@ -129,6 +128,9 @@
                         console.log(data);
                         document.getElementById('like-count-{{ $idea->id }}').textContent = data.likes;
                         document.getElementById('unlike-count-{{ $idea->id }}').textContent = data.unlikes;
+
+                        document.getElementById('like-{{ $idea->id }}').innerHTML = data.likeIcon;
+                        document.getElementById('unlike-{{ $idea->id }}').innerHTML = data.unlikeIcon;
                     })
                     .catch(function(error) {
                         console.log(error.message);
@@ -177,20 +179,69 @@
                 </div>
             </div>
             {{-- comment box --}}
-            <form action="{{ route('idea.comments.store', ['idea' => $idea->id]) }}" method="POST">
-                @csrf
-                <div class="relative">
-                    <input type="hidden" name="id" value="{{$idea->id}}">
-                    <textarea name="comment" id="comment-{{$idea->id}}" placeholder="What are your thoughts on this?" class="resize-none bg-gray-50 border-2 border-blue-300 text-gray-900 text-sm rounded-lg focus:outline-blue-500 focus:border-blue-500 block w-full py-1.5 pl-2 pr-10 overflow-hidden"></textarea>
-                    <button type="submit" class="absolute top-4 right-2 px-2 focus:outline-none">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-700 hover:text-black">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
-                        </svg>
-                    </button>
-                </div>
-            </form>
+            <div class="relative">
+                <input type="hidden" name="id" value="{{$idea->id}}">
+                <textarea name="comment" id="comment-{{$idea->id}}" placeholder="What are your thoughts on this?" class="resize-none bg-gray-50 border-2 border-blue-300 text-gray-900 text-sm rounded-lg focus:outline-blue-500 focus:border-blue-500 block w-full py-1.5 pl-2 pr-10 overflow-hidden"></textarea>
+                <button id="idea-comment-{{ $idea->id }}" type="submit" class="absolute top-4 right-2 px-2 focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-700 hover:text-black">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+                    </svg>
+                </button>
+            </div>
+            <script>
+                document.getElementById('idea-comment-{{$idea->id}}').addEventListener('click', function() {
+                    var commentBox = document.getElementById('comment-{{$idea->id}}');
 
-            @unless ($idea->comments->isEmpty())
+                    let comment = commentBox.value;
+                    let ideaId = {{ $idea->id }};
+                    let url = '/idea/' + {{ $idea->id }} + '/comment';
+                    console.log(url);
+
+                    // Send AJAX request 
+                    if(comment.trim() !== '') 
+                    {
+                        fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({ comment: comment, id: ideaId}),
+                        })
+                        .then(function(response) {
+                            if(!response.ok) {
+                                throw new Error('Internal Server Error');
+                            }
+                            return response.json();
+                        })
+                        .then(function(data) {
+                            console.log(data);
+                            document.getElementById("comments-section-{{ $idea->id }}").insertAdjacentHTML('afterbegin', data);
+                            commentBox.value = '';
+
+                            var commentsSection = document.getElementById('comments-section-{{$idea->id}}');
+
+                            // toggle border based on child elements
+                            if (commentsSection.childElementCount > 0) {
+                                commentsSection.classList.add("border");
+                            } else {
+                                commentsSection.classList.remove("border");
+                            }
+                        })
+                        .catch(function(error) {
+                            console.log(error.message);
+                        });
+                    }
+                    else 
+                    {
+                        commentBox.placeholder = 'Kindly provide your comment';
+                        setTimeout(() => {
+                            commentBox.placeholder = 'What are your thoughts on this';
+                        }, 4000);
+                    }
+                });
+            </script>
+
             <section id="comments-section-{{ $idea->id }}" class="relative max-h-60 px-3 mt-1 border rounded-lg divide-y overflow-y-auto">
                 @foreach ($idea->comments()->latest()->get() as $comment)
                     <div class="flex items-center py-3">
@@ -245,7 +296,16 @@
                     </div>
                 @endforeach
             </section>
-            @endunless
+            <script>
+                var commentsSection = document.getElementById('comments-section-{{$idea->id}}');
+
+                // toggle border based on child elements
+                if (commentsSection.childElementCount > 0) {
+                    commentsSection.classList.add("border");
+                } else {
+                    commentsSection.classList.remove("border");
+                }
+            </script>
 
         </section>
     </div>
