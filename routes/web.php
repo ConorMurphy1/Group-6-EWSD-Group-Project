@@ -152,6 +152,7 @@ Route::get('/', function() {
 // }
 // else{
 
+  
 Route::group(['middleware' => ['web', 'auth']], function(){
 
     });

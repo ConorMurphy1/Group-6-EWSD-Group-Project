@@ -11,68 +11,79 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\CSV_Export;
 use ZipArchive;
+use Illuminate\Support\Facades\DB;
+
 
 class IdeaController extends Controller
 {
     public function exportToCSV(Request $request)
     {
         $event_id = $request->input('event');
-        if($event_id = null || $event_id == '')
-        {
+        if ($event_id = null || $event_id == '') {
             return redirect()->back()->with('error', 'Please select event to make export!');
-        }
-        else
-        {
+        } else {
             $fileName = 'idea-csv.csv';
-    
+
             // Export and store the CSV file
             Excel::store(new CSV_Export($event_id), $fileName);
-        
+
             // Flash a success message to the session
             session()->flash('success', 'CSV exported successfully');
-        
+
             // Download the CSV file and delete it after sending
-            $path = storage_path('app/'.$fileName);
+            $path = storage_path('app/' . $fileName);
             $response = response()->download($path)->deleteFileAfterSend(true);
             $response->headers->set('Content-Type', 'text/csv');
-            
+
             return $response;
         }
- 
     }
-    
+
 
 
     public function downloadDocument(Request $request)
     {
         $event_id = $request->input('event');
-        $ideas = Idea::where('event_id', $event_id)->whereNotNull('document')->get();
-
+        $ideas = DB::table('ideas')
+                ->where('event_id', $event_id)
+                ->whereNotNull('document')
+                ->get();
+        
+        $event = DB::table('ideas')
+                ->join('events', 'ideas.event_id', '=', 'events.id')
+                ->select('events.name')
+                ->where('event_id', $event_id)
+                ->first();
+        $event_name = $event->name;
+    
+    
         if ($ideas->isEmpty()) {
             // Return an error message if there are no ideas with a document attachment
             return redirect()->back()->with('error', 'No ideas with document attachments found for selected event.');
         }
-
+    
         $zip = new ZipArchive;
-        $fileName = 'event-' . $event_id . '-documents.zip';
-
-        if ($zip->open($fileName, ZipArchive::CREATE) !== TRUE) {
+        $fileName = 'event-' . $event_name . 'Event-documents.zip';
+        $filePath = public_path($fileName);
+    
+        if ($zip->open($filePath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== TRUE) {
             return redirect()->back()->with('error', 'Failed to create zip file');
         }
-
+    
         foreach ($ideas as $idea) {
-            $filePath = storage_path('app/public/' . $idea->document);
-
-            if (file_exists($filePath)) {
-                $zip->addFile($filePath, $idea->document);
+            $file = public_path('storage/documents/' . $idea->document);
+    
+            if (file_exists($file)) {
+                $zip->addFile($file, $idea->document);
             }
         }
-
+    
         $zip->close();
+        Alert::toast('Download Success!', 'success');
+        return response()->download($filePath)->deleteFileAfterSend(true);
 
-        return response()->download(public_path($fileName))->deleteFileAfterSend(true);
     }
-
+    
 
 
 

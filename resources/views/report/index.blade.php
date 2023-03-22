@@ -76,8 +76,8 @@
       </div>
 
       @if (session()->has('error'))
-        <div class="alert alert-danger">{{ session()->get('error') }}</div>
-    @endif
+      <div class="alert alert-danger">{{ session()->get('error') }}</div>
+      @endif
 
 
       <div id="containerA">

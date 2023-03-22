@@ -62,19 +62,22 @@
         <select class="form-control" id="event-select" name="event" style="max-width: 800px;">
           <option value="">Select Event to export</option>
           @foreach (\App\Models\Event::all() as $event)
-          @if ($event->end_date < today()) <option value="{{ $event->id }}">{{ $event->name }} (Finished Event)</option>
+          @if ($event->end_date < today()) @if (auth()->user()->role->role == "QA Manager" )
+            <option value="{{ $event->id }}">{{ $event->name }} (Finished Event)</option>
+            @endif
             @else
-            <option value="{{ $event->id }}">{{ $event->name }}</option>
+            <option value="{{ $event->id }}">{{ $event->name }} (Active Event)</option>
             @endif
             @endforeach
         </select>
+        <input type="hidden" id="selected-event" value="" name="event">
         <br>
         <div class="row" style="max-width: 800px;">
           <div class="col-sm-6">
             <button class="btn btn-primary" type="submit" name="exportBtn" value="ExportBtn" title="Export Idea Post from Event in CSV Format">Export</button>
           </div>
           <div class="col-sm-6 text-right">
-            <a href="{{ route('download-document', ['event' => $event->id]) }}" class="btn btn-secondary" title="Download Attached Document from Event">Download Attached Document</a>
+            <button class="btn btn-secondary" id="downloadDocBtn" type="button" name="downloadDocBtn" title="Download Attached Document from Event">Download Attached Document</button>
           </div>
         </div>
       </div>
@@ -109,6 +112,27 @@
         alertDiv.style.visibility = 'hidden';
       }
     }
+  </script>
+
+  <script>
+    // Get the download button element
+    const downloadBtn = document.getElementById('downloadDocBtn');
+
+    // Add an event listener to the button
+    downloadBtn.addEventListener('click', function() {
+
+      // Get the selected event id from the dropdown
+      const eventId = document.getElementById('selected-event').value;
+
+      // Redirect to the download-document route with the event id parameter
+      window.location.href = "{{ route('download-document', ['event' => '']) }}" + eventId;
+    });
+  </script>
+
+  <script>
+    document.getElementById('event-select').addEventListener('change', function() {
+      document.getElementById('selected-event').value = this.value;
+    });
   </script>
 
 
