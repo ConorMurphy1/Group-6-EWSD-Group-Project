@@ -8,9 +8,74 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Traits\UploadTrait;
 use App\Models\Event;
 use RealRashid\SweetAlert\Facades\Alert;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\CSV_Export;
+use ZipArchive;
 
 class IdeaController extends Controller
 {
+    public function exportToCSV(Request $request)
+    {
+        $event_id = $request->input('event');
+        if($event_id = null || $event_id == '')
+        {
+            return redirect()->back()->with('error', 'Please select event to make export!');
+        }
+        else
+        {
+            $fileName = 'idea-csv.csv';
+    
+            // Export and store the CSV file
+            Excel::store(new CSV_Export($event_id), $fileName);
+        
+            // Flash a success message to the session
+            session()->flash('success', 'CSV exported successfully');
+        
+            // Download the CSV file and delete it after sending
+            $path = storage_path('app/'.$fileName);
+            $response = response()->download($path)->deleteFileAfterSend(true);
+            $response->headers->set('Content-Type', 'text/csv');
+            
+            return $response;
+        }
+ 
+    }
+    
+
+
+    public function downloadDocument(Request $request)
+    {
+        $event_id = $request->input('event');
+        $ideas = Idea::where('event_id', $event_id)->whereNotNull('document')->get();
+
+        if ($ideas->isEmpty()) {
+            // Return an error message if there are no ideas with a document attachment
+            return redirect()->back()->with('error', 'No ideas with document attachments found for selected event.');
+        }
+
+        $zip = new ZipArchive;
+        $fileName = 'event-' . $event_id . '-documents.zip';
+
+        if ($zip->open($fileName, ZipArchive::CREATE) !== TRUE) {
+            return redirect()->back()->with('error', 'Failed to create zip file');
+        }
+
+        foreach ($ideas as $idea) {
+            $filePath = storage_path('app/public/' . $idea->document);
+
+            if (file_exists($filePath)) {
+                $zip->addFile($filePath, $idea->document);
+            }
+        }
+
+        $zip->close();
+
+        return response()->download(public_path($fileName))->deleteFileAfterSend(true);
+    }
+
+
+
+
     use UploadTrait;
     /**
      * Display a listing of the resource.
@@ -55,8 +120,8 @@ class IdeaController extends Controller
             'document' => 'nullable|mimes:pdf,xls,doc',
             'closure_date' => 'required|date'
         ]);
-        if($request->image){
-            $imageName = $this->uploadImage('image','images');
+        if ($request->image) {
+            $imageName = $this->uploadImage('image', 'images');
             $data['image'] = $imageName;
         }
         if ($request->hasFile('document')) {

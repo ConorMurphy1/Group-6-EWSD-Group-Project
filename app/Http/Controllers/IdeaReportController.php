@@ -6,6 +6,7 @@ use App\Models\Idea;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Session;
 
 class IdeaReportController extends Controller
 {
@@ -13,6 +14,8 @@ class IdeaReportController extends Controller
     {
 
         $eventId = $request->input('event');
+        $successMessage = Session::get('success');
+        // dd(Session::get('success'));
 
         if ($eventId) 
         {

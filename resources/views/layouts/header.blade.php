@@ -19,6 +19,9 @@
 	<!-- Sweet Alert -->
 	<link rel="stylesheet" href="{{asset('adminpanel/assets/plugin/sweet-alert/sweetalert.css')}}">
 
+	<!-- Bootstrap Icon -->
+	<link rel="stylesheet" href="{{asset('node_modules/bootstrap-icons/font/bootstrap-icons.css')}}">
+
 	<!-- Percent Circle -->
 	<link rel="stylesheet" href="{{asset('adminpanel/assets/plugin/percircle/css/percircle.css')}}">
 
