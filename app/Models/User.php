@@ -69,4 +69,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class);
     }
+    public function ideas()
+    {
+        return $this->hasMany(Idea::class, 'user_id');
+    }
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\IdeaReportController;
 use App\Http\Controllers\CsvExportController;
+use App\Http\Controllers\reportQACoordinatorController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{IdeaController, IdeaReactionController, NewsFeedController, EventController, IdeaCommentController, UserDashboardController};
 // For Role Entry
@@ -134,6 +135,7 @@ Route::get('/', function() {
      */
     // Route::resource('report',[IdeaReportController::class, 'chartData']);
     Route::resource('report', IdeaReportController::class );
+    Route::resource('reportQACoordinator', reportQACoordinatorController::class );
 
     /**
      * CSV Export
