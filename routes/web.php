@@ -5,7 +5,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\IdeaReportController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{IdeaController, IdeaReactionController, NewsFeedController, EventController, IdeaCommentController, UserDashboardController};
+use App\Http\Controllers\{IdeaController, IdeaReactionController, NewsFeedController, EventController, IdeaCommentController, SessionController, UserDashboardController};
 // For Role Entry
 use App\Http\Controllers\RoleEntryController;
 
@@ -36,13 +36,16 @@ use App\Models\IdeaReaction;
 /**
  * User related routes
  */
-Route::get('/login', [UserController::class, 'create'])
+Route::get('/login', [SessionController::class, 'create'])
     ->name('login')
     ->middleware('guest');
-Route::post('/login', [UserController::class, 'login'])
+Route::post('/login', [SessionController::class, 'login'])
     ->middleware('guest');
-Route::post('/logout', [UserController::class, 'logout'])
+Route::post('/logout', [SessionController::class, 'logout'])
     ->middleware('auth')->name('logout');
+Route::delete('/profile', [SessionController::class, 'destroy'])
+    ->name('profile.delete')
+    ->middleware('auth');
 
 /** for first attempt - the user will have to update their password for security concerns */
 Route::get('/update-password', [PasswordController::class, 'create'])
@@ -66,9 +69,10 @@ Route::get('/profile/edit', [UserController::class, 'edit'])
 Route::put('/profile', [UserController::class, 'update'])
     ->name('profile.update')
     ->middleware('auth');
-Route::delete('/profile', [UserController::class, 'destroy'])
-    ->name('profile.delete')
-    ->middleware('auth');
+
+
+Route::get('/users', [UserController::class, 'index'])->name('users.index')->middleware(['auth', 'admin']);
+Route::get('/users/create', [UserController::class, 'create'])->name('users.create')->middleware(['auth', 'admin']);
 
 /**
  * Newsfeed displaying ideas

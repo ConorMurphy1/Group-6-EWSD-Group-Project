@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -9,9 +10,15 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
 {
+    public function index()
+    {
+        $users = User::paginate(5);
+        return view('users.index', compact('users'));
+    }
+
     public function create()
     {
-        return view('users.login');
+        return view('users.create');
     }
 
     public function show()
@@ -45,53 +52,8 @@ class UserController extends Controller
 
         auth()->user()->update($userData);
 
-        return redirect()->route('profile')->with('success', 'Profile Updated Successfully!');
+        Alert::toast('Profile updated successfully', 'success');
+        return redirect()->route('profile');
     }
 
-    public function destroy()
-    {
-        /** soft delete the user account */
-        auth()->user()->delete();
-        
-        return redirect()->route('home')->with('success', 'Account deactivated successfully');
-    }
-
-    public function login(Request $request)
-    {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
-
-        if(!auth()->attempt($credentials))
-        {
-            return back()->withInput()->withErrors(['email' => 'Your prvoided credentials could not be verified']);
-        }
-
-        session()->regenerate();
-
-        /** if the user still haven't change the password for the first the first time, user will keep redirected to */
-        if(!auth()->user()->is_updated)
-        {
-            Alert::toast('Please update your password for security concerns', 'warning');
-            return redirect()->route('profile.update.onetime');
-        }
-
-        if(auth()->user()->role->role === "Admin"){
-            return redirect()->route('home')->with('success', 'Welcome!!');
-        }
-            
-        return redirect()->route('ideas.index')->with('success', 'Welcome!!');
-    }
-
-    public function logout()
-    {
-        auth()->logout();
-
-        /** remove all data from a session */
-        session()->flush();
-
-        Alert::toast('See you again soon!', 'success');
-        return redirect()->route('login')->with('success', 'Goodbye!');
-    }
 }
