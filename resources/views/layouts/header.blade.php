@@ -42,6 +42,13 @@
 		button{
 			background-color: #304ffe!important;
 		}
+
+		.custom-button {
+			background-color: rgb(252, 75, 75) !important;
+		}
+		.custom-button:hover {
+			background-color: rgb(247, 24, 24) !important
+		}
 	</style>
 
 	<script src="https://cdn.tailwindcss.com"></script>

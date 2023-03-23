@@ -7,6 +7,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class RegisterController extends Controller
 {
@@ -38,7 +39,9 @@ class RegisterController extends Controller
         $userData['role_id'] = $request->input('role');
 
         User::create($userData);
+        
 
+        Alert::toast('New user registered successfully', 'success');
         return redirect()->route('home')->with('success', 'User enrolled successfully');
     }
 }

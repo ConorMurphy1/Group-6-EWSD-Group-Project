@@ -110,9 +110,10 @@
 				</ul>
 				<a href="#" class="read-more">More</a>
 			</div>
-			<!-- /.toggle-content -->
 		</div>
-
+        <div class="ico-item">
+            <a href="/profile">Profile</a>
+        </div>
         <form action="{{route('logout')}}" method="POST" class="inline">
             @csrf
             {{-- <a href="#" class="ico-item fa fa-power-off js__logout"></a> --}}

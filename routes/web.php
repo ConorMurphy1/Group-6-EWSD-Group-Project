@@ -4,8 +4,6 @@ use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\IdeaReportController;
-use App\Http\Controllers\CsvExportController;
-use App\Http\Controllers\reportQACoordinatorController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{IdeaController, IdeaReactionController, NewsFeedController, EventController, IdeaCommentController, UserDashboardController};
 // For Role Entry
@@ -48,6 +46,7 @@ Route::post('/logout', [UserController::class, 'logout'])
 
 /** for first attempt - the user will have to update their password for security concerns */
 Route::get('/update-password', [PasswordController::class, 'create'])
+    ->name('profile.update.onetime')
     ->middleware('auth');
 Route::post('/update-password', [PasswordController::class, 'store'])
     ->middleware('auth');
@@ -135,15 +134,6 @@ Route::get('/', function() {
      */
     // Route::resource('report',[IdeaReportController::class, 'chartData']);
     Route::resource('report', IdeaReportController::class );
-    Route::resource('reportQACoordinator', reportQACoordinatorController::class );
-
-    /**
-     * CSV Export
-     */
-    Route::resource('/export-csv', CsvExportController::class);
-    Route::get('/export-csv-download', [IdeaController::class,'exportToCSV'])->name('export-csv-download');
-    Route::get('/export-csv', [CsvExportController::class, 'index'])->name('export-csv');
-    Route::get('/download-document', [IdeaController::class, 'downloadDocument'])->name('download-document');
 
     /**
      * Event
@@ -154,7 +144,6 @@ Route::get('/', function() {
 // }
 // else{
 
-  
 Route::group(['middleware' => ['web', 'auth']], function(){
 
     });

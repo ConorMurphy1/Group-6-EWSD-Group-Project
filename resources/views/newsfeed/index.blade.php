@@ -25,7 +25,7 @@
 
         @if ($idea->image ?? false)
         <div class="bg-gray-200 border border-gray-300 rounded w-96 h-60 flex justify-center items-center">
-            <img src="{{ asset($idea->image) }}" alt="" style="max-width: 100%; max-height: 100%; object-fit:contain">
+            <img src="{{ file_exists(asset('storage/'.$idea->image)) ? asset('storage/'.$idea->image) : asset($idea->image) }}" alt="" style="max-width: 100%; max-height: 100%; object-fit:contain">
         </div>
         @endif
 

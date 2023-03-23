@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
 {
@@ -72,15 +73,15 @@ class UserController extends Controller
         /** if the user still haven't change the password for the first the first time, user will keep redirected to */
         if(!auth()->user()->is_updated)
         {
-            return redirect('/update-password')->with('success', 'Please update your password for security concerns');
+            Alert::toast('Please update your password for security concerns', 'warning');
+            return redirect()->route('profile.update.onetime');
         }
 
         if(auth()->user()->role->role === "Admin"){
             return redirect()->route('home')->with('success', 'Welcome!!');
         }
-        else{
-            return redirect()->route('ideas.index')->with('success', 'Welcome!!');
-        }
+            
+        return redirect()->route('ideas.index')->with('success', 'Welcome!!');
     }
 
     public function logout()
@@ -90,6 +91,7 @@ class UserController extends Controller
         /** remove all data from a session */
         session()->flush();
 
+        Alert::toast('See you again soon!', 'success');
         return redirect()->route('login')->with('success', 'Goodbye!');
     }
 }
