@@ -48,25 +48,25 @@ Route::middleware(['auth'])->group(function() {
 
 
 /** Admin related User CRUD routes */
-Route::middleware(['auth', 'admin'])->group(function() {
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function() {
     /** section of admin-panel where admin controls the user account CRUD operations */
-    Route::get('admin/users', [AdminUserController::class, 'index'])->name('admin.users.index');
-    Route::get('/admin/user/register', [AdminUserController::class, 'create'])->name('admin.users.create');
-    Route::post('/admin/user/store', [AdminUserController::class, 'store'])->name('admin.users.store');
-    Route::get('/admin/user/{user:id}/edit', [AdminUserController::class, 'edit'])->name('admin.users.edit');
-    Route::put('/admin/user/{user:id}/update', [AdminUserController::class, 'update'])->name('admin.users.update');
-    Route::delete('/admin/user/{user:id}/destroy', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
+    Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users.index');
+    Route::get('/user/register', [AdminUserController::class, 'create'])->name('admin.users.create');
+    Route::post('/user/store', [AdminUserController::class, 'store'])->name('admin.users.store');
+    Route::get('/user/{user:id}/edit', [AdminUserController::class, 'edit'])->name('admin.users.edit');
+    Route::put('/user/{user:id}/update', [AdminUserController::class, 'update'])->name('admin.users.update');
+    Route::delete('/user/{user:id}/destroy', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
     
     /** section of admin-panel where admin can reactivate the user accounts */
-    Route::get('/admin/users/deleted', [AdminDeletedUserController::class, 'index'])->name('admin.users.deleted.index');
-    Route::put('/admin/users/deleted/{id}/reactivate', [AdminDeletedUserController::class, 'reactivate'])->name('admin.users.deleted.reactivate');
-    Route::delete('/admin/users/deleted/{id}/destroy', [AdminDeletedUserController::class, 'destroy'])->name('admin.users.deleted.destroy');
+    Route::get('/users/deleted', [AdminDeletedUserController::class, 'index'])->name('admin.users.deleted.index');
+    Route::put('/users/deleted/{id}/reactivate', [AdminDeletedUserController::class, 'reactivate'])->name('admin.users.deleted.reactivate');
+    Route::delete('/users/deleted/{id}/destroy', [AdminDeletedUserController::class, 'destroy'])->name('admin.users.deleted.destroy');
     
     /** section of admin-panel where admin controls his own account/profile updates */
-    Route::get('/admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
-    Route::get('/admin/edit', [AdminController::class, 'edit'])->name('admin.edit');
-    Route::put('/admin/update', [AdminController::class, 'update'])->name('admin.update');
-    Route::delete('/admin/destroy', [AdminController::class, 'destroy'])->name('admin.destroy');
+    Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile');
+    Route::get('/edit', [AdminController::class, 'edit'])->name('admin.edit');
+    Route::put('/update', [AdminController::class, 'update'])->name('admin.update');
+    Route::delete('/destroy', [AdminController::class, 'destroy'])->name('admin.destroy');
 });
 
 /** section of user-panel where user controls his own account/profile updates */
@@ -107,6 +107,7 @@ Route::resource('comments', CommentController::class);
     /**
      * Department(Dashboard) related routes
      */
+    
     Route::resource('departments', DepartmentController::class);
 
     /**
