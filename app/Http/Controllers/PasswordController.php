@@ -9,7 +9,7 @@ class PasswordController extends Controller
 {
     public function create()
     {
-        return view('register.update-password');
+        return view('users.update-password');
     }
 
     public function store(Request $request)

@@ -1,3 +1,7 @@
+@php
+	$user = auth()->user();
+@endphp
+
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -44,10 +48,17 @@
 		}
 
 		.custom-button {
-			background-color: rgb(252, 75, 75) !important;
+			background-color: rgb(229, 77, 77) !important;
 		}
 		.custom-button:hover {
-			background-color: rgb(247, 24, 24) !important
+			background-color: rgb(237, 44, 44) !important;
+		}
+
+		.custom-button-green {
+			background-color: #64AA64 !important;
+		}
+		.custom-button-green:hover {
+			background-color: #219e21 !important;
 		}
 	</style>
 
@@ -58,12 +69,12 @@
 <body>
 <div class="main-menu">
 	<header class="header">
-		<a href="{{route('home')}}" class="logo">NinjaTeam</a>
+		<a href="{{route('home')}}" class="logo">G6</a>
 		<button type="button" class="button-close fa fa-times js__menu_close"></button>
 		<div class="user">
 			<a href="#" class="avatar"><img src="http://placehold.it/80x80" alt=""><span class="status online"></span></a>
-			<h5 class="name"><a href="profile.html">Emily Stanley</a></h5>
-			<h5 class="position">Administrator</h5>
+			<h5 class="name"><a href="{{ route('admin.profile') }}">{{ $user->full_name }}</a></h5>
+			<h5 class="position">{{ $user->department->name }}</h5>
 			<!-- /.name -->
 			<div class="control-wrap js__drop_down">
 				<i class="fa fa-caret-down js__drop_down_button"></i>
@@ -100,7 +111,7 @@
 					<ul class="sub-menu js__content">
 						<li><a class="waves-effect" href="{{ route('role.index') }}"><i class="menu-icon fa fa-users"></i><span>Roles</span></a></li>
 						<li><a class="waves-effect" href="{{ route('departments.index') }}"><i class="menu-icon fa fa-university"></i><span>Departments</span></a></li>
-                        <li><a class="waves-effect" href="{{ route('users.index') }}"><i class="menu-icon fa fa-user-plus"></i><span>Users</span></a></li>
+                        <li><a class="waves-effect" href="{{ route('admin.users.index') }}"><i class="menu-icon fa fa-user-plus"></i><span>Users</span></a></li>
 
 
 					</ul>
@@ -131,7 +142,7 @@
 			<!-- /.title -->
 			<ul class="menu js__accordion">
 				<li>
-					<a class="waves-effect" href="profile.html"><i class="menu-icon fa fa-user"></i><span>Profile</span></a>
+					<a class="waves-effect" href="{{ route('admin.profile') }}"><i class="menu-icon fa fa-user"></i><span>Profile</span></a>
 				</li>
 
 

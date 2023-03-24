@@ -10,34 +10,22 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
 {
-    public function index()
+    /** User profile */
+    public function profile()
     {
-        $users = User::paginate(5);
-        return view('users.index', compact('users'));
-    }
-
-    public function create()
-    {
-        return view('users.create');
-    }
-
-    public function show()
-    {
-        return view('users.show', [
-            'user' => auth()->user()
-        ]);
+        $user = auth()->user();
+        return view('users.profile', compact('user'));
     }
 
     public function edit()
     {
-        return view('users.edit', [
-            'user' => auth()->user()
-        ]);
+        $user = auth()->user();
+        return view('users.edit', compact('user'));
     }
 
+    /** update the user password for the first time for security concerns */
     public function update(Request $request)
     {   
-        
         $userData = $request->validate([
             'username' => ['required', Rule::unique('users')->ignore(auth()->id()), 'max:50'],
             'firstname' => ['required', 'max:50'],
@@ -56,4 +44,8 @@ class UserController extends Controller
         return redirect()->route('profile');
     }
 
+    public function destroy()
+    {
+        
+    }
 }

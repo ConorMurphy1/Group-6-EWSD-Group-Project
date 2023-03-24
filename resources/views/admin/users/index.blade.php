@@ -4,9 +4,9 @@
     <div class="col-xs-12">
         <div class="center">
             <div class="box-content">
-                <h4 class="box-title">users</h4>
+                <h4 class="box-title">Users</h4>
                 <div>
-                    <a href="{{route('users.create')}}" class="btn btn-success justify-content-end">+Add New</a>
+                    <a href="{{route('admin.users.create')}}" class="btn btn-success justify-content-end">+ Add New</a>
                 </div>
                 <!-- /.box-title -->
                 <div class="dropdown js__drop_down">
@@ -31,11 +31,9 @@
                                 <th>First Name</th>
                                 <th>Last Name</th>
                                 <th>Email</th>
-                                <th>Password</th>
                                 <th>Updated</th>
                                 <th>Department</th>
                                 <th>Role</th>
-                                <th>Deleted At</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -56,17 +54,27 @@
                                 <td>{{ $user->firstname }}</td>
                                 <td>{{ $user->lastname }}</td>
                                 <td>{{ $user->email }}</td>
-                                <td>{{ $user->password}}</td>
                                 <td>{{ $user->is_updated ? 'Yes' : 'No'}}</td>
-                                <td>{{ $user->department->name }}</td>
-                                <td>{{ $user->role->role }}</td>
-                                <td>{{ $user->deleted_at ?? 'Null' }}</td>
+                                @if (ucfirst($user->role->role == 'Admin'))
+                                <td class="text-rose-700">{{ $user->department->name }}</td>
+                                <td class="text-rose-700">{{ $user->role->role }}</td>
+                                @elseif(ucfirst($user->role->role == 'QA Manager'))
+                                <td class="text-amber-500">{{ $user->department->name }}</td>
+                                <td class="text-amber-500">{{ $user->role->role }}</td>
+                                @elseif(ucfirst($user->role->role == 'QA Coordinator'))
+                                <td class="text-blue-700">{{ $user->department->name }}</td>
+                                <td class="text-blue-700">{{ $user->role->role }}</td>
+                                @else
+                                <td class="text-lime-700">{{ $user->department->name }}</td>
+                                <td class="text-lime-700">{{ $user->role->role }}</td>
+                                @endif
+                                
                                 <td class="flex-warp">
                                     <div class="mx-3 text-center">
-                                        <form action="{{ route('profile.delete', $user->id) }}" method="post">
+                                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="post">
                                             @csrf 
                                             @method('delete')
-                                            <a href="{{ route('profile.edit', $user->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Edit">
+                                            <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Edit">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete?')" data-toggle="tooltip" data-placement="top" title="Delete">
@@ -84,6 +92,9 @@
                 <!-- /.table-responsive -->
             </div>
             <!-- /.box-content -->
+            <div class="my-6 py-2 px-4 rounded-md w-fit bg-gray-300 text-gray-900 hover:bg-gray-400">
+                <a href="{{ route('admin.users.deleted.index') }}" class="hover:text-gray-900">Check deactivated accounts</a>
+            </div>
         </div>
     </div>
 @endsection

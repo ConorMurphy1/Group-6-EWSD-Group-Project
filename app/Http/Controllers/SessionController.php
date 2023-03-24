@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class SessionController extends Controller
 {
     public function create()
     {
-        return view('users.login');
+        return view('sessions.login');
     }
 
     public function login(Request $request)
@@ -29,7 +30,7 @@ class SessionController extends Controller
         if(!auth()->user()->is_updated)
         {
             Alert::toast('Please update your password for security concerns', 'warning');
-            return redirect()->route('profile.update.onetime');
+            return redirect()->route('password.create');
         }
 
         if(auth()->user()->role->role === "Admin"){
@@ -49,13 +50,4 @@ class SessionController extends Controller
         Alert::toast('See you again soon!', 'success');
         return redirect()->route('login')->with('success', 'Goodbye!');
     }
-
-    public function destroy()
-    {
-        /** soft delete the user account */
-        auth()->user()->delete();
-
-        return redirect()->route('home');
-    }
-}
 }

@@ -11,7 +11,7 @@
         <div class="mb-4">
             <h1 class="font-semibold text-center">Update password</h1>
         </div>
-        <form action="/update-password" method="POST">
+        <form action="{{ route('password.update') }}" method="POST">
             @csrf
             <div class="mb-4">
                 <label for="password" class="block mb-2 font-medium text-gray-900 dark:text-white">New Password</label>

@@ -9,34 +9,12 @@
             <span>back</span>
         </a>
         <div>
-            <h1 class="font-semibold text-center">Edit profile</h1>
+            <h1 class="font-semibold mb-10 text-center">Edit profile</h1>
         </div>
-        <form action="{{route('profile.update')}}" method="POST">
+        <form action="{{route('password.update')}}" method="POST">
             @method('PUT')
             @csrf
-            <div class="mb-4">
-                <label for="username" class="block mb-2 font-medium text-gray-900 dark:text-white">Username</label>
-                <input type="text" id="username" name="username" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="johndoe" value="{{$user->username}}">
-                @error('username')
-                    <p class="text-red-500">{{$message}}</p>
-                @enderror
-            </div>
-            <div class="mb-4">
-                <label for="first_name" class="block mb-2 font-medium text-gray-900 dark:text-white">First name</label>
-                <input type="text" id="first_name" name="firstname" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" value="{{$user->firstname}}">
-                @error('firstname')
-                    <p class="text-red-500">{{$message}}</p>
-                @enderror
-            </div>
-            <div class="mb-20">
-                <label for="last_name" class="block mb-2 font-medium text-gray-900 dark:text-white">Last name</label>
-                <input type="text" id="last_name" name="lastname" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Doe" value="{{$user->lastname}}">
-                @error('lastname')
-                    <p class="text-red-500">{{$message}}</p>
-                @enderror
-            </div>
-
-            <div class="mb-4">
+            <div class="mb-10">
                 <label for="old_password" class="block mb-2 font-medium text-gray-900 dark:text-white">Old Password</label>
                 <input type="password" id="old_password" name="old_password" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 @error('old_password')

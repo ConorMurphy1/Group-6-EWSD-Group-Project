@@ -1,11 +1,10 @@
 <?php
 
 use App\Http\Controllers\PasswordController;
-use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\IdeaReportController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{IdeaController, IdeaReactionController, NewsFeedController, EventController, IdeaCommentController, SessionController, UserDashboardController};
+use App\Http\Controllers\{AdminController, AdminDeletedUserController, AdminUserController, IdeaController, IdeaReactionController, NewsFeedController, EventController, IdeaCommentController, SessionController, UserDashboardController};
 // For Role Entry
 use App\Http\Controllers\RoleEntryController;
 
@@ -17,7 +16,6 @@ use App\Http\Controllers\DepartmentController;
 
 // For Comments
 use App\Http\Controllers\CommentController;
-use App\Models\IdeaReaction;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,82 +28,69 @@ use App\Models\IdeaReaction;
 |
 */
 
+Route::get('/', function() {
+    return view('home');
+})->name('home')->middleware('auth');
 
 
+/** login, logout and handling user passwords */
+Route::middleware(['guest'])->group(function() {
+    Route::get('/login', [SessionController::class, 'create'])->name('session.create');
+    Route::post('/login', [SessionController::class, 'login'])->name('login');
+});
 
-/**
- * User related routes
- */
-Route::get('/login', [SessionController::class, 'create'])
-    ->name('login')
-    ->middleware('guest');
-Route::post('/login', [SessionController::class, 'login'])
-    ->middleware('guest');
-Route::post('/logout', [SessionController::class, 'logout'])
-    ->middleware('auth')->name('logout');
-Route::delete('/profile', [SessionController::class, 'destroy'])
-    ->name('profile.delete')
-    ->middleware('auth');
+Route::middleware(['auth'])->group(function() {
+    Route::post('/logout', [SessionController::class, 'logout'])->name('logout');
 
-/** for first attempt - the user will have to update their password for security concerns */
-Route::get('/update-password', [PasswordController::class, 'create'])
-    ->name('profile.update.onetime')
-    ->middleware('auth');
-Route::post('/update-password', [PasswordController::class, 'store'])
-    ->middleware('auth');
-
-Route::get('/register', [RegisterController::class, 'create'])
-    ->name('register')
-    ->middleware('admin');
-Route::post('/register', [RegisterController::class, 'store'])
-    ->middleware('admin');
-
-Route::get('/profile', [UserController::class, 'show'])
-    ->name('profile')
-    ->middleware('auth');
-Route::get('/profile/edit', [UserController::class, 'edit'])
-    ->name('profile.edit')
-    ->middleware('auth');
-Route::put('/profile', [UserController::class, 'update'])
-    ->name('profile.update')
-    ->middleware('auth');
+    /** for first attempt - the user will have to update their password for security concerns */
+    Route::get('/update-password', [PasswordController::class, 'create'])->name('password.create');
+    Route::post('/update-password', [PasswordController::class, 'store'])->name('password.update');
+});
 
 
-Route::get('/users', [UserController::class, 'index'])->name('users.index')->middleware(['auth', 'admin']);
-Route::get('/users/create', [UserController::class, 'create'])->name('users.create')->middleware(['auth', 'admin']);
+/** Admin related User CRUD routes */
+Route::middleware(['auth', 'admin'])->group(function() {
+    /** section of admin-panel where admin controls the user account CRUD operations */
+    Route::get('admin/users', [AdminUserController::class, 'index'])->name('admin.users.index');
+    Route::get('/admin/user/register', [AdminUserController::class, 'create'])->name('admin.users.create');
+    Route::post('/admin/user/store', [AdminUserController::class, 'store'])->name('admin.users.store');
+    Route::get('/admin/user/{user:id}/edit', [AdminUserController::class, 'edit'])->name('admin.users.edit');
+    Route::put('/admin/user/{user:id}/update', [AdminUserController::class, 'update'])->name('admin.users.update');
+    Route::delete('/admin/user/{user:id}/destroy', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
+    
+    /** section of admin-panel where admin can reactivate the user accounts */
+    Route::get('/admin/users/deleted', [AdminDeletedUserController::class, 'index'])->name('admin.users.deleted.index');
+    Route::put('/admin/users/deleted/{id}/reactivate', [AdminDeletedUserController::class, 'reactivate'])->name('admin.users.deleted.reactivate');
+    Route::delete('/admin/users/deleted/{id}/destroy', [AdminDeletedUserController::class, 'destroy'])->name('admin.users.deleted.destroy');
+    
+    /** section of admin-panel where admin controls his own account/profile updates */
+    Route::get('/admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
+    Route::get('/admin/edit', [AdminController::class, 'edit'])->name('admin.edit');
+    Route::put('/admin/update', [AdminController::class, 'update'])->name('admin.update');
+    Route::delete('/admin/destroy', [AdminController::class, 'destroy'])->name('admin.destroy');
+});
 
-/**
- * Newsfeed displaying ideas
- */
+/** section of user-panel where user controls his own account/profile updates */
+Route::get('/{user:id}/profile', [UserController::class, 'profile'])->name('user.profile')->middleware('auth');
+Route::get('/{user:id}/edit', [UserController::class, 'edit'])->name('user.edit')->middleware('auth');
+Route::get('/{user:id}/update', [UserController::class, 'update'])->name('user.update')->middleware('auth');
+Route::get('/{user:id}/destroy', [UserController::class, 'destroy'])->name('user.destroy')->middleware('auth');
+
+/** displaying ideas, commeting and reactions in userpanel */
 Route::middleware(['auth'])->group(function() {
     Route::get('/newsfeed', [NewsFeedController::class, 'index'])->name('ideas.feed');
-});
-
-/**
- * Idea Reactions
- */
-Route::middleware(['auth'])->group(function() {
     Route::post('/idea/{idea:id}/like', [IdeaReactionController::class, 'like'])->name('like');
     Route::post('/idea/{idea:id}/unlike', [IdeaReactionController::class, 'unlike'])->name('unlike');
+    Route::post('/idea/{idea:id}/comment', [IdeaCommentController::class, 'store'])->name('idea.comments.store');
+    Route::get('/idea/{idea:id}/comment', [IdeaCommentController::class, 'index'])->name('idea.comments.index');
 });
 
-/**
- * Comment CRUD 
- * Comment that relates to the specific idea
- */
-Route::middleware(['auth'])->group(function() {
-    Route::get('/idea/{idea:id}/comment', [IdeaCommentController::class, 'index'])->name('idea.comments.index');
-    Route::post('/idea/{idea:id}/comment', [IdeaCommentController::class, 'store'])->name('idea.comments.store');
-});
 
 Route::resource('comments', CommentController::class);
 
 // (for not working with seeder yet)
 // Route::resource('departments', DepartmentController::class);
 
-Route::get('/', function() {
-    return view('home');
-})->name('home')->middleware('auth');
 
 // dd(auth()->user());
 // if (auth()->user()->role->role === "Admin"){
