@@ -33,7 +33,6 @@
                     <button class="custom-button w-60 block px-6 py-3 rounded-lg text-white" onclick="return confirm('Are you sure you want to delete the admin account?')" data-toggle="tooltip" data-placement="top" title="Delete">Delete Account</button>
                 </form>
             </div>
-
         </div>
     </div>
 @endsection

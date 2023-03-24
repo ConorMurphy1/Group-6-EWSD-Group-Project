@@ -21,7 +21,7 @@ class IdeaFactory extends Factory
             'title' => fake()->sentence(),
             'image' => 'images/test.png',
             'description' => fake()->paragraph(),
-            'user_id' => 1,
+            'user_id' => rand(1,4),
             'department_id' => rand(1,5),
             'event_id' => 1,
             'closure_date' => Carbon::now()->addMonth()

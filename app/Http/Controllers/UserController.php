@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Idea;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -11,42 +12,42 @@ use RealRashid\SweetAlert\Facades\Alert;
 class UserController extends Controller
 {
     /** User profile */
-    public function profile()
+    public function profile(User $user)
     {
-        $user = auth()->user();
-        return view('users.profile', compact('user'));
+        $ideas = Idea::where('user_id', $user->id)->latest()->get();
+
+        return view('users.show', compact('user', 'ideas'));
     }
 
-    public function edit()
+    /** another user checks the user profile */
+    public function show(Request $request)
     {
-        $user = auth()->user();
+        $username = $request->query('username');
+        $user = User::where('username', $username)->first();
+        
+        $ideas = Idea::where('user_id', $user->id)->latest()->get();
+
+        return view('users.show', compact('user', 'ideas'));
+    }
+
+    public function edit(User $user)
+    {
         return view('users.edit', compact('user'));
     }
 
     /** update the user password for the first time for security concerns */
-    public function update(Request $request)
+    public function update(Request $request, User $user)
     {   
         $userData = $request->validate([
             'username' => ['required', Rule::unique('users')->ignore(auth()->id()), 'max:50'],
             'firstname' => ['required', 'max:50'],
             'lastname' => ['required', 'max:50'],
-            'password' => ['required', 'confirmed', 'different:old_password']
         ]);
 
-        if(!Hash::check($request->input('old_password'), auth()->user()->password))
-        {
-            return back()->withInput()->withErrors(['old_password' => 'Incorrect password']);
-        }
-
-        auth()->user()->update($userData);
+        $user->update($userData);
 
         Alert::toast('Profile updated successfully', 'success');
-        return redirect()->route('profile');
-    }
-
-    public function destroy()
-    {
-        
+        return redirect()->route('user.profile', $user->username);
     }
 }
 

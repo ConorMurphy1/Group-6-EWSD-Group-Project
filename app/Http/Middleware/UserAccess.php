@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class AdminAccess
+class UserAccess
 {
     /**
      * Handle an incoming request.
@@ -17,12 +17,18 @@ class AdminAccess
      */
     public function handle(Request $request, Closure $next)
     {
-        if(auth()->user() && strtolower(auth()->user()->role->role) == 'admin')
+        if(auth()->user() && 
+            (
+               strtolower(auth()->user()->role->role) == 'staff' 
+            || strtolower(auth()->user()->role->role) == 'qa manager' 
+            || strtolower(auth()->user()->role->role) == 'qa coordinator'
+            )
+        )
         {
             return $next($request);
         }
 
-        Alert::toast('Trying to access the invalid url', 'error');
+        Alert::toast('Admin cannot access the user specific urls', 'error');
         return redirect()->route('home');
     }
 }

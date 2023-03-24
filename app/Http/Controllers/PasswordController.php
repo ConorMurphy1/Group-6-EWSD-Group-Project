@@ -4,14 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PasswordController extends Controller
 {
-    public function create()
-    {
-        return view('users.update-password');
-    }
-
     public function store(Request $request)
     {
         $newPassword = $request->validate([
@@ -29,6 +25,7 @@ class PasswordController extends Controller
 
         auth()->user()->update($newPassword);
 
-        return redirect()->route('home')->with('success', 'Password updated!');
+        Alert::toast('Password changed successfully', 'success');
+        return redirect()->route('user.profile', auth()->user()->username);
     }
 }

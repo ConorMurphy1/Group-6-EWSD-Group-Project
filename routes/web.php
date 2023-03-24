@@ -18,6 +18,7 @@ use App\Http\Controllers\DepartmentController;
 
 // For Comments
 use App\Http\Controllers\CommentController;
+use App\Models\Idea;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,10 +44,6 @@ Route::middleware(['guest'])->group(function() {
 
 Route::middleware(['auth'])->group(function() {
     Route::post('/logout', [SessionController::class, 'logout'])->name('logout');
-
-    /** for first attempt - the user will have to update their password for security concerns */
-    Route::get('/update-password', [PasswordController::class, 'create'])->name('password.create');
-    Route::post('/update-password', [PasswordController::class, 'store'])->name('password.update');
 });
 
 
@@ -73,10 +70,14 @@ Route::middleware(['auth', 'admin'])->group(function() {
 });
 
 /** section of user-panel where user controls his own account/profile updates */
-Route::get('/{user:id}/profile', [UserController::class, 'profile'])->name('user.profile')->middleware('auth');
-Route::get('/{user:id}/edit', [UserController::class, 'edit'])->name('user.edit')->middleware('auth');
-Route::get('/{user:id}/update', [UserController::class, 'update'])->name('user.update')->middleware('auth');
-Route::get('/{user:id}/destroy', [UserController::class, 'destroy'])->name('user.destroy')->middleware('auth');
+Route::middleware(['auth'])->group(function() {
+    Route::get('/users', [UserController::class, 'show'])->name('user.show');
+    Route::get('/{user:username}/profile', [UserController::class, 'profile'])->name('user.profile');
+    Route::get('/{user:username}/edit', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('/{user:username}/update', [UserController::class, 'update'])->name('user.update');
+    
+    Route::put('/update-password', [PasswordController::class, 'store'])->name('password.update');
+});
 
 /** displaying ideas, commeting and reactions in userpanel */
 Route::middleware(['auth'])->group(function() {

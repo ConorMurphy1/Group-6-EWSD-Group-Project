@@ -35,6 +35,10 @@ return new class extends Migration
                 'role' => 'Admin',
                 
             ],
+            [
+                'role' => 'Staff',
+                
+            ],
         ]);
     
 

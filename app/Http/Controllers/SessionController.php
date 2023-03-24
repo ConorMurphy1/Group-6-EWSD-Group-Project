@@ -30,7 +30,7 @@ class SessionController extends Controller
         if(!auth()->user()->is_updated)
         {
             Alert::toast('Please update your password for security concerns', 'warning');
-            return redirect()->route('password.create');
+            return redirect()->route('user.edit', auth()->user()->username);
         }
 
         if(auth()->user()->role->role === "Admin"){

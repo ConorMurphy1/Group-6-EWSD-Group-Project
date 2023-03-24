@@ -24,10 +24,10 @@ class IdeaSeeder extends Seeder
             'end_date' => Carbon::now()->addMonth(),
         ]);
 
-        Idea::factory(10)->create([
+        Idea::factory(20)->create([
             'event_id' => $event->id,
         ]);
 
-        Comment::factory(20)->create();
+        Comment::factory(30)->create();
     }
 }

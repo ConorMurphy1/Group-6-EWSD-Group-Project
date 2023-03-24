@@ -45,5 +45,15 @@ class UserSeeder extends Seeder
             // 'department_id' => 1,
             'role_id' => 2,
         ]);
+        User::factory()->create([
+            'username' => 'johndoe',
+            'firstname' => 'John',
+            'lastname' => 'Doe',
+            'email' => 'johndoe@email.com',
+            'password' => 'password',
+            'is_updated' => true,
+            'department_id' => 4,
+            'role_id' => 4,
+        ]);
     }
 }

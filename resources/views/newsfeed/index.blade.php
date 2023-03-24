@@ -5,11 +5,11 @@
 @foreach ($ideas as $idea)
 
     {{-- TODO: later convert tailwind to BS-4 --}}
-    <div class="col-md-8 col-lg-8 px-2 py-5">
-        <div>
+    <div class="col-md-8 col-lg-8 px-4 py-3 bg-slate-50/[0.4] shadow-sm rounded mb-8">
+        <div class="relative">
             <div class="flex justify-between items-center">
                 <div class="mb-1 basis-1/2">
-                    <h1 class="text-black font-medium">{{$idea->createdBy->full_name}}</h1>
+                    <h1 class="text-black font-medium"><a href="users?username={{ $idea->createdBy->username }}">{{$idea->createdBy->full_name}}</h1>
                     <p class="text-sm mt-1 text-gray-500"><span>{{$idea->department->name}}</span></p>
                 </div>
                 <ul class="tt-list-badge mx-2">
@@ -19,17 +19,43 @@
                 <div>
                     Event <a href="#" class="text-blue-500">{{$idea->event->name}}</a>
                 </div>
+                @if (auth()->id() == $idea->createdBy->id)
+                <div class="absolute top-0 -right-2">
+                    <button id="dd-btn-{{ $idea->id }}" type="button" class="outline-none focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-500 hover:text-blue-700">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
+                        </svg>
+                    </button>
+                </div>
+                <div id="dd-{{ $idea->id }}" class="hidden absolute z-10 top-4 right-0 mt-2 border bg-white shadow-lg rounded">
+                    <div class="px-3 py-1">
+                        <a href="ideas/edit" class="apperance-none text-sm hover:text-amber-500">Edit</a>
+                    </div>
+                    <form action="" method="POST" class="px-3 py-1">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="text-sm hover:text-red-500">Delete</button>
+                    </form>
+                </div>
+                <script>
+                    let button_{{$idea->id}} = document.getElementById('dd-btn-{{$idea->id}}');
+                    let dropdown_{{$idea->id}} = document.getElementById('dd-{{$idea->id}}');
+                    button_{{$idea->id}}.addEventListener('click', function(event) {
+                        dropdown_{{$idea->id}}.classList.toggle('hidden');
+                    });
+                </script>
+                @endif
             </div>
             <p class="text-lg py-1 my-2">{{$idea->title}}</p>
         </div>
 
         @if ($idea->image ?? false)
-        <div class="bg-gray-200 border border-gray-300 rounded w-96 h-60 flex justify-center items-center">
+        <div class="bg-gray-200 border border-gray-300 rounded w-full h-40 flex justify-center items-center md:w-96 md:h-60">
             <img src="{{ file_exists(asset('storage/'.$idea->image)) ? asset('storage/'.$idea->image) : asset($idea->image) }}" alt="" style="max-width: 100%; max-height: 100%; object-fit:contain">
         </div>
         @endif
 
-        <div class="py-1.5">
+        <div class="my-2.5 py-1.5 px-2 bg-blue-50 text-black rounded-lg">
             {{$idea->description}}
         </div>
 
@@ -181,7 +207,7 @@
             {{-- comment box --}}
             <div class="relative">
                 <input type="hidden" name="id" value="{{$idea->id}}">
-                <textarea name="comment" id="comment-{{$idea->id}}" placeholder="What are your thoughts on this?" class="resize-none bg-gray-50 border-2 border-blue-300 text-gray-900 text-sm rounded-lg focus:outline-blue-500 focus:border-blue-500 block w-full py-1.5 pl-2 pr-10 overflow-hidden"></textarea>
+                <textarea name="comment" id="comment-{{$idea->id}}" placeholder="What are your thoughts on this?" class="resize-none bg-white border-2 border-blue-300 text-gray-900 text-sm rounded-lg focus:outline-blue-500 focus:border-blue-500 block w-full py-1.5 pl-2 pr-10 overflow-hidden"></textarea>
                 <button id="idea-comment-{{ $idea->id }}" type="submit" class="absolute top-4 right-2 px-2 focus:outline-none">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-700 hover:text-black">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
@@ -242,7 +268,7 @@
                 });
             </script>
 
-            <section id="comments-section-{{ $idea->id }}" class="relative max-h-60 px-3 mt-1 border rounded-lg divide-y overflow-y-auto">
+            <section id="comments-section-{{ $idea->id }}" class="relative max-h-60 bg-white px-3 mt-1 border rounded-lg divide-y overflow-y-auto">
                 @foreach ($idea->comments()->latest()->get() as $comment)
                     <div class="flex items-center py-3">
                         <div class="w-12 self-start border rounded-full py-2 px-1">
@@ -252,12 +278,12 @@
                         <div class="flex-1 ml-3">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <h3 class="font-medium text-sm">{{ $comment->user->full_name }}</h3>
+                                    <h3 class="font-medium text-sm"><a href="users?username={{ $comment->user->username }}">{{ $comment->user->full_name }}</a></h3>
                                     <h4 class="text-xs mt-1">{{ $comment->user->department->name }}<span class="ml-1">Dept</span></h4>
                                 </div>
                                 <span class="text-gray-600 text-sm"><time>{{ $comment->created_at->diffForHumans() }}</time></span>
                             </div>
-                            <div class="px-3 py-2 mt-2 bg-slate-50 rounded">
+                            <div class="px-3 py-2 mt-2 bg-gray-50 rounded">
                                 <p class="text-gray-800">{{ $comment->comment }}</p>
                             </div>
 
