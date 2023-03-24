@@ -26,6 +26,8 @@ return new class extends Migration
             $table->foreignId('role_id');
             $table->softDeletes();
             $table->timestamps();
+            $table->timestamp('last_login_at')->nullable();
+
 
             /** constraints */
             $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');
