@@ -3,19 +3,27 @@
 @section('content')
 <div class="flex flex-col items-center gap-y-10 md:gap-y-0 mt-2 md:flex-row">
     <div class="self-center bg-stone-100/[0.9] w-full p-4 rounded-lg md:basis-1/4 md:p-0 md:self-start md:bg-white">
-        <div class="flex flex-col items-center gap-x-4 md:gap-x-10">
+        <div class="flex flex-col items-center gap-x-4 md:gap-x-10 md:items-start">
             <div class="h-20 w-20 rounded-full border-2 border-slate-100 md:h-40 md:w-40 bg-white overflow-hidden">
                 <img src="{{ file_exists(asset('storage/images'. $user->image)) 
                 ? asset('storage/images'. $user->image) 
                 : asset('images/test.png') }}" alt="" class="h-full w-full object-contain">
             </div>
-            <div class="mt-2 text-center md:mt-8 md:text-start">
+            <div class="mt-2 md:mt-8">
                 <div class="font-medium text-lg md:text-xl">{{ $user->full_name }}</div>
                 <div class="text-gray-600 text-sm mt-1"><span>@</span>{{ $user->username }}</div>
+                <div class="mt-4">
+                    <span class="block font-medium">Department </span>
+                    <span class="text-sm">{{ $user->department->name }}</span>
+                </div>
+                <div class="mt-4">
+                    <span class="block font-medium">Position </span>
+                    <span class="text-sm">{{ $user->role->role }}</span>
+                </div>
                 <div class="mt-4"><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></div>
             </div>
             @if (auth()->id() == $user->id)
-            <div class="mt-3 md:mt-4">
+            <div class="mt-4">
                 <a href="{{ route('user.edit', $user->username) }}" class="px-3 py-2 rounded-lg text-white bg-blue-500 hover:bg-blue-700">Edit Account</a>
             </div>
             @endif
@@ -76,7 +84,7 @@
                     </div>
                     @endif
             
-                    <div class="my-2.5 py-1.5 px-2 bg-blue-50 text-black rounded-lg text-sm md:text-base">
+                    <div class="my-2.5 py-1.5 px-2 bg-blue-50 text-black rounded-lg text-justify text-sm md:text-base">
                         {{$idea->description}}
                     </div>
             

@@ -55,7 +55,7 @@
         </div>
         @endif
 
-        <div class="my-2.5 py-1.5 px-2 bg-blue-50 text-black rounded-lg">
+        <div class="my-2.5 py-1.5 px-2 bg-blue-50 text-justify text-black rounded-lg">
             {{$idea->description}}
         </div>
 

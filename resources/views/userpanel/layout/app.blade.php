@@ -405,7 +405,7 @@
 
 
     <!-- create icon -->
-    <a href="#" class="tt-btn-create-topic">
+    <a href="{{ route('ideas.create') }}" class="tt-btn-create-topic">
         <span class="tt-icon">
         <svg>
           <use xlink:href="#icon-create_new"></use>

@@ -25,19 +25,21 @@ class SessionController extends Controller
         }
 
         session()->regenerate();
+        $user = auth()->user();
 
         /** if the user still haven't change the password for the first the first time, user will keep redirected to */
-        if(!auth()->user()->is_updated)
+        if(!$user->is_updated)
         {
             Alert::toast('Please update your password for security concerns', 'warning');
-            return redirect()->route('user.edit', auth()->user()->username);
+            return redirect()->route('user.edit', $user->username);
         }
 
-        if(auth()->user()->role->role === "Admin"){
+        if($user->role->role === "Admin"){
             return redirect()->route('home')->with('success', 'Welcome!!');
         }
             
-        return redirect()->route('ideas.index')->with('success', 'Welcome!!');
+        Alert::toast('Welcome ' . $user->full_name . '!', 'success');
+        return redirect()->route('home');
     }
 
     public function logout()
