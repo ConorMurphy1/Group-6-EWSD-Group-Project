@@ -69,6 +69,7 @@ class UserController extends Controller
         }
 
         session()->regenerate();
+        auth()->user()->update(['last_login_at' => now()]);
 
         /** if the user still haven't change the password for the first the first time, user will keep redirected to */
         if(!auth()->user()->is_updated)
