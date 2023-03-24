@@ -4,6 +4,8 @@ use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\IdeaReportController;
+use App\Http\Controllers\CsvExportController;
+use App\Http\Controllers\reportQACoordinatorController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{IdeaController, IdeaReactionController, NewsFeedController, EventController, IdeaCommentController, UserDashboardController};
 // For Role Entry
@@ -134,6 +136,16 @@ Route::get('/', function() {
      */
     // Route::resource('report',[IdeaReportController::class, 'chartData']);
     Route::resource('report', IdeaReportController::class );
+    Route::resource('reportQACoordinator', reportQACoordinatorController::class );
+
+    /**
+     * CSV Export
+     */
+    Route::resource('/export-csv', CsvExportController::class);
+    Route::get('/export-csv-download', [IdeaController::class,'exportToCSV'])->name('export-csv-download');
+    Route::get('/export-csv', [CsvExportController::class, 'index'])->name('export-csv');
+    Route::get('/download-document', [IdeaController::class, 'downloadDocument'])->name('download-document');
+
 
     /**
      * Event
