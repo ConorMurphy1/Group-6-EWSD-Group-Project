@@ -49,6 +49,14 @@
                         <textarea name="description" id="" cols="30" rows="10" class="form-control" >{{$idea->description ?? ''}}</textarea>
                     </div>
                     <div class="my-2">
+                        <p class="margin-top-20">Category</p>
+                        <select class="select2_2 form-control" multiple="multiple" name="category_ids[]">
+                            @foreach ($categories as $category)
+                                <option value="{{$category->id}}">{{$category->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="my-2">
                         <label for="" class="d-block text-muted">Events</label>
                         <select name="event_id">
                             <option >Choose an Event</option>
@@ -116,6 +124,8 @@
     function enableSave(){
         document.getElementById("save").removeAttribute('disabled');
     }
+
+    
 </script>
 @endsection
 

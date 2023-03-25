@@ -51,7 +51,7 @@ class CategoryController extends Controller
 
         Alert::toast('Category created successfully', 'success');
 
-        return redirect('categories')->with('success', 'Category created successfully!');
+        return redirect('admin/categories')->with('success', 'Category created successfully!');
     }
 
     /**

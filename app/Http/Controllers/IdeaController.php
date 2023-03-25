@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Idea;
+use App\Models\{Idea, Event, Category, Department, IdeaCategory};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Traits\UploadTrait;
-use App\Models\Event;
 use RealRashid\SweetAlert\Facades\Alert;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\CSV_Export;
@@ -88,46 +87,37 @@ class IdeaController extends Controller
 
 
     use UploadTrait;
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         // dd(auth()->user()->role->role);
         $ideas = Idea::paginate(5);
-
-        return view('ideas.index', compact('ideas'));
+        if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2){
+            return view('ideas.index', compact('ideas'));
+        }else{
+            return redirect('newsfeed');
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $idea = new Idea();
+        $categories = Category::all();
         $events = Event::whereDate('end_date', '>', now()->format('Y-m-d'))->get();
 
-        return view('ideas.create-edit', compact('idea', 'events'));
+        return view('ideas.create-edit', compact('idea', 'events', 'categories'));
     }
 
     public function userCreate()
     {
         $idea = new Idea();
+        $categories = Category::all();
+        $departments = Department::all();
         $events = Event::whereDate('end_date', '>', now()->format('Y-m-d'))->get();
 
-        return view('ideas.user-create-edit', compact('idea', 'events'));
+        return view('ideas.user-create-edit', compact('idea', 'events', 'categories', 'departments'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -155,10 +145,15 @@ class IdeaController extends Controller
         $data['is_anonymous'] = $is_anonymous_final;
         $data['department_id'] = auth()->user()->department_id;
 
-        // dd($data);
+        $idea = Idea::create($data);
+        for($i=0;$i<count($request->category_ids);$i++)
+        {
 
-        Idea::create($data);
-
+            IdeaCategory::create([
+                'idea_id' => $idea->id,
+                'category_id' => $request->category_ids[$i],
+            ]);
+        }
         Alert::toast('Idea created successfully', 'success');
 
         return redirect('admin\ideas')->with('success', 'Idea created successfully!');

@@ -1,24 +1,9 @@
 <?php
 
-use App\Http\Controllers\PasswordController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\IdeaReportController;
-use App\Http\Controllers\CsvExportController;
-use App\Http\Controllers\reportQACoordinatorController;
+use App\Http\Controllers\{PasswordController, UserController, IdeaReportController, CsvExportController, reportQACoordinatorController};
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{AdminController, AdminDeletedUserController, AdminUserController, IdeaController, IdeaReactionController, NewsFeedController, EventController, IdeaCommentController, SessionController, UserDashboardController};
-// For Role Entry
-use App\Http\Controllers\RoleEntryController;
-
-// For Category
-use App\Http\Controllers\CategoryController;
-
-// For Department
-use App\Http\Controllers\DepartmentController;
-
-// For Comments
-use App\Http\Controllers\CommentController;
-use App\Models\Idea;
+use App\Http\Controllers\{RoleEntryController, CategoryController, DepartmentController, CommentController};
 
 /*
 |--------------------------------------------------------------------------

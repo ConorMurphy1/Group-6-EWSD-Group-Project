@@ -21,7 +21,7 @@ class SessionController extends Controller
 
         if(!auth()->attempt($credentials))
         {
-            return back()->withInput()->withErrors(['email' => 'Your prvoided credentials could not be verified']);
+            return back()->withInput()->withErrors(['email' => 'Your provided credentials could not be verified']);
         }
 
         session()->regenerate();
@@ -34,12 +34,13 @@ class SessionController extends Controller
             return redirect()->route('user.edit', $user->username);
         }
 
-        if($user->role->role === "Admin"){
+        if($user->role->role === "Admin" || $user->role_id == 2){
             return redirect()->route('home')->with('success', 'Welcome!!');
         }
             
         Alert::toast('Welcome ' . $user->full_name . '!', 'success');
-        return redirect()->route('home');
+        // if ($user->role->role)
+        return redirect()->route('ideas.feed');
     }
 
     public function logout()

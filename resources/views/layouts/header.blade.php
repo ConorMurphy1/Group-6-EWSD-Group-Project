@@ -36,11 +36,21 @@
 	<link rel="stylesheet" href="{{asset('adminpanel/assets/plugin/fullcalendar/fullcalendar.min.css')}}">
 	<link rel="stylesheet" href="{{asset('adminpanel/assets/plugin/fullcalendar/fullcalendar.print.css')}}" media='print'>
 
+	<!-- Select2 -->
+	<link rel="stylesheet" href="{{asset('adminpanel/assets/plugin/select2/css/select2.min.css')}}">
+
+	<!-- FlexDatalist -->
+	<link rel="stylesheet" href="{{asset('adminpanel/assets/plugin/flexdatalist/jquery.flexdatalist.min.css')}}">
+
 	<!-- Color Picker -->
 	<link rel="stylesheet" href="{{asset('adminpanel/assets/color-switcher/color-switcher.min.css')}}">
 
     <!-- Data Table -->
     <link href="https://cdn.datatables.net/v/dt/dt-1.13.3/af-2.5.2/b-2.3.5/cr-1.6.1/date-1.3.1/fh-3.3.1/r-2.4.0/rr-1.3.2/sp-2.1.1/sr-1.2.1/datatables.min.css" rel="stylesheet"/>
+	
+	<!-- Remodal -->
+	<link rel="stylesheet" href="{{asset('adminpanel/assets/plugin/modal/remodal/remodal.css')}}">
+	<link rel="stylesheet" href="{{asset('adminpanel/assets/plugin/modal/remodal/remodal-default-theme.css')}}">
 
 	<style>
 		button{

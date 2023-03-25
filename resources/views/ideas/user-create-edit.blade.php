@@ -34,9 +34,19 @@
                         <textarea name="description" class="form-control" rows="5" placeholder="Lets get started">{{$idea->description ?? ''}}</textarea>
                     </div>
                     <div class="row">
+                        <div class="form-group ">
+                            <p class="margin-top-20">Category</p>
+                            <select class="select2_2" multiple="multiple" name="category_ids[]">
+                                @foreach ($categories as $category)
+                                    <option value="{{$category->id}}">{{$category->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="inputTopicTitle">Category</label>
+                                <label for="inputTopicTitle">Event</label>
                                 <select name="event_id" class="form-control">
                                     <option >Choose an Event</option>
                                     @foreach ($events as $event)
