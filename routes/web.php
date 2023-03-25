@@ -86,6 +86,7 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/idea/{idea:id}/unlike', [IdeaReactionController::class, 'unlike'])->name('unlike');
     Route::post('/idea/{idea:id}/comment', [IdeaCommentController::class, 'store'])->name('idea.comments.store');
     Route::get('/idea/{idea:id}/comment', [IdeaCommentController::class, 'index'])->name('idea.comments.index');
+    Route::get('/user-idea-create', [IdeaController::class, 'userCreate'])->name('idea.users.create');
 });
 
 

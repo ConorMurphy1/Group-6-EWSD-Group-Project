@@ -114,6 +114,14 @@ class IdeaController extends Controller
         return view('ideas.create-edit', compact('idea', 'events'));
     }
 
+    public function userCreate()
+    {
+        $idea = new Idea();
+        $events = Event::whereDate('end_date', '>', now()->format('Y-m-d'))->get();
+
+        return view('ideas.user-create-edit', compact('idea', 'events'));
+    }
+
     /**
      * Store a newly created resource in storage.
      *

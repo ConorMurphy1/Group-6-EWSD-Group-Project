@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -5,33 +7,62 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>Home - G6 University Admin</title>
-	<script src="https://cdn.tailwindcss.com"></script>
+	<title>Home</title>
+	<link rel="stylesheet" href="{{asset('adminpanel/assets/styles/style.min.css')}}">
+
+	<!-- Waves Effect -->
+	<link rel="stylesheet" href="{{asset('adminpanel/assets/plugin/waves/waves.min.css')}}">
+
 </head>
+
 <body>
-    <div class="container mx-auto max-w-xl px-20 mt-20">
-        <div class="mb-4">
-            <h1 class="font-semibold text-center text-2xl">Sign in</h1>
-        </div>
-        <form action="{{ route('login') }}" method="POST">
+
+<div id="single-wrapper">
+        <form action="{{ route('login') }}" method="POST" class="frm-single">
             @csrf
-            <div class="mb-4">
-                <label for="email" class="block mb-2 font-medium text-gray-900 dark:text-white">Email</label>
-                <input type="email" id="email" name="email" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="johndoe@email.com" value="{{old('email')}}">
-                @error('email')
-                    <p class="text-red-500">{{$message}}</p>
-                @enderror
+            <div class="inside">
+                <div class="title"><strong>Ninja</strong>Admin</div>
+                <!-- /.title -->
+                <div class="frm-title">Login</div>
+                <!-- /.frm-title -->
+                <div class="frm-input">
+                <input type="email" id="email" name="email"  class="frm-inp" placeholder="johndoe@email.com" value="{{old('email')}}"><i class="fa fa-user frm-ico"></i>
+
+                </div>
+                <!-- /.frm-input -->
+                <div class="frm-input">
+                <input type="password" id="password" name="password" placeholder="Password" class="frm-inp"><i class="fa fa-lock frm-ico"></i>
+
+                </div>
+                <!-- /.frm-input -->
+                <div class="clearfix margin-bottom-20">
+                    <div class="pull-left">
+                        {{-- <div class="checkbox primary"><input type="checkbox" id="rememberme"><label for="rememberme">Remember me</label></div> --}}
+                        <!-- /.checkbox -->
+                    </div>
+                    <!-- /.pull-left -->
+                    {{-- <div class="pull-right"><a href="page-recoverpw.html" class="a-link"><i class="fa fa-unlock-alt"></i>Forgot password?</a></div> --}}
+                    <!-- /.pull-right -->
+                </div>
+                <!-- /.clearfix -->
+                <button type="submit" class="frm-submit">Login<i class="fa fa-arrow-circle-right"></i></button>
+                <!-- /.row -->
+                <a href="page-register.html" class="a-link"><i class="fa fa-key"></i>New to G6? Register.</a>
+                <div class="frm-footer">G6 © 2016.</div>
+                <!-- /.footer -->
             </div>
-            <div class="mb-4">
-                <label for="password" class="block mb-2 font-medium text-gray-900 dark:text-white">Password</label>
-                <input type="password" id="password" name="password" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                @error('password')
-                    <p class="text-red-500">{{$message}}</p>
-                @enderror
-            </div>
-            <button type="submit" class="text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Sign in</button>
         </form>
-    </div>
-</body>
+        <!-- /.frm-single -->
+    </div><!--/#single-wrapper -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="{{asset('adminpanel/assets/scripts/jquery.min.js')}}"></script>
+        <script src="{{asset('adminpanel/assets/scripts/modernizr.min.js')}}"></script>
+        <script src="{{asset('adminpanel/assets/plugin/bootstrap/js/bootstrap.min.js')}}"></script>
+        <script src="{{asset('adminpanel/assets/plugin/nprogress/nprogress.js')}}"></script>
+        <script src="{{asset('adminpanel/assets/plugin/waves/waves.min.js')}}"></script>
+
+        <script src="{{asset('adminpanel/assets/scripts/main.min.js')}}"></script>
+    </body>
+</html>
 
 
