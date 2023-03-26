@@ -122,20 +122,18 @@
     <div class="container mt-5 mb-5">
         <div class="row">
             <div class="col">
-                <h1 class="text-center">Update Role</h1>
+                <h1 class="text-center">Create Role</h1>
             </div>
         </div>
     </div>
     <div class="code-block">
-        <form action="" method="POST">
+        <form action="{{ route('role.store') }}" method="POST">
             @csrf
-            @method('PUT')
             <div class="container">
                 <div class="modal-body">
                     <div class="group">
-                        <input required="" type="text" name="roleUpdate" value="{{ $roleMembers->role }}"
-                            class="input">
-                        <input required="" type="hidden" name="roleId" value="{{ $roleMembers->id }}" class="input">
+                        <input required="" type="text" name="roleCreate" class="input">
+                        <input required="" type="hidden" name="roleId" class="input">
                         <span class="highlight"></span>
                         <span class="bar"></span>
                         <label>Role</label>
