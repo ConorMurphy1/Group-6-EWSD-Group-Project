@@ -21,7 +21,8 @@ class IdeaSeeder extends Seeder
         $event = Event::create([
             'name' => 'Halloween',
             'description' => 'Halloween fucking lit staff party',
-            'end_date' => Carbon::now()->addMonth(),
+            'closure' => Carbon::now()->addWeeks(2),
+            'final_closure' => Carbon::now()->addMonth(),
         ]);
 
         Idea::factory(20)->create([

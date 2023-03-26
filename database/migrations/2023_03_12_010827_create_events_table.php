@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->timestamp('end_date');
+            $table->timestamp('closure');            // date set to limit creating new ideas/posts for this event
+            $table->timestamp('final_closure');      // date set to limit commenting for the ideas for this event
             $table->softDeletes();
             $table->timestamps();
         });

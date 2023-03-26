@@ -59,10 +59,6 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="my-2">
-                        <label for="" class="d-block text-muted">Closure Date</label>
-                        <input name="closure_date" type="date" class="form-control" value="{{$idea->closure_date ?? ''}}">
-                    </div>
 
                     <button type="button" onclick="conditionsModal()" class="btn btn-primary btn-ladda">Save </button>
                 </div>

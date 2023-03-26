@@ -109,7 +109,7 @@ class IdeaController extends Controller
     public function create()
     {
         $idea = new Idea();
-        $events = Event::whereDate('end_date', '>', now()->format('Y-m-d'))->get();
+        $events = Event::whereDate('closure', '>', now()->format('Y-m-d'))->get();
 
         return view('ideas.create-edit', compact('idea', 'events'));
     }
@@ -117,7 +117,7 @@ class IdeaController extends Controller
     public function userCreate()
     {
         $idea = new Idea();
-        $events = Event::whereDate('end_date', '>', now()->format('Y-m-d'))->get();
+        $events = Event::whereDate('closure', '>', now()->format('Y-m-d'))->get();
 
         return view('ideas.user-create-edit', compact('idea', 'events'));
     }

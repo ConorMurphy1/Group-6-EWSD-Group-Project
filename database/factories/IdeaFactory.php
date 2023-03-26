@@ -24,7 +24,6 @@ class IdeaFactory extends Factory
             'user_id' => rand(1,4),
             'department_id' => rand(1,5),
             'event_id' => 1,
-            'closure_date' => Carbon::now()->addMonth()
         ];
     }
 }

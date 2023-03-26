@@ -11,4 +11,10 @@ class Event extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded =[];
+
+    /** relations */
+    public function ideas()
+    {
+        return $this->hasMany(Event::class);
+    }
 }

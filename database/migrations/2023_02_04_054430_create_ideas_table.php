@@ -23,7 +23,6 @@ return new class extends Migration
             $table->integer('event_id');
             $table->string('is_anonymous')->nullable();
             $table->text('document')->nullable();
-            $table->date('closure_date');
             $table->integer('views')->nullable();
             $table->softDeletes();
             $table->timestamps();

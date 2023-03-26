@@ -36,7 +36,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="inputTopicTitle">Category</label>
+                                <label for="inputTopicTitle">Event</label>
                                 <select name="event_id" class="form-control">
                                     <option >Choose an Event</option>
                                     @foreach ($events as $event)
