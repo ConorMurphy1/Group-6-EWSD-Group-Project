@@ -127,7 +127,6 @@ class IdeaController extends Controller
             'is_anonymous' => 'nullable|string',
             'event_id' => 'required|integer',
             'document' => 'nullable|mimes:pdf,xls,doc',
-            'closure_date' => 'required|date'
         ]);
         if ($request->image) {
             $imageName = $this->uploadImage('image', 'images');

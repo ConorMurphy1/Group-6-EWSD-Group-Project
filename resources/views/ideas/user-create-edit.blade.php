@@ -50,7 +50,8 @@
                                 <select name="event_id" class="form-control">
                                     <option >Choose an Event</option>
                                     @foreach ($events as $event)
-                                        <option required value="{{ $event->id }}" @if ($idea->event_id == $event->id)
+                                        <option required value="{{ $event->id }}" 
+                                        @if ($idea->event_id == $event->id)
                                             selected
                                         @endif > {{ $event->name }} </option>
                                     @endforeach
@@ -70,7 +71,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="inputTopicTags">Department</label>
-                                <input type="text" readonly name="name" class="form-control" id="inputTopicTags" value="{{auth()->user()->department->name}}">
+                                <input type="text" readonly name="department_id" class="form-control" id="inputTopicTags" value="{{auth()->user()->department->name}}">
                             </div>
                         </div>
                     </div>
