@@ -11,7 +11,7 @@
         <div>
             <h1 class="font-semibold text-center mb-10">Register User</h1>
         </div>
-        <form action="{{ route('admin.users.create') }}" method="POST">
+        <form action="{{ route('admin.users.store') }}" method="POST">
             @csrf
             <div class="mb-4">
                 <label for="username" class="block mb-2 font-medium text-gray-900 dark:text-white">Username</label>

@@ -17,7 +17,8 @@
                     <li><a href="#"><span class="tt-badge ">new movies</span></a></li>
                 </ul>
                 <div>
-                    Event <a href="#" class="text-blue-500">{{$idea->event->name}}</a>
+                    <a href="#" class="text-blue-500">{{$idea->event->name}}</a>
+                    <p>{{ $idea->created_at->diffForHumans() }}</p>
                 </div>
                 @if (auth()->id() == $idea->createdBy->id)
                 <div class="absolute top-0 -right-2">
