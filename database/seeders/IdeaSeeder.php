@@ -25,10 +25,10 @@ class IdeaSeeder extends Seeder
             'final_closure' => Carbon::now()->addMonth(),
         ]);
 
-        Idea::factory(20)->create([
+        Idea::factory(5)->create([
             'event_id' => $event->id,
         ]);
 
-        Comment::factory(30)->create();
+        Comment::factory(9)->create();
     }
 }

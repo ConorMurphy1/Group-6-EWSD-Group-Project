@@ -90,20 +90,15 @@ class IdeaController extends Controller
 
     public function index()
     {
-        // dd(auth()->user()->role->role);
         $ideas = Idea::paginate(5);
-        if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2){
-            return view('ideas.index', compact('ideas'));
-        }else{
-            return redirect('newsfeed');
-        }
+        return view('ideas.index', compact('ideas'));
     }
 
     public function create()
     {
         $idea = new Idea();
         $categories = Category::all();
-        $events = Event::whereDate('closure', '>', now()->format('Y-m-d'))->get();
+        $events = Event::whereDate('closure', '>', now())->get();
 
         return view('ideas.create-edit', compact('idea', 'events', 'categories'));
     }
@@ -113,7 +108,7 @@ class IdeaController extends Controller
         $idea = new Idea();
         $categories = Category::all();
         $departments = Department::all();
-        $events = Event::whereDate('closure', '>', now()->format('Y-m-d'))->get();
+        $events = Event::whereDate('closure', '>', now())->get();
 
         return view('ideas.user-create-edit', compact('idea', 'events', 'categories', 'departments'));
     }
@@ -121,42 +116,43 @@ class IdeaController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'title' => 'required|string',
-            'image' => 'nullable|image|mimes:jpg,png,jpeg',
-            'description' => 'required|string',
-            'is_anonymous' => 'nullable|string',
-            'event_id' => 'required|integer',
-            'document' => 'nullable|mimes:pdf,xls,doc',
+            'title' => 'required | string',
+            'description' => 'required | string',
+            'event_id' => 'required | integer'
         ]);
-        if ($request->image) {
+
+        if($request->image)
+        {
             $imageName = $this->uploadImage('image', 'images');
             $data['image'] = $imageName;
         }
-        if ($request->hasFile('document')) {
+
+        if($request->hasFile('document'))
+        {
             $documentName = $this->uploadDoc('document', 'documents');
             $data['document'] = $documentName;
         }
 
-        $is_anonymous_final = $request->is_anonymous === "yes" ? 'Yes' : 'No';
-
-
-        $data['user_id'] = auth()->user()->id;
+        $is_anonymous_final = $request->is_anonymous === "yes" ? true : false;
+        
+        $data['user_id'] = auth()->id();
         $data['is_anonymous'] = $is_anonymous_final;
         $data['department_id'] = auth()->user()->department_id;
 
         $idea = Idea::create($data);
-        for($i=0;$i<count($request->category_ids);$i++)
-        {
 
-            IdeaCategory::create([
-                'idea_id' => $idea->id,
-                'category_id' => $request->category_ids[$i],
-            ]);
-        }
+        // for($i = 0; $i < count($request->category_ids); ++$i)
+        // {
+        //     IdeaCategory::create([
+        //         'idea_id' => $idea->id,
+        //         'category_id' => $request->category_ids[$i],
+        //     ]);
+        // }
+
         Alert::toast('Idea created successfully', 'success');
-
-        return redirect('admin\ideas')->with('success', 'Idea created successfully!');
+        return redirect()->route('ideas.feed');
     }
+    
 
     /**
      * Display the specified resource.

@@ -17,7 +17,22 @@ use App\Http\Controllers\{RoleEntryController, CategoryController, DepartmentCon
 */
 
 Route::get('/', function() {
-    return view('home');
+    if(auth()->user() && strtolower(auth()->user()->role->role) == 'admin')
+    {
+        return view('home');
+    }
+    if(auth()->user() && strtolower(auth()->user()->role->role) == 'qa coordinator')
+    {
+        return view('home');
+    }
+    if(auth()->user() && strtolower(auth()->user()->role->role) == 'qa manager')
+    {
+        return redirect()->route('ideas.feed');
+    }
+    if(auth()->user() && strtolower(auth()->user()->role->role) == 'staff')
+    {
+        return redirect()->route('ideas.feed');
+    }
 })->name('home')->middleware('auth');
 
 
@@ -56,8 +71,8 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function() {
 
 /** section of user-panel where user controls his own account/profile updates */
 Route::middleware(['auth'])->group(function() {
-    Route::get('/users', [UserController::class, 'show'])->name('user.show');
-    Route::get('/{user:username}/profile', [UserController::class, 'profile'])->name('user.profile');
+    Route::get('/users', [UserController::class, 'show'])->name('user.show');         /** to check other people's profiles  */
+    Route::get('/{user:username}/profile', [UserController::class, 'profile'])->name('user.profile');   /** own profile */
     Route::get('/{user:username}/edit', [UserController::class, 'edit'])->name('user.edit');
     Route::put('/{user:username}/update', [UserController::class, 'update'])->name('user.update');
     
@@ -74,8 +89,13 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/user-idea-create', [IdeaController::class, 'userCreate'])->name('idea.users.create');
 });
 
+/** shared functionalities between admin panel and user panel  */
+Route::middleware(['auth'])->group(function() {
+    Route::resource('ideas', IdeaController::class);
+    Route::resource('comments', CommentController::class);
+});
 
-Route::resource('comments', CommentController::class);
+
 
 // (for not working with seeder yet)
 // Route::resource('departments', DepartmentController::class);
@@ -95,11 +115,6 @@ Route::resource('comments', CommentController::class);
      */
     
     Route::resource('departments', DepartmentController::class);
-
-    /**
-     * Idea(Dashboard) related routes
-     */
-    Route::resource('ideas', IdeaController::class);
 
     /**
      * Role Entry related routes

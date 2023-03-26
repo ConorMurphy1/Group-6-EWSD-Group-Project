@@ -28,8 +28,8 @@
                                 <th>No</th>
                                 <th>Event</th>
                                 <th>Description</th>
-                                <th>Created Date</th>
-                                <th>End Date</th>
+                                <th>Closure Date</th>
+                                <th>Final Closure</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -39,8 +39,16 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $event->name }}</td>
                                 <td>{{ $event->description }}</td>
-                                <td>{{ Carbon\Carbon::parse($event->created_at)->format('d-m-Y') }}</td>
-                                <td>{{ Carbon\Carbon::parse($event->end_date)->format('d-m-Y') }}</td>
+                                @if ($event->closure < now())
+                                    <td>{{ Carbon\Carbon::parse($event->closure)->format('d-m-Y') }} <span class="ml-2 px-2 py-1 bg-gray-500 text-white rounded-lg">closed</span></td>
+                                @else
+                                    <td>{{ Carbon\Carbon::parse($event->closure)->format('d-m-Y') }}</td>
+                                @endif
+                                @if ($event->final_closure < now())
+                                    <td>{{ Carbon\Carbon::parse($event->final_closure)->format('d-m-Y') }} <span class="ml-2 px-2 py-1 bg-gray-500 text-white rounded-lg">closed</span></td>
+                                @else
+                                    <td>{{ Carbon\Carbon::parse($event->final_closure)->format('d-m-Y') }}</td>
+                                @endif
                                 <td class="flex-warp">
                                     <div class="mx-3 text-center">
                                         <form action="{{ route('events.destroy', $event->id) }}" method="post">

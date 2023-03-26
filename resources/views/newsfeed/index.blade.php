@@ -5,13 +5,19 @@
 @foreach ($ideas as $idea)
 
     {{-- TODO: later convert tailwind to BS-4 --}}
-    <div class="col-md-8 col-lg-8 px-4 py-3 bg-slate-50/[0.4] shadow-sm rounded mb-8">
+    <div class="col-md-8 col-lg-8 px-4 py-3 bg-white shadow-sm rounded mb-8">
         <div class="relative">
             <div class="flex justify-between items-center">
+                @if ($idea->is_anonymous ?? false)
                 <div class="mb-1 basis-1/2">
-                    <h1 class="text-black font-medium"><a href="users?username={{ $idea->createdBy->username }}">{{$idea->createdBy->full_name}}</h1>
+                    <h1 class="text-black font-medium">Anonymous</a></h1>
+                </div>
+                @else
+                <div class="mb-1 basis-1/2">
+                    <h1 class="text-black font-medium"><a href="users?username={{ $idea->createdBy->username }}">{{$idea->createdBy->full_name}}</a></h1>
                     <p class="text-sm mt-1 text-gray-500"><span>{{$idea->department->name}}</span></p>
                 </div>
+                @endif
                 <ul class="tt-list-badge mx-2">
                     <li><a href="#"><span class="tt-badge ">movies</span></a></li>
                     <li><a href="#"><span class="tt-badge ">new movies</span></a></li>
@@ -273,15 +279,24 @@
                 @foreach ($idea->comments()->latest()->get() as $comment)
                     <div class="flex items-center py-3">
                         <div class="w-12 self-start border rounded-full py-2 px-1">
-                            {{-- <img src="{{ asset($user->image) }}" alt="" width="100%"> --}}
+                            @if ($commet->is_anonymous)
                             <img src="{{ asset('images/test.png') }}" alt="" width="100%">
+                            @else
+                            <img src="{{ asset('images/anon.png') }}" alt="" width="100%">
+                            @endif
                         </div>
                         <div class="flex-1 ml-3">
                             <div class="flex items-center justify-between">
+                                @if ()
                                 <div>
-                                    <h3 class="font-medium text-sm"><a href="users?username={{ $comment->user->username }}">{{ $comment->user->full_name }}</a></h3>
+                                    <h3 class="font-medium text-sm">Anonymous</h3>
+                                </div>
+                                @else
+                                <div>
+                                    <h3 class="font-medium text-sm"><a href="{{ route('user.show') }}?username={{ $comment->user->username }}">{{ $comment->user->full_name }}</a></h3>
                                     <h4 class="text-xs mt-1">{{ $comment->user->department->name }}<span class="ml-1">Dept</span></h4>
                                 </div>
+                                @endif
                                 <span class="text-gray-600 text-sm"><time>{{ $comment->created_at->diffForHumans() }}</time></span>
                             </div>
                             <div class="px-3 py-2 mt-2 bg-gray-50 rounded">

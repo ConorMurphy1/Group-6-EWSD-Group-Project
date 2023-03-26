@@ -18,7 +18,7 @@ class CommentFactory extends Factory
     {
         return [
             'user_id' => rand(1,4),
-            'idea_id' => rand(1, 20),
+            'idea_id' => rand(1, 5),
             'comment' => fake()->sentences(rand(1,5), true),
             'is_anonymous' => false,
         ];

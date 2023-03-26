@@ -14,8 +14,8 @@ class UserController extends Controller
     /** User profile */
     public function profile(User $user)
     {
+        /** anonymous ideas will be included in the user profile itself */
         $ideas = Idea::where('user_id', $user->id)->latest()->get();
-
         return view('users.show', compact('user', 'ideas'));
     }
 
@@ -25,7 +25,7 @@ class UserController extends Controller
         $username = $request->query('username');
         $user = User::where('username', $username)->first();
         
-        $ideas = Idea::where('user_id', $user->id)->latest()->get();
+        $ideas = Idea::where('user_id', $user->id)->where('is_anonymous', false)->latest()->get();
 
         return view('users.show', compact('user', 'ideas'));
     }

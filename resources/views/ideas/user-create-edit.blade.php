@@ -4,9 +4,8 @@
 
 <main id="tt-pageContent">
     <div class="container">
-            <form class="form-default form-create-topic">
-        @if ($idea->id)
-        <form action="{{ route('ideas.update', $idea->id)}}" method="post" enctype="multipart/form-data" class="form-default form-create-topic">
+            @if ($idea->id)
+            <form action="{{ route('ideas.update', $idea->id)}}" method="post" enctype="multipart/form-data" class="form-default form-create-topic">
             @method('PATCH')
             <div class="tt-wrapper-inner">
                 <h1 class="tt-title-border">
@@ -33,7 +32,7 @@
                     <div class="form-group">
                         <textarea name="description" class="form-control" rows="5" placeholder="Lets get started">{{$idea->description ?? ''}}</textarea>
                     </div>
-                    <div class="row">
+                    {{-- <div class="row">
                         <div class="form-group ">
                             <p class="margin-top-20">Category</p>
                             <select class="select2_2" multiple="multiple" name="category_ids[]">
@@ -42,12 +41,12 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="inputTopicTitle">Event</label>
-                                <select name="event_id" class="form-control">
+                                <select name="event_id" class="">
                                     <option >Choose an Event</option>
                                     @foreach ($events as $event)
                                         <option required value="{{ $event->id }}" 
@@ -61,7 +60,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="inputTopicTags">Anonymous</label>
-                                <select name="is_anonymous" id="" required class="form-control">
+                                <select name="is_anonymous" id="" required class="">
                                     <option >Choose option</option>
                                     <option value="no" {{strtolower($idea->is_anonymous) == 'no' ? 'selected' : ''}}>No</option>
                                     <option value="yes" {{strtolower($idea->is_anonymous) == 'yes' ? 'selected' : ''}}>Yes</option>

@@ -47,6 +47,7 @@
                             </ul>
                             <div>
                                 Event <a href="#" class="text-blue-500">{{$idea->event->name}}</a>
+                                <p class="text-center text-gray-600 text-sm">{{ $idea->created_at->diffForHumans() }}</p>
                             </div>
                             @if (auth()->id() == $user->id)
                             <div class="absolute -top-4 -right-2">
@@ -307,7 +308,7 @@
                                     <div class="flex-1 ml-3">
                                         <div class="flex items-center justify-between">
                                             <div>
-                                                <h3 class="font-medium text-sm"><a href="users?username={{ $comment->user->username }}">{{ $comment->user->full_name }}</a></h3>
+                                                <h3 class="font-medium text-sm"><a href="{{ route('user.show') }}?username={{ $comment->user->username }}">{{ $comment->user->full_name }}</a></h3>
                                                 <h4 class="text-xs mt-1">{{ $comment->user->department->name }}<span class="ml-1">Dept</span></h4>
                                             </div>
                                             <span class="text-gray-600 text-sm"><time>{{ $comment->created_at->diffForHumans() }}</time></span>
