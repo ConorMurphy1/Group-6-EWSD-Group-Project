@@ -10,7 +10,7 @@ class NewsFeedController extends Controller
     public function index()
     {
         $departments = Department::all();
-        $events = Event::whereDate('end_date', '>', now()->format('Y-m-d'))->get();
+        $events = Event::whereDate('closure', '>', now()->format('Y-m-d'))->get();
         $categories = Category::all();
         // $ideas = Idea::paginate(5);
         $ideas = Idea::with('comments')->latest()->get();
