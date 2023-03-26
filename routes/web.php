@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{PasswordController, UserController, IdeaReportController, CsvExportController, reportQACoordinatorController};
+use App\Http\Controllers\{AdminReportController, PasswordController, UserController, IdeaReportController, CsvExportController, reportQACoordinatorController};
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{AdminController, AdminDeletedUserController, AdminUserController, IdeaController, IdeaReactionController, NewsFeedController, EventController, IdeaCommentController, SessionController, UserDashboardController};
 use App\Http\Controllers\{RoleEntryController, CategoryController, DepartmentController, CommentController};
@@ -69,6 +69,18 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function() {
     Route::delete('/destroy', [AdminController::class, 'destroy'])->name('admin.destroy');
 });
 
+/** Idea reports for admin panel */
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function() {
+    Route::get('/reports', [AdminReportController::class, 'index'])->name('admin.reports');
+    Route::delete('/reports/{ideaReport}/destroy', [AdminReportController::class, 'destroy'])->name('admin.reports.destroy');
+});
+
+/** Statistical Analysis */
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function() {
+    Route::resource('contributions', IdeaReportController::class );         // statistical report for admin
+    Route::resource('stats', reportQACoordinatorController::class );        // statistical report for both   admin and QA Manager
+});
+
 /** section of user-panel where user controls his own account/profile updates */
 Route::middleware(['auth'])->group(function() {
     Route::get('/users', [UserController::class, 'show'])->name('user.show');         /** to check other people's profiles  */
@@ -79,7 +91,7 @@ Route::middleware(['auth'])->group(function() {
     Route::put('/update-password', [PasswordController::class, 'store'])->name('password.update');
 });
 
-/** displaying ideas, commeting and reactions in userpanel */
+/** displaying ideas, commeting, reports and reactions in userpanel */
 Route::middleware(['auth'])->group(function() {
     Route::get('/newsfeed', [NewsFeedController::class, 'index'])->name('ideas.feed');
     Route::post('/idea/{idea:id}/like', [IdeaReactionController::class, 'like'])->name('like');
@@ -87,12 +99,15 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/idea/{idea:id}/comment', [IdeaCommentController::class, 'store'])->name('idea.comments.store');
     Route::get('/idea/{idea:id}/comment', [IdeaCommentController::class, 'index'])->name('idea.comments.index');
     Route::get('/user-idea-create', [IdeaController::class, 'userCreate'])->name('idea.users.create');
+
+    Route::post('/idea/{idea:id}/report', [IdeaController::class, 'report'])->name('report');
 });
 
 /** shared functionalities between admin panel and user panel  */
 Route::middleware(['auth'])->group(function() {
     Route::resource('ideas', IdeaController::class);
     Route::resource('comments', CommentController::class);
+
 });
 
 
@@ -123,12 +138,6 @@ Route::middleware(['auth'])->group(function() {
     Route::get('role/{id}/delete',[RoleEntryController::class,'destroy']);
     Route::put('role/{id}/edit', [RoleEntryController::class, 'update']);
 
-    /**
-     * Report
-     */
-    // Route::resource('report',[IdeaReportController::class, 'chartData']);
-    Route::resource('report', IdeaReportController::class );
-    Route::resource('reportQACoordinator', reportQACoordinatorController::class );
 
     /**
      * CSV Export

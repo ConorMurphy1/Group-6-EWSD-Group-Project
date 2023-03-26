@@ -318,10 +318,11 @@
                             </button>
                         </div>
                         <script>
-                            document.getElementById('idea-comment-{{$idea->id}}').addEventListener('click', function() {
+                            var commentBtn = document.getElementById('idea-comment-{{$idea->id}}');
+                            commentBtn.addEventListener('click', function() {
                                 var commentBox = document.getElementById('comment-{{$idea->id}}');
                                 var checkbox  = document.getElementById('idea-comment-{{ $idea->id }}-anon');
-            
+                                commentBtn.disabled = true;
                                 let comment = commentBox.value;
                                 let anon;
                                 if (checkbox.checked) {
@@ -364,6 +365,8 @@
                                         } else {
                                             commentsSection.classList.remove("border");
                                         }
+            
+                                        commentBtn.disabled = false;
                                     })
                                     .catch(function(error) {
                                         console.log(error.message);

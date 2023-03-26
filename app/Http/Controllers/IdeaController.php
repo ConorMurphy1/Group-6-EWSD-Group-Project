@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Idea, Event, Category, Department, IdeaCategory};
+use App\Models\{Idea, Event, Category, Department, IdeaCategory, IdeaReport};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Traits\UploadTrait;
@@ -202,6 +202,28 @@ class IdeaController extends Controller
         $idea = Idea::findOrFail($id);
         $idea->delete();
         Alert::toast('Congrats!, You have successfully deleted an Idea', 'success');
+        return back();
+    }
+
+    /** report submitted by QA Coord */
+    public function report(Request $request, Idea $idea)
+    {
+        $reporter = $request->input('reporter_id');
+
+        /** can't report twice for a specific idea */
+        if(IdeaReport::where('user_id', $reporter)->where('idea_id', $idea->id)->exists())
+        {
+            Alert::toast('You cannot submit more than one report to an idea', 'error');
+            return back();
+        }
+
+        $report = new IdeaReport();
+        $report->idea_id = $idea->id; 
+        $report->user_id = $reporter;
+        $report->description = $request->input('description');
+        $report->save();
+
+        Alert::toast('You have submitted the report', 'success');
         return back();
     }
 }

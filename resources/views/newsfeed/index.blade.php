@@ -47,10 +47,41 @@
                             <button type="submit" class="hover:text-red-500 foucs:outline-none">Delete</button>
                         </form>
                         @else
-                        <form action="{{ route('ideas.destroy', $idea->id) }}" method="POST" class="px-3 py-1">
+                        <button id="report-{{$idea->id}}" type="button" class="px-3 py-1 hover:text-red-500 foucs:outline-none">Report</button>
+                        
+                        <!-- Blur -->
+                        <div id="blur-{{$idea->id}}" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden"></div>
+
+                        <!-- Modal -->
+                        <form action="{{ route('report', $idea->id) }}" method="POST" id="modal-{{$idea->id}}" class="fixed z-20 inset-0 overflow-y-auto hidden">
                             @csrf
-                            <button type="submit" class="hover:text-blue-500 foucs:outline-none">Report</button>
+                            <div class="flex items-center justify-center min-h-screen">
+                                <div class="bg-white w-full max-w-md p-6 rounded-lg shadow-lg">
+                                    <div class="mb-4 flex justify-between">
+                                        <h2 class="text-xl font-bold">Report this idea</h2>
+                                        <button id="close-modal-{{$idea->id}}" type="button">X</button>
+                                        <script>
+                                            document.getElementById('close-modal-{{$idea->id}}').addEventListener('click', function() {
+                                                document.getElementById('modal-{{$idea->id}}').classList.add('hidden');
+                                                document.getElementById('blur-{{$idea->id}}').classList.add('hidden');
+                                            });
+                                        </script>
+                                    </div>
+                                    <div>
+                                        <input type="hidden" name="reporter_id" value="{{auth()->id()}}">
+                                        <label class="mb-4">Reason of reporting</label>
+                                        <textarea name="description" id="" class="resize-none bg-white border-2 border-blue-300 text-gray-900 rounded-lg focus:outline-blue-500 focus:border-blue-500 block w-full py-1.5 pl-2 pr-10 overflow-hidden" placeholder="Describe your reason of reporting explicitly"></textarea>
+                                        <button type="submit" class="mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
                         </form>
+                        <script>
+                            document.getElementById('report-{{$idea->id}}').addEventListener('click', function() {
+                                document.getElementById('modal-{{$idea->id}}').classList.remove('hidden');
+                                document.getElementById('blur-{{$idea->id}}').classList.remove('hidden');
+                            });
+                        </script>
                         @endif
                     </div>
                     <script>
@@ -294,10 +325,11 @@
                 </button>
             </div>
             <script>
-                document.getElementById('idea-comment-{{$idea->id}}').addEventListener('click', function() {
+                var commentBtn = document.getElementById('idea-comment-{{$idea->id}}');
+                commentBtn.addEventListener('click', function() {
                     var commentBox = document.getElementById('comment-{{$idea->id}}');
                     var checkbox  = document.getElementById('idea-comment-{{ $idea->id }}-anon');
-
+                    commentBtn.disabled = true;
                     let comment = commentBox.value;
                     let anon;
                     if (checkbox.checked) {
@@ -340,6 +372,8 @@
                             } else {
                                 commentsSection.classList.remove("border");
                             }
+
+                            commentBtn.disabled = false;
                         })
                         .catch(function(error) {
                             console.log(error.message);

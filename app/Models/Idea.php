@@ -47,6 +47,11 @@ class Idea extends Model
         return $this->belongsToMany(Event::class);
     }
 
+    public function reports()
+    {
+        return $this->hasMany(IdeaReport::class);
+    }
+
     public static function getAllIdea($event_id)
     {
         $result = DB::table('ideas')

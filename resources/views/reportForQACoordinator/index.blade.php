@@ -34,7 +34,7 @@
 
     <body>
 
-        <form method="GET" action="{{ route('reportQACoordinator.index') }}">
+        <form method="GET" action="{{ route('stats.index') }}">
 
          
             @if (!empty($eventName))
@@ -99,9 +99,13 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
+        <div class="row">
+            <div class="col-md-6" style="margin-bottom: 30px;">
+                <a href="{{ route('contributions.index') }}" class="text-white px-3 py-2 rounded-lg bg-blue-500 hover:bg-blue-700">See User Contributions</a>
+            </div>
+        </div>
 
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
         <script>
