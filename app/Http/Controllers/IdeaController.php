@@ -92,11 +92,11 @@ class IdeaController extends Controller
     {
         // dd(auth()->user()->role->role);
         $ideas = Idea::paginate(5);
-        if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2){
+        // if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2){
             return view('ideas.index', compact('ideas'));
-        }else{
-            return redirect('newsfeed');
-        }
+        // }else{
+        //     return redirect('newsfeed');
+        // }
     }
 
     public function create()
@@ -122,13 +122,10 @@ class IdeaController extends Controller
     {
         $data = $request->validate([
             'title' => 'required|string',
-            'image' => 'nullable|image|mimes:jpg,png,jpeg',
             'description' => 'required|string',
-            'is_anonymous' => 'nullable|string',
             'event_id' => 'required|integer',
-            'document' => 'nullable|mimes:pdf,xls,doc',
-            'closure_date' => 'required|date'
         ]);
+        // dd($request->all());
         if ($request->image) {
             $imageName = $this->uploadImage('image', 'images');
             $data['image'] = $imageName;
