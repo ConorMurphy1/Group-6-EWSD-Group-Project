@@ -8,7 +8,7 @@ class UserDashboardController extends Controller
 {
     public function posts()
     {
-        // dd()
+        // dd('lol');
         return view('userpanel.layout.app');
     }
 }
