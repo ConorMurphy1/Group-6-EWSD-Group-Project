@@ -59,7 +59,7 @@ class EventController extends Controller
      * @param  \App\Models\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function show(Event $event)
+    public function show($id)
     {
         //
     }
@@ -70,9 +70,10 @@ class EventController extends Controller
      * @param  \App\Models\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function edit(Event $event)
+    public function edit($id)
     {
-        //
+        $event = Event::find($id);
+        return view('events.create-edit', compact('event'));
     }
 
     /**
@@ -82,9 +83,22 @@ class EventController extends Controller
      * @param  \App\Models\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Event $event)
+    public function update(Request $request, $id)
     {
-        //
+        $event = Event::find($id);
+
+        $data = $request ->validate([
+            'name' => 'required|min:2|max:20',
+            'description' => 'nullable|string',
+            'closure' => 'required|date',
+            'final_closure' => 'required|date'
+        ]);
+
+        $event->update($data);
+
+        // Alert::toast('Event updated successfully', 'success');
+
+        return redirect('admin/events')->with('success', 'Event Updated!');
     }
 
     /**
@@ -93,8 +107,11 @@ class EventController extends Controller
      * @param  \App\Models\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Event $event)
+    public function destroy($id)
     {
-        //
+        $event = Event::findOrFail($id);
+        $event->delete();
+        Alert::toast('Congrats!', 'You have successfully deleted a Event', 'success');
+        return back();
     }
 }
