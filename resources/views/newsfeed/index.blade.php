@@ -279,7 +279,7 @@
                 @foreach ($idea->comments()->latest()->get() as $comment)
                     <div class="flex items-center py-3">
                         <div class="w-12 self-start border rounded-full py-2 px-1">
-                            @if ($commet->is_anonymous)
+                            @if ($comment->is_anonymous)
                             <img src="{{ asset('images/test.png') }}" alt="" width="100%">
                             @else
                             <img src="{{ asset('images/anon.png') }}" alt="" width="100%">
@@ -287,7 +287,7 @@
                         </div>
                         <div class="flex-1 ml-3">
                             <div class="flex items-center justify-between">
-                                @if ()
+                                @if ($comment->is_anonymous)
                                 <div>
                                     <h3 class="font-medium text-sm">Anonymous</h3>
                                 </div>
