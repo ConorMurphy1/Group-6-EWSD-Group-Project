@@ -70,9 +70,10 @@ class EventController extends Controller
      * @param  \App\Models\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function edit(Event $event)
+    public function edit($id)
     {
-        //
+        $event = Event::findOrFail($id);
+        return view('events.create-edit', compact('event'));
     }
 
     /**
@@ -84,17 +85,33 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|unique:events,name,'.$event->id,
+            'description' => 'nullable|string',
+            'closure' => 'required|date',
+            'final_closure' => 'required|date'
+        ]);
+    
+        $event->update($validatedData);
+    
+        Alert::toast('Event updated successfully', 'success');
+    
+        return redirect()->route('events.index')->with('success', 'Event updated successfully!');
     }
+    
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Event  $event
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Event $event)
-    {
-        //
+    public function destroy($id)
+    {        
+        $eventData = Event::findOrFail($id);
+        $eventData->delete();
+        Alert::toast('Congrats!', 'You have successfully deleted an event', 'success');
+        return back();
+    
     }
 }
