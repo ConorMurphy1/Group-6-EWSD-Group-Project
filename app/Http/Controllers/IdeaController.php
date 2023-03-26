@@ -201,7 +201,7 @@ class IdeaController extends Controller
     {
         $idea = Idea::findOrFail($id);
         $idea->delete();
-        Alert::toast('Congrats!', 'You have successfully deleted a Idea', 'success');
+        Alert::toast('Congrats!, You have successfully deleted an Idea', 'success');
         return back();
     }
 }
