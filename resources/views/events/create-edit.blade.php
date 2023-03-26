@@ -4,11 +4,11 @@
             <div class="card shadow-sm border-primary p-2 position-relative">
                 <div class="custom-heading bg-primary">Department</div>
                 <div class="card">
-                    
+
             </div>
         </div>
         <div class="col-md-4">
-            
+
         </div>
     </div>
 </div>
@@ -36,7 +36,7 @@
             </div>
             <div class="my-2">
                 <label for="event_name" class="d-block text-muted">Event Name</label>
-                <input name="name" id="name" type="text" class="form-control" 
+                <input name="name" id="name" type="text" class="form-control"
                 @error('name')is-invalid @enderror
                 required value="{{$department->name ?? ''}}">
                 @error('name')
@@ -45,7 +45,7 @@
             </div>
             <div class="my-2">
                 <label for="description" class="d-block text-muted"> Description</label>
-                <input name="description" id="description" type="text" class="form-control" 
+                <input name="description" id="description" type="text" class="form-control"
                 @error('description')is-invalid @enderror
                 required value="{{$department->description ?? ''}}">
                 @error('description')
@@ -53,11 +53,20 @@
                 @enderror
             </div>
             <div class="my-2">
-                <label for="end_date" class="d-block text-muted">End Date</label>
-                <input type="date" name="end_date" id="end_date" type="text" class="form-control" 
-                @error('end_date')is-invalid @enderror
-                required value="{{$department->end_date ?? ''}}">
-                @error('end_date')
+                <label for="closure" class="d-block text-muted">Closure Date</label>
+                <input type="date" name="closure" id="closure" type="text" class="form-control"
+                @error('closure')is-invalid @enderror
+                required value="{{$department->closure ?? ''}}">
+                @error('closure')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="my-2">
+                <label for="final_closure" class="d-block text-muted">Final Closure Date</label>
+                <input type="date" name="final_closure" id="final_closure" type="text" class="form-control"
+                @error('final_closure')is-invalid @enderror
+                required value="{{$department->final_closure ?? ''}}">
+                @error('final_closure')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
@@ -66,7 +75,7 @@
             </div>
         </form>
         </div>
-        
+
         <!-- /.card-content -->
     </div>
     <!-- /.box-content -->

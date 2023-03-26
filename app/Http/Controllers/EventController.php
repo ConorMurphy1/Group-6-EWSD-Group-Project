@@ -42,7 +42,8 @@ class EventController extends Controller
         $data = $request->validate([
             'name' => 'required|unique:events',
             'description' => 'nullable|string',
-            'end_date' => 'required|date'
+            'closure' => 'required|date',
+            'final_closure' => 'required|date'
         ]);
         Event::create($data);
 
