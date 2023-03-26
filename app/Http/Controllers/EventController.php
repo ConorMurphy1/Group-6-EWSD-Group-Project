@@ -59,7 +59,7 @@ class EventController extends Controller
      * @param  \App\Models\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function show(Event $event)
+    public function show($id)
     {
         //
     }
@@ -72,7 +72,7 @@ class EventController extends Controller
      */
     public function edit($id)
     {
-        $event = Event::findOrFail($id);
+        $event = Event::find($id);
         return view('events.create-edit', compact('event'));
     }
 
@@ -83,35 +83,35 @@ class EventController extends Controller
      * @param  \App\Models\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Event $event)
+    public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|unique:events,name,'.$event->id,
+        $event = Event::find($id);
+
+        $data = $request ->validate([
+            'name' => 'required|min:2|max:20',
             'description' => 'nullable|string',
             'closure' => 'required|date',
             'final_closure' => 'required|date'
         ]);
-    
-        $event->update($validatedData);
-    
-        Alert::toast('Event updated successfully', 'success');
-    
-        return redirect()->route('events.index')->with('success', 'Event updated successfully!');
+
+        $event->update($data);
+
+        // Alert::toast('Event updated successfully', 'success');
+
+        return redirect('admin/events')->with('success', 'Event Updated!');
     }
-    
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  \App\Models\Event  $event
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {        
-        $eventData = Event::findOrFail($id);
-        $eventData->delete();
-        Alert::toast('Congrats!', 'You have successfully deleted an event', 'success');
+    {
+        $event = Event::findOrFail($id);
+        $event->delete();
+        Alert::toast('Congrats!', 'You have successfully deleted a Event', 'success');
         return back();
-    
     }
 }

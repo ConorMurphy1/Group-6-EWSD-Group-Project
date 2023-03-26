@@ -122,23 +122,7 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST">
-             @csrf
-                <div class="modal-body">
-                <div class="group">
-                    <input required="" type="text" name="role" class="input">
-                    <span class="highlight"></span>
-                    <span class="bar"></span>
-                    <label>Role</label>
-                </div>
-                    
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Save</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                </div>
-
-            </form>
+            
             
             </div>
         </div>
@@ -189,7 +173,7 @@
     </div>
     
     <div class="container ">
-        <button data-loading-text="loading..." class="btn btn-warning mx-auto float-right"  type="Button" data-toggle="modal" data-target="#examplemodal">Add Role</button>
+        <a href="{{route('role.create')}}" class="btn btn-warning mx-auto float-right">Add Role</a>
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

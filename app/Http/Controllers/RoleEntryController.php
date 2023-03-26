@@ -16,7 +16,7 @@ class RoleEntryController extends Controller
     public function index()
     {
         $roleData = role::all();
-        return view('role.roleEntry',['roleMembers'=>$roleData]);
+        return view('role.roleEntry', ['roleMembers' => $roleData]);
     }
 
     /**
@@ -26,7 +26,7 @@ class RoleEntryController extends Controller
      */
     public function create()
     {
-       
+        return view('role.createRole');
     }
 
     /**
@@ -37,16 +37,21 @@ class RoleEntryController extends Controller
      */
     public function store(Request $request)
     {
-         $roles = new role();
-        $roles->role = $request->role;
-        $roles->created_at = now();
-        $roles->updated_at = now();  
-        $roles->save();
+        $roles = new role();
+        $roles = $request->input('roleCreate');
 
-        Alert::toast('Role created successfully', 'success');
-        return redirect('admin\role')->with('success', 'Role created successfully!');
+        if (in_array($roles, ['QA Manager', 'QA Coordinator', 'Admin'])) {
+            Alert::toast('Another Role of QA Manager, QA Coordinator and Admin cannot be added', 'error');
+            return redirect('admin\role')->with('success', 'Role created successfully!');
+        } 
+        else {
+            $roles->created_at = now();
+            $roles->updated_at = now();
+            $roles->save();
 
-
+            Alert::toast('Role created successfully', 'success');
+            return redirect('admin\role')->with('success', 'Role created successfully!');
+        }
     }
 
     /**
@@ -58,7 +63,7 @@ class RoleEntryController extends Controller
     public function show($id)
     {
         $roleData = role::find($id);
-        return view('role.updateRole',['roleMembers'=>$roleData]);
+        return view('role.updateRole', ['roleMembers' => $roleData]);
     }
 
     /**
@@ -69,8 +74,8 @@ class RoleEntryController extends Controller
      */
     public function edit($id)
     {
-         $roleData = role::find($id);
-        return view('role.updateRole',['roleMembers'=>$roleData]);
+        $roleData = role::find($id);
+        return view('role.updateRole', ['roleMembers' => $roleData]);
     }
 
     /**
@@ -84,9 +89,10 @@ class RoleEntryController extends Controller
     {
         $roles = role::find($id);
         $roles->role = $request->input('roleUpdate');
-        $roles->updated_at = now();  
+        $roles->updated_at = now();
         $roles->save();
-    
+        Alert::toast('Role updated successfully', 'success');
+
         return redirect('admin\role')->with('success', 'Idea created successfully!');
     }
 
@@ -100,7 +106,7 @@ class RoleEntryController extends Controller
     {
         $roleData = role::findOrFail($id);
         $roleData->delete();
-        Alert::toast('You have successfully deleted a Role called '. $roleData->role .' ', 'success');
+        Alert::toast('You have successfully deleted a Role called ' . $roleData->role . ' ', 'success');
         return back();
     }
 }
