@@ -10,7 +10,12 @@
                 : asset('images/test.png') }}" alt="" class="h-full w-full object-contain">
             </div>
             <div class="mt-2 md:mt-8">
-                <div class="font-medium text-lg md:text-xl">{{ $user->full_name }}</div>
+                <div class="flex items-center font-medium text-lg md:text-xl">
+                    {{ $user->full_name }}
+                    @if (auth()->id() == $user->id)
+                    <span class="ml-2.5 text-sm text-gray-700">(You)</span>
+                    @endif
+                </div>
                 <div class="text-gray-600 text-sm mt-1"><span>@</span>{{ $user->username }}</div>
                 <div class="mt-4">
                     <span class="block font-medium">Department </span>

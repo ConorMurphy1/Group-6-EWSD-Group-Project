@@ -25,10 +25,21 @@ class IdeaSeeder extends Seeder
             'final_closure' => Carbon::now()->addMonth(),
         ]);
 
+        $event2 = Event::create([
+            'name' => 'Valentine\'s',
+            'description' => 'For all the FAs out there',
+            'closure' => Carbon::createFromDate(2023, 2, 9),
+            'final_closure' => Carbon::createFromDate(2023, 2, 13),
+        ]);
+
         Idea::factory(5)->create([
             'event_id' => $event->id,
         ]);
 
-        Comment::factory(9)->create();
+        Idea::factory(5)->create([
+            'event_id' => $event2->id,
+        ]);
+
+        Comment::factory(20)->create();
     }
 }
