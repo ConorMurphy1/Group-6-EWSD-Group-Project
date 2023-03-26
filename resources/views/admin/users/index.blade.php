@@ -42,12 +42,10 @@
                             <tr>
                                 <td>{{ ($users->currentPage()-1) * $users->perPage() + $loop->index + 1 }}</td>
                                 <td>
-                                    @if ($user->image)
-                                        <img src="{{file_exists(asset('storage/'.$user->image))
-                                            ? asset('storage/'.$user->image) 
-                                            : asset($user->image)}}" alt="" width="200" height="200">
+                                    @if ($user->image ?? false)
+                                    <img src="{{ asset('storage/images/'.$user->image) }}" alt="" width="200" height="200">
                                     @else
-                                        <span> No image uploaded </span>
+                                    <span>No Image uploaded</span>
                                     @endif
                                 </td>
                                 <td>{{ $user->username }}</td>

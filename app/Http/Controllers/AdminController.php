@@ -32,16 +32,26 @@ class AdminController extends Controller
     {
         $admin = auth()->user();
 
-        $data = $request->validate([
+        $userData = $request->validate([
             'username' => ['required', Rule::unique('users')->ignore($admin->id), 'max:50'],
             'firstname' => ['required', 'max:50'],
             'lastname' => ['required', 'max:50'],
             'email' => ['required', Rule::unique('users')->ignore($admin->id), 'max:100', 'email'],
             'department_id' => ['required'],
             'role_id' => ['required'],
+            'image' => [ 'nullable', 'image', 'mimes:jpg,png,jpeg', 'max:2048']
         ]);
 
-        $admin->update($data);
+        if($request->file('image') ?? false)
+        {
+            $image = $request->file('image');
+            $filename = uniqid() . '.' . $image->getClientOriginalExtension();
+
+            $image->storeAs('public/images', $filename);
+            $userData['image'] = $filename;
+        }
+
+        $admin->update($userData);
 
         Alert::toast('User account updated!', 'success');
         return redirect()->route('admin.users.index');
