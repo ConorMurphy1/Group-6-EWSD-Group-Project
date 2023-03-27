@@ -39,6 +39,7 @@ class UserFactory extends Factory
             'is_updated' => true,
             'department_id' => $this->faker->numberBetween(1, 6),
             'role_id' => $this->faker->numberBetween(1, 5),
+            'image' => 'test.png',
         ];
     }
 }

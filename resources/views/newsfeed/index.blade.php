@@ -5,17 +5,27 @@
 @foreach ($ideas as $idea)
 
     {{-- TODO: later convert tailwind to BS-4 --}}
-    <div class="col-md-8 col-lg-10 px-4 py-3 bg-white shadow-sm rounded mb-8">
+    <div class="col-md-6 col-lg-8 flex flex-col px-4 py-3 bg-white shadow-sm rounded mb-8">
         <div class="relative">
             <div class="flex justify-between items-center">
                 @if ($idea->is_anonymous ?? false)
-                <div class="mb-1 basis-1/2">
-                    <h1 class="text-black font-medium">Anonymous</a></h1>
+                <div class="flex items-center gap-x-3 mb-1 basis-1/2">
+                    <div class="w-16 h-16 self-start border flex items-center rounded-full py-2 px-1 md:w-24 md:h-24">
+                        <img src="{{ asset('images/anon.png') }}" alt="">
+                    </div>
+                    <div>
+                        <h1 class="text-black font-medium">Anonymous</a></h1>
+                    </div>
                 </div>
                 @else
-                <div class="mb-1 basis-1/2">
-                    <h1 class="text-black font-medium"><a href="users?username={{ $idea->createdBy->username }}">{{$idea->createdBy->full_name}}</a></h1>
-                    <p class="mt-1 text-sm text-gray-500"><span>{{$idea->department->name}}</span></p>
+                <div class="flex items-center gap-x-3 mb-1 basis-1/2">
+                    <a href="users?username={{ $idea->createdBy->username }}" class="w-16 h-16 self-start border flex items-center rounded-full overflow-hidden md:w-24 md:h-24">
+                        <img src="{{ asset('storage/images/'.$idea->user->image) }}" alt="" class="w-full h-full object-cover">
+                    </a>
+                    <div>
+                        <h1 class="text-black font-medium"><a href="users?username={{ $idea->createdBy->username }}">{{$idea->createdBy->full_name}}</a></h1>
+                        <p class="mt-1 text-sm text-gray-500"><span>{{$idea->department->name}}</span></p>
+                    </div>
                 </div>
                 @endif
                 <ul class="tt-list-badge mx-2">
@@ -39,7 +49,7 @@
                         <style>button{}</style>
                         @if (auth()->id() == $idea->user->id)
                         <div class="px-3 py-1">
-                            <a href="ideas/edit" class="apperance-none hover:text-amber-400">Edit</a>
+                            <a href="{{ route('ideas.edit', $idea->id) }}" class="apperance-none hover:text-amber-400">Edit</a>
                         </div>
                         <form action="{{ route('ideas.destroy', $idea->id) }}" method="POST" class="px-3 py-1">
                             @csrf
@@ -98,8 +108,8 @@
         </div>
 
         @if ($idea->image ?? false)
-        <div class="bg-gray-200 border border-gray-300 rounded w-full h-40 flex justify-center items-center md:w-96 md:h-60">
-            <img src="{{ file_exists(asset('storage/'.$idea->image)) ? asset('storage/'.$idea->image) : asset($idea->image) }}" alt="" style="max-width: 100%; max-height: 100%; object-fit:contain">
+        <div class="relative w-full h-[400px] overflow-hidden p-2.5 border rounded">
+            <img src="{{ asset('storage/images/'.$idea->image)  }}" class="absolute top-0 left-0 w-full h-full object-cover" alt="{{$idea->title}}">
         </div>
         @endif
 
@@ -393,11 +403,11 @@
             <section id="comments-section-{{ $idea->id }}" class="relative max-h-96 bg-white px-3 mt-2.5 border rounded-lg divide-y overflow-y-auto">
                 @foreach ($idea->comments()->latest()->get() as $comment)
                     <div class="flex items-center py-8">
-                        <div class="w-12 h-12 self-start border flex items-center rounded-full py-2 px-1">
+                        <div class="w-12 h-12 self-start border flex items-center rounded-full overflow-hidden md:w-16 md:h-16">
                             @if ($comment->is_anonymous)
                             <img src="{{ asset('images/anon.png') }}" alt="" width="100%">
                             @else
-                            <img src="{{ asset('images/test.png') }}" alt="" width="100%">
+                            <img src="{{ asset('storage/images/'.$comment->user->image) }}" alt="" width="100%" class="w-full h-full object-cover">
                             @endif
                         </div>
                         <div class="flex-1 ml-3">

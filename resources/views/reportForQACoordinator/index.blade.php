@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('userpanel.layout.temp')
 @section('content')
     <!doctype html>
     <html lang="en">
@@ -33,6 +33,14 @@
     </head>
 
     <body>
+        <div class="text-2xl my-10">
+            <a href="{{ route('user.profile', urlencode(auth()->user()->username)) }}" class="space-x-1 text-blue-500 hover:text-blue-700">
+                <svg class="w-7 h-7 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
+                </svg>
+                <span>Back to Profile</span>
+            </a>
+        </div>
 
         <form method="GET" action="{{ route('stats.index') }}">
 
@@ -98,12 +106,6 @@
                         <canvas id="myChart2"></canvas>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6" style="margin-bottom: 30px;">
-                <a href="{{ route('contributions.index') }}" class="text-white px-3 py-2 rounded-lg bg-blue-500 hover:bg-blue-700">See User Contributions</a>
             </div>
         </div>
 

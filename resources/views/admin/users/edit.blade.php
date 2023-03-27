@@ -11,9 +11,21 @@
         <div>
             <h1 class="font-semibold text-center mb-10">Edit profile</h1>
         </div>
-        <form action="{{route('admin.users.update', $user->id)}}" method="POST">
+        <form action="{{route('admin.users.update', $user->id)}}" method="POST" enctype="multipart/form-data">
             @method('PUT')
             @csrf
+            <div class="mb-2">
+                <label for="image" class="block mb-2 font-medium text-gray-900 dark:text-white">image</label>
+                <input type="file" id="image" name="image" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="johndoe">
+                @error('image')
+                    <p class="text-red-500">{{$message}}</p>
+                @enderror
+            </div>
+            @if ($user->image ?? false)
+            <div class="mb-10">
+                <img src="{{ asset('storage/images/'.$user->image) }}" alt="" width="200" height="200">
+            </div>
+            @endif
             <div class="mb-4">
                 <label for="username" class="block mb-2 font-medium text-gray-900 dark:text-white">Username</label>
                 <input type="text" id="username" name="username" value="{{ $user->username }}" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="johndoe">

@@ -42,12 +42,10 @@
                             <tr>
                                 <td>{{ ($users->currentPage()-1) * $users->perPage() + $loop->index + 1 }}</td>
                                 <td>
-                                    @if ($user->image)
-                                        <img src="{{file_exists(asset('storage/'.$user->image))
-                                            ? asset('storage/'.$user->image) 
-                                            : asset($user->image)}}" alt="" width="200" height="200">
+                                    @if ($user->image ?? false)
+                                    <img src="{{ asset('storage/images/'.$user->image) }}" alt="" width="200" height="200">
                                     @else
-                                        <span> No image uploaded </span>
+                                    <span>No Image uploaded</span>
                                     @endif
                                 </td>
                                 <td>{{ $user->username }}</td>
@@ -56,17 +54,17 @@
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->is_updated ? 'Yes' : 'No'}}</td>
                                 @if (ucfirst($user->role->role == 'Admin'))
-                                <td class="text-rose-700">{{ $user->department->name }}</td>
-                                <td class="text-rose-700">{{ $user->role->role }}</td>
+                                <td class="font-medium">{{ $user->department->name }}</td>
+                                <td class="font-medium">{{ $user->role->role }}</td>
                                 @elseif(ucfirst($user->role->role == 'QA Manager'))
-                                <td class="text-amber-500">{{ $user->department->name }}</td>
-                                <td class="text-amber-500">{{ $user->role->role }}</td>
+                                <td class="">{{ $user->department->name }}</td>
+                                <td class="">{{ $user->role->role }}</td>
                                 @elseif(ucfirst($user->role->role == 'QA Coordinator'))
-                                <td class="text-blue-700">{{ $user->department->name }}</td>
-                                <td class="text-blue-700">{{ $user->role->role }}</td>
+                                <td class="">{{ $user->department->name }}</td>
+                                <td class="">{{ $user->role->role }}</td>
                                 @else
-                                <td class="text-lime-700">{{ $user->department->name }}</td>
-                                <td class="text-lime-700">{{ $user->role->role }}</td>
+                                <td class="">{{ $user->department->name }}</td>
+                                <td class="">{{ $user->role->role }}</td>
                                 @endif
                                 
                                 <td class="flex-warp">

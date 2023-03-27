@@ -4,10 +4,8 @@
 <div class="flex flex-col items-center gap-y-10 md:gap-y-0 mt-2 md:flex-row">
     <div class="self-center bg-stone-100/[0.9] w-full p-4 rounded-lg md:basis-1/4 md:p-0 md:self-start md:bg-white">
         <div class="flex flex-col items-center gap-x-4 md:gap-x-10 md:items-start">
-            <div class="h-20 w-20 rounded-full border-2 border-slate-100 md:h-40 md:w-40 bg-white overflow-hidden">
-                <img src="{{ file_exists(asset('storage/images'. $user->image)) 
-                ? asset('storage/images'. $user->image) 
-                : asset('images/test.png') }}" alt="" class="h-full w-full object-contain">
+            <div class="h-20 w-20 flex items-center rounded-full border-2 border-slate-100 md:h-40 md:w-40 bg-white overflow-hidden">
+                <img src="{{ asset('storage/images/'.$user->image) }}" alt="" class="h-full w-full object-cover">
             </div>
             <div class="mt-2 md:mt-8">
                 <div class="flex items-center font-medium text-lg md:text-xl">
@@ -28,8 +26,14 @@
                 <div class="mt-4"><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></div>
             </div>
             @if (auth()->id() == $user->id)
-            <div class="mt-4">
+            <div class="mt-8">
                 <a href="{{ route('user.edit', $user->username) }}" class="px-3 py-2 rounded-lg text-white bg-blue-500 hover:bg-blue-700">Edit Account</a>
+            </div>
+            @endif
+
+            @if (auth()->id() == $user->id && auth()->user()->role->role == 'QA Coordinator')
+            <div class="mt-8">
+                <a href="{{ route('analytics.index') }}" class="px-3 py-2 rounded-lg text-white bg-green-600 hover:bg-green-700">Department Analytics</a>
             </div>
             @endif
         </div>
@@ -39,60 +43,105 @@
         <div class="flex flex-col h-full items-center justify-center">
             @unless($ideas->isEmpty())
                 @foreach ($ideas as $idea)
-                <div class="col-md-8 col-lg-8 px-4 py-3 bg-white shadow-sm rounded mb-8">
+                <div class="col-md-6 col-lg-8 flex flex-col px-4 py-3 bg-white shadow-sm rounded mb-8">
                     <div class="relative">
                         <div class="flex justify-between items-center">
-                            @if ($idea->is_anonymous ?? false)
-                            <div class="mb-1 basis-1/2">
-                                <h1 class="text-black font-medium">Anonymous</a></h1>
+                            <div class="flex items-center gap-x-3 mb-1 basis-1/2">
+                                <a href="users?username={{ $idea->createdBy->username }}" class="w-16 h-16 self-start border flex items-center rounded-full overflow-hidden md:w-24 md:h-24">
+                                    <img src="{{ asset('storage/images/'.$idea->user->image) }}" alt="" class="w-full h-full object-cover">
+                                </a>
+                                <div>
+                                    <h1 class="text-black font-medium"><a href="users?username={{ $idea->createdBy->username }}">{{$idea->createdBy->full_name}}</a></h1>
+                                    <p class="mt-1 text-sm text-gray-500"><span>{{$idea->department->name}}</span></p>
+                                </div>
                             </div>
-                            @else
-                            <div class="mb-1 basis-1/2">
-                                <h1 class="text-black font-medium"><a href="users?username={{ $idea->createdBy->username }}">{{$idea->createdBy->full_name}}</a></h1>
-                                <p class="mt-1 text-sm text-gray-500"><span>{{$idea->department->name}}</span></p>
-                            </div>
-                            @endif
                             <ul class="tt-list-badge mx-2">
                                 <li><a href="#"><span class="tt-badge ">movies</span></a></li>
                                 <li><a href="#"><span class="tt-badge ">new movies</span></a></li>
                             </ul>
-                            <div>
+                            <div class="text-center">
                                 <a href="#" class="text-blue-500">{{$idea->event->name}}</a>
                                 <p>{{ $idea->created_at->diffForHumans() }}</p>
                             </div>
-                            @if (auth()->id() == $idea->createdBy->id)
-                            <div class="absolute top-0 -right-2">
+            
+                            {{-- report, edit, delete --}}
+                            @if (auth()->user()->role->role == 'QA Coordinator' || auth()->id() == $idea->user->id)
+                            <div class="relative">
                                 <button id="dd-btn-{{ $idea->id }}" type="button" class="outline-none focus:outline-none">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-500 hover:text-blue-700">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 text-gray-500 hover:text-blue-700">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
                                     </svg>
                                 </button>
-                            </div>
-                            <div id="dd-{{ $idea->id }}" class="hidden absolute z-10 top-4 right-0 mt-2 border bg-white shadow-lg rounded">
-                                <div class="px-3 py-1">
-                                    <a href="ideas/edit" class="apperance-none hover:text-amber-500">Edit</a>
+                                <div id="dd-{{ $idea->id }}" class="hidden absolute z-10 top-8 right-0 mt-2 px-4 bg-white shadow rounded-lg">
+                                    <style>button{}</style>
+                                    @if (auth()->id() == $idea->user->id)
+                                    <div class="px-3 py-1">
+                                        <a href="{{ route('ideas.edit', $idea->id) }}" class="apperance-none hover:text-amber-400">Edit</a>
+                                    </div>
+                                    <form action="{{ route('ideas.destroy', $idea->id) }}" method="POST" class="px-3 py-1">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="hover:text-red-500 foucs:outline-none">Delete</button>
+                                    </form>
+                                    @else
+                                    <button id="report-{{$idea->id}}" type="button" class="px-3 py-1 hover:text-red-500 foucs:outline-none">Report</button>
+                                    
+                                    <!-- Blur -->
+                                    <div id="blur-{{$idea->id}}" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden"></div>
+            
+                                    <!-- Modal -->
+                                    <form action="{{ route('report', $idea->id) }}" method="POST" id="modal-{{$idea->id}}" class="fixed z-20 inset-0 overflow-y-auto hidden">
+                                        @csrf
+                                        <div class="flex items-center justify-center min-h-screen">
+                                            <div class="bg-white w-full max-w-md p-6 rounded-lg shadow-lg">
+                                                <div class="mb-4 flex justify-between">
+                                                    <h2 class="text-xl font-bold">Report this idea</h2>
+                                                    <button id="close-modal-{{$idea->id}}" type="button">X</button>
+                                                    <script>
+                                                        document.getElementById('close-modal-{{$idea->id}}').addEventListener('click', function() {
+                                                            document.getElementById('modal-{{$idea->id}}').classList.add('hidden');
+                                                            document.getElementById('blur-{{$idea->id}}').classList.add('hidden');
+                                                        });
+                                                    </script>
+                                                </div>
+                                                <div>
+                                                    <input type="hidden" name="reporter_id" value="{{auth()->id()}}">
+                                                    <label class="mb-4">Reason of reporting</label>
+                                                    <textarea name="description" id="" class="resize-none bg-white border-2 border-blue-300 text-gray-900 rounded-lg focus:outline-blue-500 focus:border-blue-500 block w-full py-1.5 pl-2 pr-10 overflow-hidden" placeholder="Describe your reason of reporting explicitly"></textarea>
+                                                    <button type="submit" class="mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <script>
+                                        document.getElementById('report-{{$idea->id}}').addEventListener('click', function() {
+                                            document.getElementById('modal-{{$idea->id}}').classList.remove('hidden');
+                                            document.getElementById('blur-{{$idea->id}}').classList.remove('hidden');
+                                        });
+                                    </script>
+                                    @endif
                                 </div>
-                                <form action="" method="POST" class="px-3 py-1">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class= hover:text-red-500">Delete</button>
-                                </form>
+                                <script>
+                                    let button_{{$idea->id}} = document.getElementById('dd-btn-{{$idea->id}}');
+                                    let dropdown_{{$idea->id}} = document.getElementById('dd-{{$idea->id}}');
+                                    button_{{$idea->id}}.addEventListener('click', function(event) {
+                                        dropdown_{{$idea->id}}.classList.toggle('hidden');
+                                    });
+                                </script>
                             </div>
-                            <script>
-                                let button_{{$idea->id}} = document.getElementById('dd-btn-{{$idea->id}}');
-                                let dropdown_{{$idea->id}} = document.getElementById('dd-{{$idea->id}}');
-                                button_{{$idea->id}}.addEventListener('click', function(event) {
-                                    dropdown_{{$idea->id}}.classList.toggle('hidden');
-                                });
-                            </script>
                             @endif
                         </div>
-                        <p class="py-6 text-2xl my-2">{{$idea->title}}</p>
+                        <div class="py-6 mt-4 mb-1.5">
+                            @if ($idea->is_anonymous)
+                            <span class="text-sm px-2 py-1 bg-gray-400 text-white rounded-lg">Anonymous</span>
+                            @endif
+                            <p class="text-2xl m-0">{{$idea->title}}</p>
+                        </div>
                     </div>
             
                     @if ($idea->image ?? false)
-                    <div class="bg-gray-200 border border-gray-300 rounded w-full h-40 flex justify-center items-center md:w-96 md:h-60">
-                        <img src="{{ file_exists(asset('storage/'.$idea->image)) ? asset('storage/'.$idea->image) : asset($idea->image) }}" alt="" style="max-width: 100%; max-height: 100%; object-fit:contain">
+                    <div class="relative w-full h-[400px] overflow-hidden p-2.5 border rounded">
+                        <img src="{{ asset('storage/images/'.$idea->image)  }}" class="absolute top-0 left-0 w-full h-full object-cover" alt="{{$idea->title}}">
                     </div>
                     @endif
             
@@ -386,11 +435,11 @@
                         <section id="comments-section-{{ $idea->id }}" class="relative max-h-96 bg-white px-3 mt-2.5 border rounded-lg divide-y overflow-y-auto">
                             @foreach ($idea->comments()->latest()->get() as $comment)
                                 <div class="flex items-center py-8">
-                                    <div class="w-12 h-12 self-start border flex items-center rounded-full py-2 px-1">
+                                    <div class="w-12 h-12 self-start border flex items-center rounded-full overflow-hidden md:w-16 md:h-16">
                                         @if ($comment->is_anonymous)
                                         <img src="{{ asset('images/anon.png') }}" alt="" width="100%">
                                         @else
-                                        <img src="{{ asset('images/test.png') }}" alt="" width="100%">
+                                        <img src="{{ asset('storage/images/'.$comment->user->image) }}" alt="" width="100%" class="w-full h-full object-cover">
                                         @endif
                                     </div>
                                     <div class="flex-1 ml-3">

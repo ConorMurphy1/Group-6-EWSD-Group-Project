@@ -4,10 +4,8 @@
 <div class="flex flex-col items-center gap-y-10 md:gap-y-0 mt-2 md:flex-row">
     <div class="self-center bg-stone-100/[0.9] w-full p-4 rounded-lg md:basis-1/4 md:p-0 md:self-start md:bg-white">
         <div class="flex flex-col items-center gap-x-4 md:gap-x-10">
-            <div class="h-20 w-20 rounded-full border-2 border-slate-100 md:h-40 md:w-40 bg-white overflow-hidden">
-                <img src="{{ file_exists(asset('storage/images'. $user->image)) 
-                ? asset('storage/images'. $user->image) 
-                : asset('images/test.png') }}" alt="" class="h-full w-full object-contain">
+            <div class="h-20 w-20 flex items-center rounded-full border-2 border-slate-100 md:h-40 md:w-40 bg-white overflow-hidden">
+                <img src="{{ asset('storage/images/'.$user->image) }}" alt="" class="h-full w-full object-cover">
             </div>
             <div class="mt-2 text-center md:mt-8 md:text-start">
                 <div class="font-medium text-lg md:text-xl">{{ $user->full_name }}</div>
@@ -25,9 +23,21 @@
                 </svg>
                 <span>back</span>
             </a>
-            <form action="{{route('user.update', $user->username)}}" method="POST" class="mt-8 w-full">
+            <form action="{{route('user.update', $user->username)}}" method="POST" class="mt-8 w-full" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
+                <div class="mb-2">
+                    <label for="image" class="block mb-2 font-medium text-gray-900 dark:text-white">image</label>
+                    <input type="file" id="image" name="image" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="johndoe">
+                    @error('image')
+                        <p class="text-red-500">{{$message}}</p>
+                    @enderror
+                </div>
+                @if ($user->image ?? false)
+                <div class="mb-10">
+                    <img src="{{ asset('storage/images/'.$user->image) }}" alt="" width="200" height="200">
+                </div>
+                @endif
                 <div class="mb-2">
                     <label for="username" class="block mb-2 font-medium text-gray-900 dark:text-white">Username</label>
                     <input type="text" id="username" name="username" value="{{ $user->username }}" class="bg-white border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="johndoe">
