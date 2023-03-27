@@ -52,6 +52,10 @@
 	<link rel="stylesheet" href="{{asset('adminpanel/assets/plugin/modal/remodal/remodal.css')}}">
 	<link rel="stylesheet" href="{{asset('adminpanel/assets/plugin/modal/remodal/remodal-default-theme.css')}}">
 
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modal-video/2.0.0/css/modal-video.min.css"> -->
+</head>
+<body>
+
 	<style>
 		button{
 			background-color: #304ffe!important;
@@ -128,7 +132,7 @@
 					<!-- /.sub-menu js__content -->
 				</li>
 				<li>
-					<a class="waves-effect" href="{{route('categories.index')}}"><i class="menu-icon fa fa-list"></i><span>Category</span><span class="notice notice-yellow">6</span></a>
+					<a class="waves-effect" href="{{route('categories.index')}}"><i class="menu-icon fa fa-list"></i><span>Category</span></a>
 				</li>
 			</ul>
 			<!-- /.menu js__accordion -->

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="card-body">
-    <div class="col-lg-6 col-xs-12">
+    <div class="col-md-12">
         <div class="box-content card white">
             <h4 class="box-title">Basic example</h4>
             <!-- /.box-title -->
@@ -68,29 +68,14 @@
                         </select>
                     </div>
 
-                    <button type="button" onclick="conditionsModal()" class="btn btn-primary btn-ladda">Save </button>
+                    <!-- <button type="button" onclick="conditionsModal()" class="btn btn-primary btn-ladda" data-toggle="modal" data-target="#termsCondition">Save </button> -->
+                    <button type="button"  data-remodal-target="remodal" class="btn btn-primary waves-effect waves-light">Save</button>
+             
+                    <!-- <button type="button" onclick="conditionsModal()" class="btn btn-primary margin-bottom-10 waves-effect waves-light" data-toggle="modal" data-target="#termsCondition">Save</button> -->
                 </div>
+    
+                    @include('ideas.modal')
 
-                <div hidden id="termsCondition">
-                    <h1>Terms and Conditions</h1>
-                    <p>Welcome to our website. If you continue to browse and use this website, you are agreeing to comply with and be bound by the following terms and conditions of use:</p>
-                    <ul>
-                        <li>Use of the Website</li>
-                        <li>Disclaimer</li>
-                        <li>Intellectual Property</li>
-                        <li>Third-Party Links</li>
-                        <li>Privacy Policy</li>
-                        <li>Limitation of Liability</li>
-                        <li>Governing Law</li>
-                        <li>Changes to the Terms and Conditions</li>
-                    </ul>
-                    <p>If you disagree with any part of these terms and conditions, please do not use our website
-                        <br>
-                    <input type="checkbox" id="agree" onclick="enableSave()"> <label for="">Accept Terms & Condition</label>
-                    <div class="d-flex justify-content-end my-2">
-                        <button type="submit" class="btn btn-primary btn-ladda" id="save" disabled>Save</button>
-                    </div>
-                    </div>
                 </form>
             </div>
             <!-- /.card-content -->
@@ -98,30 +83,25 @@
         <!-- /.box-content -->
 
 
-        </div>
+        
     </div>
 </div>
 @endsection
 @section('javascript')
-<script>
-    // Code displays the image
-    imgInp.onchange = evt => {
-    const [file] = imgInp.files
-        if (file) {
-            displayImg.src = URL.createObjectURL(file)
+    <script>
+        // Code displays the image
+        imgInp.onchange = evt => {
+        const [file] = imgInp.files
+            if (file) {
+                displayImg.src = URL.createObjectURL(file)
+            }
         }
-    }
-    // The terms and conditions Modal
-    function conditionsModal() {
-        // alert('Conditions');
-        document.getElementById("termsCondition").removeAttribute('hidden');
-    }
-
-    function enableSave(){
-        document.getElementById("save").removeAttribute('disabled');
-    }
-
-    
-</script>
+        // The terms and conditions Modal
+        function conditionsModal() {
+            // alert('Conditions');
+            document.getElementById("termsCondition").removeAttribute('hidden');
+        }
+        
+    </script>
 @endsection
 
