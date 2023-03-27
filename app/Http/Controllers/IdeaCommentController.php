@@ -43,11 +43,10 @@ class IdeaCommentController extends Controller
     public function store(Request $request, Idea $idea)
     {
         $data = $request->validate([
-            'is_anonymous' => 'nullable|string',
             'comment' => 'required|string',
         ]);
 
-        $is_anonymous_final = $request->is_anonymous === "yes" ? true : false;
+        $is_anonymous_final = $request->json('is_anonymous') == 1 ? true : false;
 
         $data['is_anonymous'] = $is_anonymous_final;
         $data['user_id'] = auth()->id();

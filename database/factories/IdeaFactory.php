@@ -24,6 +24,7 @@ class IdeaFactory extends Factory
             'user_id' => rand(1,4),
             'department_id' => rand(1,5),
             'event_id' => 1,
+            'is_anonymous' => [true,false][rand(0,1)],
         ];
     }
 }

@@ -115,8 +115,10 @@
                     <div class="tt-desktop-menu">
                         <nav>
                             <ul>
+                                @if (auth()->user()->role->role == 'Admin')
+                                <li><a href="{{ route('home') }}"><span>Dashboard</span></a></li>
+                                @endif
                                 <li><a href="{{ route('ideas.feed') }}"><span>Home</span></a></li>
-                                <li><a href="user_event.html"><span>Events</span></a></li>
                                 <li><a href="{{route('idea.users.create')}}"><span>Create</span></a></li>
                             </ul>
                         </nav>

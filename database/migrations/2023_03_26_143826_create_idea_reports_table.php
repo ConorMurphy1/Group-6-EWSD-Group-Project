@@ -13,19 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ideas', function (Blueprint $table) {
+        Schema::create('idea_reports', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('image')->nullable();
+            $table->foreignId('idea_id');
+            $table->foreignId('user_id');
             $table->text('description');
-            $table->integer('user_id');
-            $table->integer('department_id');
-            $table->integer('event_id');
-            $table->boolean('is_anonymous')->nullable();
-            $table->text('document')->nullable();
-            $table->integer('views')->nullable();
-            $table->softDeletes();
             $table->timestamps();
+
+            /** constraints */
+            $table->unique(['idea_id', 'user_id']);     // qac can only report once per idea
+            $table->foreign('idea_id')->references('id')->on('ideas')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -36,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ideas');
+        Schema::dropIfExists('idea_reports');
     }
 };

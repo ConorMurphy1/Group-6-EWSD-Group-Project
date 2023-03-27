@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Idea, Event, Category, Department, IdeaCategory};
+use App\Models\{Idea, Event, Category, Department, IdeaCategory, IdeaReport};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Traits\UploadTrait;
@@ -90,22 +90,28 @@ class IdeaController extends Controller
 
     public function index()
     {
-        // dd(auth()->user()->role->role);
         $ideas = Idea::paginate(5);
-        // if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2){
+        if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2){
             return view('ideas.index', compact('ideas'));
-        // }else{
-        //     return redirect('newsfeed');
-        // }
+        }
+        else{
+            Alert::alert('You do not have permission to view this website!!!');
+            return redirect()->route('ideas.feed');
+        }
     }
 
     public function create()
     {
         $idea = new Idea();
         $categories = Category::all();
-        $events = Event::whereDate('closure', '>', now()->format('Y-m-d'))->get();
-
-        return view('ideas.create-edit', compact('idea', 'events', 'categories'));
+        $events = Event::whereDate('closure', '>', now())->get();
+        if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2){
+            return view('ideas.create-edit', compact('idea', 'events', 'categories'));
+        }
+        else{
+            Alert::alert('You do not have permission to view this website!!!');
+            return redirect()->route('ideas.feed');
+        }
     }
 
     public function userCreate()
@@ -113,7 +119,7 @@ class IdeaController extends Controller
         $idea = new Idea();
         $categories = Category::all();
         $departments = Department::all();
-        $events = Event::whereDate('closure', '>', now()->format('Y-m-d'))->get();
+        $events = Event::whereDate('closure', '>', now())->get();
 
         return view('ideas.user-create-edit', compact('idea', 'events', 'categories', 'departments'));
     }
@@ -121,40 +127,43 @@ class IdeaController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'title' => 'required|string',
-            'description' => 'required|string',
-            'event_id' => 'required|integer',
+            'title' => 'required | string',
+            'description' => 'required | string',
+            'event_id' => 'required | integer'
         ]);
-        // dd($request->all());
-        if ($request->image) {
+
+        if($request->image)
+        {
             $imageName = $this->uploadImage('image', 'images');
             $data['image'] = $imageName;
         }
-        if ($request->hasFile('document')) {
+
+        if($request->hasFile('document'))
+        {
             $documentName = $this->uploadDoc('document', 'documents');
             $data['document'] = $documentName;
         }
 
-        $is_anonymous_final = $request->is_anonymous === "yes" ? 'Yes' : 'No';
-
-
-        $data['user_id'] = auth()->user()->id;
+        $is_anonymous_final = $request->is_anonymous === "yes" ? true : false;
+        
+        $data['user_id'] = auth()->id();
         $data['is_anonymous'] = $is_anonymous_final;
         $data['department_id'] = auth()->user()->department_id;
 
         $idea = Idea::create($data);
-        for($i=0;$i<count($request->category_ids);$i++)
-        {
 
-            IdeaCategory::create([
-                'idea_id' => $idea->id,
-                'category_id' => $request->category_ids[$i],
-            ]);
-        }
+        // for($i = 0; $i < count($request->category_ids); ++$i)
+        // {
+        //     IdeaCategory::create([
+        //         'idea_id' => $idea->id,
+        //         'category_id' => $request->category_ids[$i],
+        //     ]);
+        // }
+
         Alert::toast('Idea created successfully', 'success');
-
-        return redirect('admin\ideas')->with('success', 'Idea created successfully!');
+        return redirect()->route('ideas.feed');
     }
+    
 
     /**
      * Display the specified resource.
@@ -177,8 +186,13 @@ class IdeaController extends Controller
     {
         $idea = Idea::findOrFail($id);
         $events = Event::all();
-
-        return view('ideas.create-edit', compact('idea', 'events'));
+        if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2){
+            return view('ideas.create-edit', compact('idea', 'events'));
+        }
+        else{
+            Alert::alert('You do not have permission to view this website!!!');
+            return redirect()->route('ideas.feed');
+        }
     }
 
     /**
@@ -203,7 +217,35 @@ class IdeaController extends Controller
     {
         $idea = Idea::findOrFail($id);
         $idea->delete();
-        Alert::toast('Congrats!', 'You have successfully deleted a Idea', 'success');
+        Alert::toast('Congrats!, You have successfully deleted an Idea', 'success');
         return back();
+    }
+
+    /** report submitted by QA Coord */
+    public function report(Request $request, Idea $idea)
+    {
+        if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2){
+            $reporter = $request->input('reporter_id');
+
+            /** can't report twice for a specific idea */
+            if(IdeaReport::where('user_id', $reporter)->where('idea_id', $idea->id)->exists())
+            {
+                Alert::toast('You cannot submit more than one report to an idea', 'error');
+                return back();
+            }
+
+            $report = new IdeaReport();
+            $report->idea_id = $idea->id; 
+            $report->user_id = $reporter;
+            $report->description = $request->input('description');
+            $report->save();
+
+            Alert::toast('You have submitted the report', 'success');
+            return back();
+        }
+        else{
+            Alert::alert('You do not have permission to view this website!!!');
+            return redirect()->route('ideas.feed');
+        }
     }
 }

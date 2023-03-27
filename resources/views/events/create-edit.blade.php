@@ -38,7 +38,7 @@
                 <label for="event_name" class="d-block text-muted">Event Name</label>
                 <input name="name" id="name" type="text" class="form-control"
                 @error('name')is-invalid @enderror
-                required value="{{$department->name ?? ''}}">
+                required value="{{$event->name ?? ''}}">
                 @error('name')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
@@ -47,7 +47,7 @@
                 <label for="description" class="d-block text-muted"> Description</label>
                 <input name="description" id="description" type="text" class="form-control"
                 @error('description')is-invalid @enderror
-                required value="{{$department->description ?? ''}}">
+                required value="{{$event->description ?? ''}}">
                 @error('description')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
@@ -56,7 +56,7 @@
                 <label for="closure" class="d-block text-muted">Closure Date</label>
                 <input type="date" name="closure" id="closure" type="text" class="form-control"
                 @error('closure')is-invalid @enderror
-                required value="{{$department->closure ?? ''}}">
+                required value="{{$event->closure ?? ''}}">
                 @error('closure')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
@@ -65,7 +65,7 @@
                 <label for="final_closure" class="d-block text-muted">Final Closure Date</label>
                 <input type="date" name="final_closure" id="final_closure" type="text" class="form-control"
                 @error('final_closure')is-invalid @enderror
-                required value="{{$department->final_closure ?? ''}}">
+                required value="{{$event->final_closure ?? ''}}">
                 @error('final_closure')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror

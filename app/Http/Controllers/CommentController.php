@@ -99,7 +99,7 @@ class CommentController extends Controller
             'comment' => 'required|string',
         ]);
 
-        $is_anonymous_final = $request->is_anonymous === "yes" ? 'Yes' : 'No';
+        $is_anonymous_final = $request->is_anonymous === "yes" ? true : false;
 
         // $data['user_id'] = auth()->user()->id;
         $data['is_anonymous'] = $is_anonymous_final;

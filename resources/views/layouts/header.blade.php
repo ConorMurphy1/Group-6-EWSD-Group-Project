@@ -154,6 +154,12 @@
 				<li>
 					<a class="waves-effect" href="{{ route('admin.profile') }}"><i class="menu-icon fa fa-user"></i><span>Profile</span></a>
 				</li>
+				<li>
+					<a class="waves-effect" href="{{ route('admin.reports') }}"><i class="menu-icon fa fa-exclamation-triangle" aria-hidden="true"></i></i><span>Reports</span></a>
+				</li>
+				<li>
+					<a class="waves-effect" href="{{ route('stats.index') }}"><i class="menu-icon fa fa-bar-chart"></i><span>Stats</span></a>
+				</li>
 
 
 			</ul>
