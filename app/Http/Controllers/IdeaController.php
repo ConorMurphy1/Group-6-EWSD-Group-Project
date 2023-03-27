@@ -47,42 +47,42 @@ class IdeaController extends Controller
                 ->where('event_id', $event_id)
                 ->whereNotNull('document')
                 ->get();
-        
+
         $event = DB::table('ideas')
                 ->join('events', 'ideas.event_id', '=', 'events.id')
                 ->select('events.name')
                 ->where('event_id', $event_id)
                 ->first();
         $event_name = $event->name;
-    
-    
+
+
         if ($ideas->isEmpty()) {
             // Return an error message if there are no ideas with a document attachment
             return redirect()->back()->with('error', 'No ideas with document attachments found for selected event.');
         }
-    
+
         $zip = new ZipArchive;
         $fileName = 'event-' . $event_name . 'Event-documents.zip';
         $filePath = public_path($fileName);
-    
+
         if ($zip->open($filePath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== TRUE) {
             return redirect()->back()->with('error', 'Failed to create zip file');
         }
-    
+
         foreach ($ideas as $idea) {
             $file = public_path('storage/documents/' . $idea->document);
-    
+
             if (file_exists($file)) {
                 $zip->addFile($file, $idea->document);
             }
         }
-    
+
         $zip->close();
         Alert::toast('Download Success!', 'success');
         return response()->download($filePath)->deleteFileAfterSend(true);
 
     }
-    
+
 
 
 
@@ -91,7 +91,13 @@ class IdeaController extends Controller
     public function index()
     {
         $ideas = Idea::paginate(5);
-        return view('ideas.index', compact('ideas'));
+        if(auth()->user()->role_id == 1 || auth()->user()->role_id == 3){
+            return view('ideas.index', compact('ideas'));
+        }
+        else{
+            Alert::alert('You do not have permission to view this website!!!');
+            return redirect()->route('ideas.feed');
+        }
     }
 
     public function create()
@@ -99,8 +105,13 @@ class IdeaController extends Controller
         $idea = new Idea();
         $categories = Category::all();
         $events = Event::whereDate('closure', '>', now())->get();
-
-        return view('ideas.create-edit', compact('idea', 'events', 'categories'));
+        if(auth()->user()->role_id == 1 || auth()->user()->role_id == 3){
+            return view('ideas.create-edit', compact('idea', 'events', 'categories'));
+        }
+        else{
+            Alert::alert('You do not have permission to view this website!!!');
+            return redirect()->route('ideas.feed');
+        }
     }
 
     public function userCreate()
@@ -134,7 +145,7 @@ class IdeaController extends Controller
         }
 
         $is_anonymous_final = $request->is_anonymous === "yes" ? true : false;
-        
+
         $data['user_id'] = auth()->id();
         $data['is_anonymous'] = $is_anonymous_final;
         $data['department_id'] = auth()->user()->department_id;
@@ -152,7 +163,7 @@ class IdeaController extends Controller
         Alert::toast('Idea created successfully', 'success');
         return redirect()->route('ideas.feed');
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -175,8 +186,13 @@ class IdeaController extends Controller
     {
         $idea = Idea::findOrFail($id);
         $events = Event::all();
-
-        return view('ideas.create-edit', compact('idea', 'events'));
+        if(auth()->user()->role_id == 1 || auth()->user()->role_id == 3){
+            return view('ideas.create-edit', compact('idea', 'events'));
+        }
+        else{
+            Alert::alert('You do not have permission to view this website!!!');
+            return redirect()->route('ideas.feed');
+        }
     }
 
     /**
@@ -208,22 +224,28 @@ class IdeaController extends Controller
     /** report submitted by QA Coord */
     public function report(Request $request, Idea $idea)
     {
-        $reporter = $request->input('reporter_id');
+        if(auth()->user()->role_id == 1 || auth()->user()->role_id == 3){
+            $reporter = $request->input('reporter_id');
 
-        /** can't report twice for a specific idea */
-        if(IdeaReport::where('user_id', $reporter)->where('idea_id', $idea->id)->exists())
-        {
-            Alert::toast('You cannot submit more than one report to an idea', 'error');
+            /** can't report twice for a specific idea */
+            if(IdeaReport::where('user_id', $reporter)->where('idea_id', $idea->id)->exists())
+            {
+                Alert::toast('You cannot submit more than one report to an idea', 'error');
+                return back();
+            }
+
+            $report = new IdeaReport();
+            $report->idea_id = $idea->id;
+            $report->user_id = $reporter;
+            $report->description = $request->input('description');
+            $report->save();
+
+            Alert::toast('You have submitted the report', 'success');
             return back();
         }
-
-        $report = new IdeaReport();
-        $report->idea_id = $idea->id; 
-        $report->user_id = $reporter;
-        $report->description = $request->input('description');
-        $report->save();
-
-        Alert::toast('You have submitted the report', 'success');
-        return back();
+        else{
+            Alert::alert('You do not have permission to view this website!!!');
+            return redirect()->route('ideas.feed');
+        }
     }
 }

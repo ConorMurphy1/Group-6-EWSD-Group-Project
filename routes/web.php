@@ -105,7 +105,6 @@ Route::middleware(['auth'])->group(function() {
 
 /** shared functionalities between admin panel and user panel  */
 Route::middleware(['auth'])->group(function() {
-    Route::resource('ideas', IdeaController::class);
     Route::resource('comments', CommentController::class);
 
 });
@@ -119,39 +118,8 @@ Route::middleware(['auth'])->group(function() {
 // dd(auth()->user());
 // if (auth()->user()->role->role === "Admin"){
 // Route::group(['middleware' => ['web', 'auth']], function(){
-    Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(){
-    /**
-     * Category(Dashboard) related routes
-     */
-    Route::resource('categories', CategoryController::class);
-
-    /**
-     * Department(Dashboard) related routes
-     */
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(){
     
-    Route::resource('departments', DepartmentController::class);
-
-    /**
-     * Role Entry related routes
-     */
-    Route::resource('role', RoleEntryController::class);
-    Route::get('role/{id}/delete',[RoleEntryController::class,'destroy']);
-    Route::put('role/{id}/edit', [RoleEntryController::class, 'update']);
-
-
-    /**
-     * CSV Export
-     */
-    Route::resource('/export-csv', CsvExportController::class);
-    Route::get('/export-csv-download', [IdeaController::class,'exportToCSV'])->name('export-csv-download');
-    Route::get('/export-csv', [CsvExportController::class, 'index'])->name('export-csv');
-    Route::get('/download-document', [IdeaController::class, 'downloadDocument'])->name('download-document');
-
-
-    /**
-     * Event
-     */
-    Route::resource('events', EventController::class);
 
 });
 // }
@@ -164,3 +132,42 @@ Route::group(['middleware' => ['web', 'auth']], function(){
 
 
 // Route::get('posts', [UserDashboardController::class, 'posts'])->name('user.posts');
+
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
+    
+    /**
+     * Role Entry related routes
+     */
+    Route::resource('role', RoleEntryController::class);
+    Route::get('role/{id}/delete',[RoleEntryController::class,'destroy']);
+    Route::put('role/{id}/edit', [RoleEntryController::class, 'update']);
+
+    /**
+     * Event
+     */
+    Route::resource('events', EventController::class);
+
+    /**
+     * CSV Export
+     */
+    Route::resource('/export-csv', CsvExportController::class);
+    Route::get('/export-csv-download', [IdeaController::class,'exportToCSV'])->name('export-csv-download');
+    Route::get('/export-csv', [CsvExportController::class, 'index'])->name('export-csv');
+    Route::get('/download-document', [IdeaController::class, 'downloadDocument'])->name('download-document');
+
+    /**
+     * Department(Dashboard) related routes
+     */
+    Route::resource('departments', DepartmentController::class);
+
+    /**
+     * Category(Dashboard) related routes
+     */
+    Route::resource('categories', CategoryController::class);
+    
+    /**
+     * Idea(Dashboard) related routes
+     */
+    Route::resource('ideas', IdeaController::class);
+
+});
