@@ -1,9 +1,9 @@
 <div class="flex items-center py-8">
-    <div class="w-12 h-12 self-start border flex items-center rounded-full py-2 px-1">
+    <div class="w-12 h-12 self-start border flex items-center rounded-full overflow-hidden md:w-16 md:h-16">
         @if ($comment->is_anonymous)
         <img src="{{ asset('images/anon.png') }}" alt="" width="100%">
         @else
-        <img src="{{ asset('images/test.png') }}" alt="" width="100%">
+        <img src="{{ asset('storage/images/'.$comment->user->image) }}" alt="" width="100%" class="w-full h-full object-cover">
         @endif
     </div>
     <div class="flex-1 ml-3">
