@@ -83,7 +83,11 @@
 <body>
 <div class="main-menu">
 	<header class="header">
+		
 		<a href="{{route('home')}}" class="logo">G6</a>
+		{{-- <div class="tt-logo">
+			<a href="{{route('home')}}"><img src="images/anon.png" alt="">G6</a>
+		</div> --}}
 		<button type="button" class="button-close fa fa-times js__menu_close"></button>
 		<div class="user">
 			<a href="{{ route('admin.profile') }}" class="avatar"><img src="{{ asset('storage/images/'.$user->image) }}" alt=""><span class="status online"></span></a>

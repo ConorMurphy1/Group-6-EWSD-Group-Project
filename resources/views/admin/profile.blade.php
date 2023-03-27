@@ -44,7 +44,7 @@
 										<div class="row">
 											<div class="col-xs-5"><label>Last Name:</label></div>
 											<!-- /.col-xs-5 -->
-											<div class="col-xs-7">Simmons</div>
+											<div class="col-xs-7">{{ $user->lastname }}</div>
 											<!-- /.col-xs-7 -->
 										</div>
 										<!-- /.row -->
@@ -54,7 +54,7 @@
 										<div class="row">
 											<div class="col-xs-5"><label>User Name:</label></div>
 											<!-- /.col-xs-5 -->
-											<div class="col-xs-7">Betty</div>
+											<div class="col-xs-7">{{ $user->full_name }}</div>
 											<!-- /.col-xs-7 -->
 										</div>
 										<!-- /.row -->
@@ -64,7 +64,7 @@
 										<div class="row">
 											<div class="col-xs-5"><label>Email:</label></div>
 											<!-- /.col-xs-5 -->
-											<div class="col-xs-7">youremail@gmail.com</div>
+											<div class="col-xs-7">{{ $user->email }}</div>
 											<!-- /.col-xs-7 -->
 										</div>
 										<!-- /.row -->
@@ -72,9 +72,9 @@
 									<!-- /.col-md-6 -->
 									<div class="col-md-6">
 										<div class="row">
-											<div class="col-xs-5"><label>City:</label></div>
+											<div class="col-xs-5"><label>Department:</label></div>
 											<!-- /.col-xs-5 -->
-											<div class="col-xs-7">Los Angeles</div>
+											<div class="col-xs-7">{{ $user->departments }} </div>
 											<!-- /.col-xs-7 -->
 										</div>
 										<!-- /.row -->
@@ -82,9 +82,9 @@
 									<!-- /.col-md-6 -->
 									<div class="col-md-6">
 										<div class="row">
-											<div class="col-xs-5"><label>Country:</label></div>
+											<div class="col-xs-5"><label>Role:</label></div>
 											<!-- /.col-xs-5 -->
-											<div class="col-xs-7">United States</div>
+											<div class="col-xs-7">{{ $user->roles }}</div>
 											<!-- /.col-xs-7 -->
 										</div>
 										<!-- /.row -->
