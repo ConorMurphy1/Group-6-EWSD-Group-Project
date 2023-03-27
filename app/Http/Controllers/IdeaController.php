@@ -47,42 +47,42 @@ class IdeaController extends Controller
                 ->where('event_id', $event_id)
                 ->whereNotNull('document')
                 ->get();
-        
+
         $event = DB::table('ideas')
                 ->join('events', 'ideas.event_id', '=', 'events.id')
                 ->select('events.name')
                 ->where('event_id', $event_id)
                 ->first();
         $event_name = $event->name;
-    
-    
+
+
         if ($ideas->isEmpty()) {
             // Return an error message if there are no ideas with a document attachment
             return redirect()->back()->with('error', 'No ideas with document attachments found for selected event.');
         }
-    
+
         $zip = new ZipArchive;
         $fileName = 'event-' . $event_name . 'Event-documents.zip';
         $filePath = public_path($fileName);
-    
+
         if ($zip->open($filePath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== TRUE) {
             return redirect()->back()->with('error', 'Failed to create zip file');
         }
-    
+
         foreach ($ideas as $idea) {
             $file = public_path('storage/documents/' . $idea->document);
-    
+
             if (file_exists($file)) {
                 $zip->addFile($file, $idea->document);
             }
         }
-    
+
         $zip->close();
         Alert::toast('Download Success!', 'success');
         return response()->download($filePath)->deleteFileAfterSend(true);
 
     }
-    
+
 
 
 
@@ -91,7 +91,7 @@ class IdeaController extends Controller
     public function index()
     {
         $ideas = Idea::paginate(5);
-        if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2){
+        if(auth()->user()->role_id == 1 || auth()->user()->role_id == 3){
             return view('ideas.index', compact('ideas'));
         }
         else{
@@ -105,7 +105,7 @@ class IdeaController extends Controller
         $idea = new Idea();
         $categories = Category::all();
         $events = Event::whereDate('closure', '>', now())->get();
-        if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2){
+        if(auth()->user()->role_id == 1 || auth()->user()->role_id == 3){
             return view('ideas.create-edit', compact('idea', 'events', 'categories'));
         }
         else{
@@ -145,7 +145,7 @@ class IdeaController extends Controller
         }
 
         $is_anonymous_final = $request->is_anonymous === "yes" ? true : false;
-        
+
         $data['user_id'] = auth()->id();
         $data['is_anonymous'] = $is_anonymous_final;
         $data['department_id'] = auth()->user()->department_id;
@@ -163,7 +163,7 @@ class IdeaController extends Controller
         Alert::toast('Idea created successfully', 'success');
         return redirect()->route('ideas.feed');
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -186,7 +186,7 @@ class IdeaController extends Controller
     {
         $idea = Idea::findOrFail($id);
         $events = Event::all();
-        if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2){
+        if(auth()->user()->role_id == 1 || auth()->user()->role_id == 3){
             return view('ideas.create-edit', compact('idea', 'events'));
         }
         else{
@@ -224,7 +224,7 @@ class IdeaController extends Controller
     /** report submitted by QA Coord */
     public function report(Request $request, Idea $idea)
     {
-        if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2){
+        if(auth()->user()->role_id == 1 || auth()->user()->role_id == 3){
             $reporter = $request->input('reporter_id');
 
             /** can't report twice for a specific idea */
@@ -235,7 +235,7 @@ class IdeaController extends Controller
             }
 
             $report = new IdeaReport();
-            $report->idea_id = $idea->id; 
+            $report->idea_id = $idea->id;
             $report->user_id = $reporter;
             $report->description = $request->input('description');
             $report->save();
