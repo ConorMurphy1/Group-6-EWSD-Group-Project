@@ -40,7 +40,17 @@ class AdminUserController extends Controller
             'department_id' => ['required'],
             'role_id' => ['required'],
             'password' => ['required', 'min:6', 'max:50', 'confirmed'],
+            'image' => [ 'nullable', 'image', 'mimes:jpg,png,jpeg', 'max:2048']
         ]);
+
+        if($request->file('image') ?? false)
+        {
+            $image = $request->file('image');
+            $filename = uniqid() . '.' . $image->getClientOriginalExtension();
+
+            $image->storeAs('public/images', $filename);
+            $userData['image'] = $filename;
+        }
 
         /** is_updated column is set to false to ensure the user update their password for the first time */
         $userData['is_updated'] = false;
@@ -69,7 +79,17 @@ class AdminUserController extends Controller
             'email' => ['required', Rule::unique('users')->ignore($user->id), 'max:100', 'email'],
             'department_id' => ['required'],
             'role_id' => ['required'],
+            'image' => [ 'nullable', 'image', 'mimes:jpg,png,jpeg', 'max:2048']
         ]);
+
+        if($request->file('image') ?? false)
+        {
+            $image = $request->file('image');
+            $filename = uniqid() . '.' . $image->getClientOriginalExtension();
+
+            $image->storeAs('public/images', $filename);
+            $userData['image'] = $filename;
+        }
 
         $user->update($userData);
 

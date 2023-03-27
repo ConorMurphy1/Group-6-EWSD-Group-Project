@@ -42,7 +42,17 @@ class UserController extends Controller
             'username' => ['required', Rule::unique('users')->ignore(auth()->id()), 'max:50'],
             'firstname' => ['required', 'max:50'],
             'lastname' => ['required', 'max:50'],
+            'image' => [ 'nullable', 'image', 'mimes:jpg,png,jpeg', 'max:2048']
         ]);
+
+        if($request->file('image') ?? false)
+        {
+            $image = $request->file('image');
+            $filename = uniqid() . '.' . $image->getClientOriginalExtension();
+
+            $image->storeAs('public/images', $filename);
+            $userData['image'] = $filename;
+        }
 
         $user->update($userData);
 
