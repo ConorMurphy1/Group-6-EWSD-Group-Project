@@ -19,7 +19,7 @@ class IdeaFactory extends Factory
     {
         return [
             'title' => fake()->sentence(),
-            'image' => 'images/test.png',
+            'image' => 'test.png',
             'description' => fake()->paragraph(),
             'user_id' => rand(1,4),
             'department_id' => rand(1,5),

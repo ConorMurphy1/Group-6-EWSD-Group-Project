@@ -77,8 +77,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function() {
 
 /** Statistical Analysis */
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function() {
-    Route::resource('contributions', IdeaReportController::class );         // statistical report for admin
-    Route::resource('stats', reportQACoordinatorController::class );        // statistical report for both   admin and QA Manager
+    Route::resource('/stats', IdeaReportController::class );         // statistical report for Admin and QA Manager
 });
 
 /** section of user-panel where user controls his own account/profile updates */
@@ -89,6 +88,7 @@ Route::middleware(['auth'])->group(function() {
     Route::put('/{user:username}/update', [UserController::class, 'update'])->name('user.update');
     
     Route::put('/update-password', [PasswordController::class, 'store'])->name('password.update');
+    Route::resource('/analytics', reportQACoordinatorController::class );        // statistical report for both admin and QA Manager
 });
 
 /** displaying ideas, commeting, reports and reactions in userpanel */
@@ -98,7 +98,7 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/idea/{idea:id}/unlike', [IdeaReactionController::class, 'unlike'])->name('unlike');
     Route::post('/idea/{idea:id}/comment', [IdeaCommentController::class, 'store'])->name('idea.comments.store');
     Route::get('/idea/{idea:id}/comment', [IdeaCommentController::class, 'index'])->name('idea.comments.index');
-    Route::get('/user-idea-create', [IdeaController::class, 'userCreate'])->name('idea.users.create');
+    Route::get('/idea/create', [IdeaController::class, 'userCreate'])->name('idea.users.create');
 
     Route::post('/idea/{idea:id}/report', [IdeaController::class, 'report'])->name('report');
 });

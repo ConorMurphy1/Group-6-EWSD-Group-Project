@@ -24,6 +24,7 @@ class UserSeeder extends Seeder
             'is_updated' => true,
             'department_id' => 1,
             'role_id' => 3,
+            'image' => 'test.png',
         ]);
         User::factory()->create([
             'username' => 'qa-manager',

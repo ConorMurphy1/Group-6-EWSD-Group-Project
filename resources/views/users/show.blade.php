@@ -26,8 +26,14 @@
                 <div class="mt-4"><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></div>
             </div>
             @if (auth()->id() == $user->id)
-            <div class="mt-4">
+            <div class="mt-8">
                 <a href="{{ route('user.edit', $user->username) }}" class="px-3 py-2 rounded-lg text-white bg-blue-500 hover:bg-blue-700">Edit Account</a>
+            </div>
+            @endif
+
+            @if (auth()->id() == $user->id && auth()->user()->role->role == 'QA Coordinator')
+            <div class="mt-8">
+                <a href="{{ route('analytics.index') }}" class="px-3 py-2 rounded-lg text-white bg-green-600 hover:bg-green-700">Department Analytics</a>
             </div>
             @endif
         </div>
@@ -37,19 +43,9 @@
         <div class="flex flex-col h-full items-center justify-center">
             @unless($ideas->isEmpty())
                 @foreach ($ideas as $idea)
-                <div class="col-md-8 col-lg-10 px-4 py-3 bg-white shadow-sm rounded mb-8">
+                <div class="col-md-6 col-lg-8 flex flex-col px-4 py-3 bg-white shadow-sm rounded mb-8">
                     <div class="relative">
                         <div class="flex justify-between items-center">
-                            @if ($idea->is_anonymous ?? false)
-                            <div class="flex items-center gap-x-3 mb-1 basis-1/2">
-                                <div class="w-16 h-16 self-start border flex items-center rounded-full py-2 px-1 md:w-24 md:h-24">
-                                    <img src="{{ asset('images/anon.png') }}" alt="">
-                                </div>
-                                <div>
-                                    <h1 class="text-black font-medium">Anonymous</a></h1>
-                                </div>
-                            </div>
-                            @else
                             <div class="flex items-center gap-x-3 mb-1 basis-1/2">
                                 <a href="users?username={{ $idea->createdBy->username }}" class="w-16 h-16 self-start border flex items-center rounded-full overflow-hidden md:w-24 md:h-24">
                                     <img src="{{ asset('storage/images/'.$idea->user->image) }}" alt="" class="w-full h-full object-cover">
@@ -59,7 +55,6 @@
                                     <p class="mt-1 text-sm text-gray-500"><span>{{$idea->department->name}}</span></p>
                                 </div>
                             </div>
-                            @endif
                             <ul class="tt-list-badge mx-2">
                                 <li><a href="#"><span class="tt-badge ">movies</span></a></li>
                                 <li><a href="#"><span class="tt-badge ">new movies</span></a></li>
@@ -81,7 +76,7 @@
                                     <style>button{}</style>
                                     @if (auth()->id() == $idea->user->id)
                                     <div class="px-3 py-1">
-                                        <a href="ideas/edit" class="apperance-none hover:text-amber-400">Edit</a>
+                                        <a href="{{ route('ideas.edit', $idea->id) }}" class="apperance-none hover:text-amber-400">Edit</a>
                                     </div>
                                     <form action="{{ route('ideas.destroy', $idea->id) }}" method="POST" class="px-3 py-1">
                                         @csrf
@@ -136,12 +131,17 @@
                             </div>
                             @endif
                         </div>
-                        <p class="py-6 text-2xl my-2">{{$idea->title}}</p>
+                        <div class="py-6 mt-4 mb-1.5">
+                            @if ($idea->is_anonymous)
+                            <span class="text-sm px-2 py-1 bg-gray-400 text-white rounded-lg">Anonymous</span>
+                            @endif
+                            <p class="text-2xl m-0">{{$idea->title}}</p>
+                        </div>
                     </div>
             
                     @if ($idea->image ?? false)
-                    <div class="bg-gray-200 border border-gray-300 rounded w-full h-40 flex justify-center items-center md:w-96 md:h-60">
-                        <img src="{{ file_exists(asset('storage/'.$idea->image)) ? asset('storage/'.$idea->image) : asset($idea->image) }}" alt="" style="max-width: 100%; max-height: 100%; object-fit:contain">
+                    <div class="relative w-full h-[400px] overflow-hidden p-2.5 border rounded">
+                        <img src="{{ asset('storage/images/'.$idea->image)  }}" class="absolute top-0 left-0 w-full h-full object-cover" alt="{{$idea->title}}">
                     </div>
                     @endif
             

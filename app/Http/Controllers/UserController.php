@@ -25,7 +25,7 @@ class UserController extends Controller
         $username = $request->query('username');
         $user = User::where('username', $username)->first();
         
-        $ideas = Idea::where('user_id', $user->id)->where('is_anonymous', false)->latest()->get();
+        $ideas = Idea::where('user_id', $user->id)->latest()->get();
 
         return view('users.show', compact('user', 'ideas'));
     }
