@@ -34,7 +34,7 @@
 										<div class="row">
 											<div class="col-xs-5"><label>First Name:</label></div>
 											<!-- /.col-xs-5 -->
-											<div class="col-xs-7">{{ $user->full_name }}</div>
+											<div class="col-xs-7">{{ $user->firstname }}</div>
 											<!-- /.col-xs-7 -->
 										</div>
 										<!-- /.row -->
