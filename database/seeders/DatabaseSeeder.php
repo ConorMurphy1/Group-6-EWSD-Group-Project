@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
 
 
         $department = Department::factory(1)->create([
-            'name' => 'Admin'
+            'name' => 'Department of Arts and Sciences'
         ]);
         
         User::factory(1)->create([
