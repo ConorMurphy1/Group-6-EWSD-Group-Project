@@ -229,7 +229,7 @@ class IdeaController extends Controller
         /** can't report twice for a specific idea */
         if(IdeaReport::where('user_id', $reporter)->where('idea_id', $idea->id)->exists())
         {
-            Alert::toast('You cannot submit more than one report to an idea', 'error');
+            Alert::toast('Cannot report the same idea twice', 'error');
             return back();
         }
 

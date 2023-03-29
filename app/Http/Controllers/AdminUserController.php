@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Department;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -31,7 +33,6 @@ class AdminUserController extends Controller
     public function store(Request $request)
     {
         /** username |firstname |lastname |email |password |active |is_updated |department_id |role_id */
-
         $userData = $request->validate([
             'username' => ['required', Rule::unique('users', 'username'), 'max:50'],
             'firstname' => ['required', 'max:50'],
@@ -43,6 +44,45 @@ class AdminUserController extends Controller
             'image' => [ 'nullable', 'image', 'mimes:jpg,png,jpeg', 'max:2048']
         ]);
 
+        $registeredDepartment = Department::find($request->input('department_id'));
+        $registeredRole = Role::find($request->input('role_id'));
+        
+        $coordinatorRole = Role::where('role', 'QA Coordinator')->first();
+
+        /** if the register role is not for QA Coordinator check for the existence */
+        if($registeredRole->id != $coordinatorRole->id)
+        {
+            try 
+            {
+                /** Every department must have at least one QA Coordinator */
+                User::where('department_id', $registeredDepartment->id)->where('role_id', $coordinatorRole->id)->firstOrFail();
+    
+                if($request->file('image') ?? false)
+                {
+                    $image = $request->file('image');
+                    $filename = uniqid() . '.' . $image->getClientOriginalExtension();
+        
+                    $image->storeAs('public/images', $filename);
+                    $userData['image'] = $filename;
+                }
+        
+                /** is_updated column is set to false to ensure the user update their password for the first time */
+                $userData['is_updated'] = false;
+        
+                User::create($userData);
+        
+                Alert::toast('New user registered successfully', 'success');
+                return redirect()->route('admin.users.index');
+            } 
+            catch(ModelNotFoundException $e) 
+            {
+                Log::error($registeredRole->role . ' haven\'t register yet for ' . $registeredDepartment->name);
+    
+                Alert::toast('Register QA Coordinator for the department first', 'warning');
+                return back();
+            }
+        }
+        
         if($request->file('image') ?? false)
         {
             $image = $request->file('image');

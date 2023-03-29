@@ -90,7 +90,7 @@ class IdeaCommentController extends Controller
         /** can't report twice for a specific idea */
         if(CommentReport::where('user_id', $reporter)->where('comment_id', $comment->id)->exists())
         {
-            Alert::toast('You cannot submit more than one report to a comment', 'error');
+            Alert::toast('Cannot report the same comment twice', 'error');
             return back();
         }
 
