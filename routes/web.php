@@ -96,8 +96,13 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/newsfeed', [NewsFeedController::class, 'index'])->name('ideas.feed');
     Route::post('/idea/{idea:id}/like', [IdeaReactionController::class, 'like'])->name('like');
     Route::post('/idea/{idea:id}/unlike', [IdeaReactionController::class, 'unlike'])->name('unlike');
-    Route::post('/idea/{idea:id}/comment', [IdeaCommentController::class, 'store'])->name('idea.comments.store');
+
     Route::get('/idea/{idea:id}/comment', [IdeaCommentController::class, 'index'])->name('idea.comments.index');
+    Route::post('/idea/{idea:id}/comment', [IdeaCommentController::class, 'store'])->name('idea.comments.store');
+    Route::get('/idea/{idea:id}/comment/{comment:id}/edit', [IdeaCommentController::class, 'edit'])->name('idea.comments.edit');
+    Route::put('/idea/{idea:id}/comment/{comment:id}', [IdeaCommentController::class, 'update'])->name('idea.comments.update');
+    Route::delete('/idea/{idea:id}/comment/{comment:id}', [IdeaCommentController::class, 'destroy'])->name('idea.comments.destroy');
+    
     Route::get('/idea/create', [IdeaController::class, 'userCreate'])->name('idea.users.create');
 
     Route::post('/idea/{idea:id}/report', [IdeaController::class, 'report'])->name('report');

@@ -38,7 +38,7 @@
                 </div>
 
                 {{-- report, edit, delete --}}
-                @if (auth()->user()->role->role == 'QA Coordinator' || auth()->id() == $idea->user->id)
+                @if ((auth()->user()->role->role == 'QA Coordinator' || auth()->id() == $idea->user->id) && $idea->event->closure > now())
                 <div class="relative">
                     <button id="dd-btn-{{ $idea->id }}" type="button" class="outline-none focus:outline-none">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 text-gray-500 hover:text-blue-700">
@@ -49,7 +49,7 @@
                         <style>button{}</style>
                         @if (auth()->id() == $idea->user->id)
                         <div class="px-3 py-1">
-                            <a href="{{ route('ideas.edit', $idea->id) }}" class="apperance-none hover:text-amber-400">Edit</a>
+                            <a href="{{ route('ideas.edit', $idea->id) }}" class="apperance-none hover:text-amber-400 focus:outline-none">Edit</a>
                         </div>
                         <form action="{{ route('ideas.destroy', $idea->id) }}" method="POST" class="px-3 py-1">
                             @csrf
@@ -328,18 +328,22 @@
             <div class="relative">
                 <input type="hidden" name="id" value="{{$idea->id}}">
                 <textarea name="comment" id="comment-{{$idea->id}}" placeholder="What are your thoughts on this?" class="resize-none bg-white border-2 border-blue-300 text-gray-900 rounded-lg focus:outline-blue-500 focus:border-blue-500 block w-full py-1.5 pl-2 pr-10 overflow-hidden"></textarea>
-                <button id="idea-comment-{{ $idea->id }}" type="submit" class="absolute top-7 right-2 px-2 focus:outline-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-gray-700 hover:text-black">
+                <button id="idea-comment-{{ $idea->id }}" type="submit" class="absolute top-7 right-2 px-2 focus:outline-none text-gray-400 hover:text-green-700">
+                    <svg id="comment-svg-{{$idea->id}}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
                     </svg>
                 </button>
             </div>
             <script>
                 var commentBtn = document.getElementById('idea-comment-{{$idea->id}}');
+                var svg = document.getElementById('comment-svg-{{$idea->id}}');
                 commentBtn.addEventListener('click', function() {
                     var commentBox = document.getElementById('comment-{{$idea->id}}');
                     var checkbox  = document.getElementById('idea-comment-{{ $idea->id }}-anon');
+
                     commentBtn.disabled = true;
+                    svg.style.display = 'none';
+                    
                     let comment = commentBox.value;
                     let anon;
                     if (checkbox.checked) {
@@ -373,17 +377,21 @@
                             console.log(data);
                             document.getElementById("comments-section-{{ $idea->id }}").insertAdjacentHTML('afterbegin', data);
                             commentBox.value = '';
-
+                            
                             var commentsSection = document.getElementById('comments-section-{{$idea->id}}');
-
+                            
                             // toggle border based on child elements
                             if (commentsSection.childElementCount > 0) {
                                 commentsSection.classList.add("border");
                             } else {
                                 commentsSection.classList.remove("border");
                             }
-
+                            
                             commentBtn.disabled = false;
+                            svg.style.display = 'block';
+                       
+                            
+                            commentBtn.classList.add('hover:text-gray-700');
                         })
                         .catch(function(error) {
                             console.log(error.message);
@@ -391,11 +399,15 @@
                     }
                     else 
                     {
+                        commentBtn.disabled = false;
+                        svg.style.display = 'block';
+
                         commentBox.placeholder = 'Kindly provide your comment';
                         setTimeout(() => {
                             commentBox.placeholder = 'What are your thoughts on this';
                         }, 4000);
                     }
+                    
                 });
             </script>
             @endif
@@ -419,13 +431,152 @@
                                 @else
                                 <div>
                                     <h3 class="font-medium"><a href="{{ route('user.show') }}?username={{ $comment->user->username }}">{{ $comment->user->full_name }}</a></h3>
-                                    <h4 class="text-xs mt-1">{{ $comment->user->department->name }}<span class="ml-1">Dept</span></h4>
+                                    <h4 class="text-xs mt-1">{{ $comment->user->department->name }}<span class="ml-1"></span></h4>
                                 </div>
                                 @endif
-                                <span class="text-gray-600"><time>{{ $comment->created_at->diffForHumans() }}</time></span>
+                                <div class="flex items-center gap-x-2">
+                                    <span class="text-gray-600"><time>{{ $comment->created_at->diffForHumans() }}</time></span>
+
+                                    {{-- report, edit, delete --}}
+                                    @if ((auth()->user()->role->role == 'QA Coordinator' || auth()->id() == $comment->user->id) && $idea->event->final_closure > now())
+                                    <div class="relative">
+                                        <button id="dd-btn-{{ $comment->id }}" type="button" class="outline-none focus:outline-none">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 text-gray-500 hover:text-blue-700">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
+                                            </svg>
+                                        </button>
+                                        <div id="dd-{{ $comment->id }}" class="hidden absolute z-10 top-8 right-0 mt-2 px-4 bg-white shadow rounded-lg">
+                                            <style>button{}</style>
+                                            @if (auth()->id() == $comment->user->id)
+                                            <div class="px-3 py-1">
+                                                <button id="edit-comment-btn-{{$comment->id}}" type="button" class="apperance-none hover:text-amber-400 focus:outline-none">Edit</button>
+                                            </div>
+                                            <form action="{{ route('idea.comments.destroy', [$idea->id, $comment->id]) }}" method="POST" class="px-3 py-1">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="apperance-none hover:text-red-500 foucs:outline-none">Delete</button>
+                                            </form>
+                                            @else
+                                            <button id="report-{{$comment->id}}" type="button" class="px-3 py-1 hover:text-red-500 foucs:outline-none">Report</button>
+                                            
+                                            <!-- Blur -->
+                                            <div id="blur-{{$comment->id}}" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden"></div>
+
+                                            <!-- Modal -->
+                                            <form action="{{ route('report', $comment->id) }}" method="POST" id="modal-{{$comment->id}}" class="fixed z-20 inset-0 overflow-y-auto hidden">
+                                                @csrf
+                                                <div class="flex items-center justify-center min-h-screen">
+                                                    <div class="bg-white w-full max-w-md p-6 rounded-lg shadow-lg">
+                                                        <div class="mb-4 flex justify-between">
+                                                            <h2 class="text-xl font-bold">Report this comment</h2>
+                                                            <button id="close-modal-{{$comment->id}}" type="button">X</button>
+                                                            <script>
+                                                                document.getElementById('close-modal-{{$comment->id}}').addEventListener('click', function() {
+                                                                    document.getElementById('modal-{{$comment->id}}').classList.add('hidden');
+                                                                    document.getElementById('blur-{{$comment->id}}').classList.add('hidden');
+                                                                });
+                                                            </script>
+                                                        </div>
+                                                        <div>
+                                                            <input type="hidden" name="reporter_id" value="{{auth()->id()}}">
+                                                            <label class="mb-4">Reason of reporting</label>
+                                                            <textarea name="description" id="" class="resize-none bg-white border-2 border-blue-300 text-gray-900 rounded-lg focus:outline-blue-500 focus:border-blue-500 block w-full py-1.5 pl-2 pr-10 overflow-hidden" placeholder="Describe your reason of reporting explicitly"></textarea>
+                                                            <button type="submit" class="mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <script>
+                                                document.getElementById('report-{{$comment->id}}').addEventListener('click', function() {
+                                                    document.getElementById('modal-{{$comment->id}}').classList.remove('hidden');
+                                                    document.getElementById('blur-{{$comment->id}}').classList.remove('hidden');
+                                                });
+                                            </script>
+                                            @endif
+                                        </div>
+                                        <script>
+                                            let button_{{$comment->id}} = document.getElementById('dd-btn-{{$comment->id}}');
+                                            let dropdown_{{$comment->id}} = document.getElementById('dd-{{$comment->id}}');
+                                            button_{{$comment->id}}.addEventListener('click', function(event) {
+                                                dropdown_{{$comment->id}}.classList.toggle('hidden');
+                                            });
+                                        </script>
+                                    </div>
+                                    @endif
+                                </div>
                             </div>
-                            <div class="px-3 py-2 mt-6 bg-gray-50 rounded">
-                                <p class="text-gray-800">{{ $comment->comment }}</p>
+                            
+                            <div class="mt-6">
+                                @if ($comment->is_edited)
+                                <span class="py-1 text-gray-500 px-1 rounded-lg text-xl">Edited</span>
+                                @else
+                                <span id="span-edited-{{$comment->id}}" class="py-1 text-gray-500 px-1 rounded-lg text-xl hidden">Edited</span>
+                                @endif
+                                <p id="active-comment-{{$comment->id}}" class="text-gray-800 bg-gray-50 h-full px-3 py-2 mb-0 rounded-lg">{{ $comment->comment }}</p>
+                                <div id="edit-comment-{{$comment->id}}" class="w-full hidden relative">
+                                    <textarea id="edit-comment-textarea-{{$comment->id}}" class="text-gray-800 resize-none overflow-auto text-xl h-full w-full bg-white px-3 py-2 pr-5 rounded-lg border relative">{{$comment->comment}}</textarea>
+                                    <button id="update-comment-{{ $comment->id }}" type="submit" class="absolute top-5 right-2 px-2 focus:outline-none text-gray-400 hover:text-green-700">
+                                        <svg id="update-comment-svg-{{$comment->id}}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <script>
+                                    let editCommentBtn_{{$comment->id}} = document.getElementById('edit-comment-btn-{{$comment->id}}');
+                                    let editCommentArea_{{$comment->id}} = document.getElementById('edit-comment-{{$comment->id}}');
+                                    let activeCommentArea_{{$comment->id}} = document.getElementById('active-comment-{{$comment->id}}');
+                                    let updateCommentBtn_{{$comment->id}} = document.getElementById('update-comment-{{$comment->id}}');
+                                    let editCommentTextArea_{{$comment->id}} = document.getElementById('edit-comment-textarea-{{$comment->id}}');
+                                    let url_{{$comment->id}} = '{{ route('idea.comments.update', [$idea->id, $comment->id]) }}';
+
+                                    
+                                    if(editCommentBtn_{{$comment->id}})
+                                    {
+                                        editCommentBtn_{{$comment->id}}.addEventListener('click', function(event) {
+                                            editCommentArea_{{$comment->id}}.classList.toggle('hidden');
+                                            activeCommentArea_{{$comment->id}}.classList.toggle('hidden');
+                                        })
+                                        
+                                        updateCommentBtn_{{$comment->id}}.addEventListener('click', function(event) {
+                                            let editedComment_{{$comment->id}} = editCommentTextArea_{{$comment->id}}.value;
+                                            console.log(editCommentTextArea_{{$comment->id}}.value);
+
+                                            // Send AJAX request 
+                                            if(editedComment_{{$comment->id}}.trim() !== '') 
+                                            {
+                                                fetch(url_{{$comment->id}}, {
+                                                    method: 'PUT',
+                                                    headers: {
+                                                        'Content-Type': 'application/json',
+                                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                                                    },
+                                                    body: JSON.stringify({ comment: editedComment_{{$comment->id}} }),
+                                                })
+                                                .then(function(response) {
+                                                    if(!response.ok) {
+                                                        throw new Error('Internal Server Error');
+                                                    }
+                                                    return response.json();
+                                                })
+                                                .then(function(data) {
+                                                    console.log(data);
+                                                    
+                                                    editCommentArea_{{$comment->id}}.classList.toggle('hidden');
+                                                    activeCommentArea_{{$comment->id}}.classList.toggle('hidden');
+                                                    
+                                                    document.getElementById('span-edited-{{$comment->id}}').classList.remove('hidden');
+                                                    
+                                                    editCommentTextArea_{{$comment->id}}.value = data.comment;
+                                                    activeCommentArea_{{$comment->id}}.innerHTML = data.comment;
+                                                })
+                                                .catch(function(error) {
+                                                    console.log(error.message);
+                                                });
+                                            }
+                                        });
+                                    }
+                                </script>
+                            
                             </div>
 
                             {{-- TODO: comment reactions --}}

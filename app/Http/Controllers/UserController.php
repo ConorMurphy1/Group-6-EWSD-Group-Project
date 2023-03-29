@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Idea;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -25,7 +24,16 @@ class UserController extends Controller
         $username = $request->query('username');
         $user = User::where('username', $username)->first();
         
-        $ideas = Idea::where('user_id', $user->id)->latest()->get();
+        if(auth()->user()->username == $username)
+        {
+            $ideas = Idea::where('user_id', $user->id)->latest()->get();
+        }
+        else 
+        {
+            /** other user cannot see the anonymously posted ideas */
+            $ideas = Idea::where('user_id', $user->id)->where('is_anonymous', false)->latest()->get();
+        }
+
 
         return view('users.show', compact('user', 'ideas'));
     }

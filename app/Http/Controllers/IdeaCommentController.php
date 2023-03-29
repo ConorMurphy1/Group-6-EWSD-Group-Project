@@ -3,15 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\SendEmailNotification;
-use App\Mail\CommentNotification;
-use App\Mail\NewCommentNotification;
 use App\Models\Comment;
 use App\Models\Idea;
-use App\Models\User;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class IdeaCommentController extends Controller
@@ -57,19 +51,33 @@ class IdeaCommentController extends Controller
 
         SendEmailNotification::dispatch($comment, $user, $idea);
         
-        $newComment = view('comments.comment', compact('comment'))->render();
+        /** 
+         * <script> tag will not be executed
+         */
+        $newComment = view('comments.comment', compact('comment', 'idea'))->render();
         return response()->json($newComment);
     }
 
-    public function edit($id)
+    public function edit(Request $request, Idea $idea, Comment $comment)
     {
+
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Idea $idea, Comment $comment)
     {
+        $editedComment = $request->json('comment');
+        $comment->update([
+            'comment' => $editedComment,
+            'is_edited' => true,
+        ]);
+
+        return response()->json(['message' => 'Comment changed successfully', 'comment' => $editedComment]);
     }
 
-    public function destroy($id)
+    public function destroy(Idea $idea, Comment $comment)
     {
+        $comment->delete();
+        Alert::toast('Congrats!, You have successfully deleted your Comment', 'success');
+        return back();
     }
 }

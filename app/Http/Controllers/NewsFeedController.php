@@ -12,8 +12,9 @@ class NewsFeedController extends Controller
         $departments = Department::all();
         $events = Event::whereDate('closure', '>', now()->format('Y-m-d'))->get();
         $categories = Category::all();
-        // $ideas = Idea::paginate(5);
-        $ideas = Idea::with('comments')->latest()->get();
+
+        $ideas = Idea::with('comments', 'user', 'event')->latest()->get();
+        // $ideas = Idea::with('comments', 'user')->latest()->paginate(5);
 
         return view('newsfeed.index', compact('ideas', 'departments', 'events', 'categories'));
     }

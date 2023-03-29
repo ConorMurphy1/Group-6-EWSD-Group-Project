@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('idea_id');
             $table->text('comment');
             $table->boolean('is_anonymous')->nullable();
+            $table->boolean('is_edited')->default(0);
             $table->softDeletes();
             $table->timestamps();
 

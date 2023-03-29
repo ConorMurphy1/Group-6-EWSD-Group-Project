@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('department_id');
             $table->integer('event_id');
             $table->boolean('is_anonymous')->nullable();
+            $table->boolean('is_edited')->default(0);
             $table->text('document')->nullable();
             $table->integer('views')->nullable();
             $table->softDeletes();
