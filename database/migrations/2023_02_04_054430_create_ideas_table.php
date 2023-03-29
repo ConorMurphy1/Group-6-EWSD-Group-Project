@@ -18,15 +18,20 @@ return new class extends Migration
             $table->string('title');
             $table->text('image')->nullable();
             $table->text('description');
-            $table->integer('user_id');
-            $table->integer('department_id');
-            $table->integer('event_id');
+            $table->foreignId('user_id');
+            $table->foreignId('department_id');
+            $table->foreignId('event_id');
             $table->boolean('is_anonymous')->nullable();
             $table->boolean('is_edited')->default(0);
             $table->text('document')->nullable();
             $table->integer('views')->nullable();
             $table->softDeletes();
             $table->timestamps();
+
+            /** constraints */
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');
+            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
         });
     }
 

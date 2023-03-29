@@ -102,10 +102,11 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/idea/{idea:id}/comment/{comment:id}/edit', [IdeaCommentController::class, 'edit'])->name('idea.comments.edit');
     Route::put('/idea/{idea:id}/comment/{comment:id}', [IdeaCommentController::class, 'update'])->name('idea.comments.update');
     Route::delete('/idea/{idea:id}/comment/{comment:id}', [IdeaCommentController::class, 'destroy'])->name('idea.comments.destroy');
-    
+
     Route::get('/idea/create', [IdeaController::class, 'userCreate'])->name('idea.users.create');
 
     Route::post('/idea/{idea:id}/report', [IdeaController::class, 'report'])->name('report');
+    Route::post('/idea/{idea:id}/comment/{comment:id}/report', [IdeaCommentController::class, 'report'])->name('comment.report');
 });
 
 /** shared functionalities between admin panel and user panel  */

@@ -422,6 +422,8 @@
                                         commentBtn.disabled = false;
                                         svg.style.display = 'block';
                                    
+                                        /** reload to allow scripts tags to work for the newly added  */
+                                        window.location.reload();
                                         
                                         commentBtn.classList.add('hover:text-gray-700');
                                     })

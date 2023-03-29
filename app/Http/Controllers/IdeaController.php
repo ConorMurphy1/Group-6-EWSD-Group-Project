@@ -224,28 +224,22 @@ class IdeaController extends Controller
     /** report submitted by QA Coord */
     public function report(Request $request, Idea $idea)
     {
-        if(auth()->user()->role_id == 1 || auth()->user()->role_id == 3){
-            $reporter = $request->input('reporter_id');
+        $reporter = $request->input('reporter_id');
 
-            /** can't report twice for a specific idea */
-            if(IdeaReport::where('user_id', $reporter)->where('idea_id', $idea->id)->exists())
-            {
-                Alert::toast('You cannot submit more than one report to an idea', 'error');
-                return back();
-            }
-
-            $report = new IdeaReport();
-            $report->idea_id = $idea->id;
-            $report->user_id = $reporter;
-            $report->description = $request->input('description');
-            $report->save();
-
-            Alert::toast('You have submitted the report', 'success');
+        /** can't report twice for a specific idea */
+        if(IdeaReport::where('user_id', $reporter)->where('idea_id', $idea->id)->exists())
+        {
+            Alert::toast('You cannot submit more than one report to an idea', 'error');
             return back();
         }
-        else{
-            Alert::alert('You do not have permission to view this website!!!');
-            return redirect()->route('ideas.feed');
-        }
+
+        $report = new IdeaReport();
+        $report->idea_id = $idea->id; 
+        $report->user_id = $reporter;
+        $report->description = $request->input('description');
+        $report->save();
+
+        Alert::toast('You have submitted the report', 'success');
+        return back();
     }
 }

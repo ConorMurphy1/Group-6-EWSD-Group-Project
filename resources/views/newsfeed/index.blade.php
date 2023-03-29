@@ -390,7 +390,9 @@
                             commentBtn.disabled = false;
                             svg.style.display = 'block';
                        
-                            
+                            /** reload to allow scripts tags to work for the newly added  */
+                            window.location.reload();
+
                             commentBtn.classList.add('hover:text-gray-700');
                         })
                         .catch(function(error) {
@@ -463,7 +465,7 @@
                                             <div id="blur-{{$comment->id}}" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden"></div>
 
                                             <!-- Modal -->
-                                            <form action="{{ route('report', $comment->id) }}" method="POST" id="modal-{{$comment->id}}" class="fixed z-20 inset-0 overflow-y-auto hidden">
+                                            {{-- <form action="{{ route('comment.report', $comment->id) }}" method="POST" id="modal-{{$comment->id}}" class="fixed z-20 inset-0 overflow-y-auto hidden">
                                                 @csrf
                                                 <div class="flex items-center justify-center min-h-screen">
                                                     <div class="bg-white w-full max-w-md p-6 rounded-lg shadow-lg">
@@ -485,7 +487,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </form>
+                                            </form> --}}
                                             <script>
                                                 document.getElementById('report-{{$comment->id}}').addEventListener('click', function() {
                                                     document.getElementById('modal-{{$comment->id}}').classList.remove('hidden');
