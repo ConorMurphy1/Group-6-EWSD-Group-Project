@@ -5,11 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class IdeaReport extends Model
+class CommentReport extends Model
 {
     use HasFactory;
-
-    protected $guarded = [];
 
     /** relations */
     public function reporter()
@@ -17,8 +15,8 @@ class IdeaReport extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function idea()
+    public function comment()
     {
-        return $this->belongsTo(Idea::class);
+        return $this->belongsTo(Comment::class);
     }
 }

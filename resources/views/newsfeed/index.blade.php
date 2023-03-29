@@ -66,7 +66,7 @@
                         <form action="{{ route('report', $idea->id) }}" method="POST" id="modal-{{$idea->id}}" class="fixed z-20 inset-0 overflow-y-auto hidden">
                             @csrf
                             <div class="flex items-center justify-center min-h-screen">
-                                <div class="bg-white w-full max-w-md p-6 rounded-lg shadow-lg">
+                                <div class="bg-white w-full max-w-lg p-6 rounded-lg shadow-lg">
                                     <div class="mb-4 flex justify-between">
                                         <h2 class="text-xl font-bold">Report this idea</h2>
                                         <button id="close-modal-{{$idea->id}}" type="button">X</button>
@@ -80,7 +80,7 @@
                                     <div>
                                         <input type="hidden" name="reporter_id" value="{{auth()->id()}}">
                                         <label class="mb-4">Reason of reporting</label>
-                                        <textarea name="description" id="" class="resize-none bg-white border-2 border-blue-300 text-gray-900 rounded-lg focus:outline-blue-500 focus:border-blue-500 block w-full py-1.5 pl-2 pr-10 overflow-hidden" placeholder="Describe your reason of reporting explicitly"></textarea>
+                                        <textarea name="description" id="" class="resize-none h-40 bg-white border-2 border-blue-300 text-gray-900 rounded-lg focus:outline-blue-500 focus:border-blue-500 block w-full py-1.5 pl-2 pr-10 overflow-hidden" placeholder="Describe your reason of reporting explicitly"></textarea>
                                         <button type="submit" class="mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
                                     </div>
                                 </div>
@@ -104,7 +104,12 @@
                 </div>
                 @endif
             </div>
-            <p class="py-6 text-2xl my-2">{{$idea->title}}</p>
+            <div class="py-6 mt-4 mb-1.5">
+                @if (now() > $idea->event->closure)
+                <span class="text-xl px-2.5 py-1.5 bg-yellow-500/[0.8] block mb-2 w-fit text-white rounded-lg">Closure date exceeded. This post cannot be modified</span>
+                @endif
+                <p class="text-2xl m-0">{{$idea->title}}</p>
+            </div>
         </div>
 
         @if ($idea->image ?? false)
@@ -465,12 +470,12 @@
                                             <div id="blur-{{$comment->id}}" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden"></div>
 
                                             <!-- Modal -->
-                                            {{-- <form action="{{ route('comment.report', $comment->id) }}" method="POST" id="modal-{{$comment->id}}" class="fixed z-20 inset-0 overflow-y-auto hidden">
+                                            <form action="{{ route('comment.report', [$idea->id, $comment->id]) }}" method="POST" id="modal-{{$comment->id}}" class="fixed z-20 inset-0 overflow-y-auto hidden">
                                                 @csrf
                                                 <div class="flex items-center justify-center min-h-screen">
-                                                    <div class="bg-white w-full max-w-md p-6 rounded-lg shadow-lg">
+                                                    <div class="bg-white w-full max-w-lg p-6 rounded-lg shadow-lg">
                                                         <div class="mb-4 flex justify-between">
-                                                            <h2 class="text-xl font-bold">Report this comment</h2>
+                                                            <h2 class="text-xl font-bold">Report this Comment</h2>
                                                             <button id="close-modal-{{$comment->id}}" type="button">X</button>
                                                             <script>
                                                                 document.getElementById('close-modal-{{$comment->id}}').addEventListener('click', function() {
@@ -482,12 +487,12 @@
                                                         <div>
                                                             <input type="hidden" name="reporter_id" value="{{auth()->id()}}">
                                                             <label class="mb-4">Reason of reporting</label>
-                                                            <textarea name="description" id="" class="resize-none bg-white border-2 border-blue-300 text-gray-900 rounded-lg focus:outline-blue-500 focus:border-blue-500 block w-full py-1.5 pl-2 pr-10 overflow-hidden" placeholder="Describe your reason of reporting explicitly"></textarea>
+                                                            <textarea name="description" id="" class="resize-none h-40 bg-white border-2 border-blue-300 text-gray-900 rounded-lg focus:outline-blue-500 focus:border-blue-500 block w-full py-1.5 pl-2 pr-10 overflow-hidden" placeholder="Describe your reason of reporting the comment explicitly"></textarea>
                                                             <button type="submit" class="mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </form> --}}
+                                            </form>
                                             <script>
                                                 document.getElementById('report-{{$comment->id}}').addEventListener('click', function() {
                                                     document.getElementById('modal-{{$comment->id}}').classList.remove('hidden');

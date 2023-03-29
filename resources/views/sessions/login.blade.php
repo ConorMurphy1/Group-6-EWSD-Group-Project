@@ -26,12 +26,12 @@
                 <div class="frm-title">Login</div>
                 <!-- /.frm-title -->
                 <div class="frm-input">
-                <input type="email" id="email" name="email"  class="frm-inp" placeholder="johndoe@email.com" value="{{old('email')}}"><i class="fa fa-user frm-ico"></i>
+                <input type="email" id="email" name="email"  class="frm-inp" placeholder="Enter your email..." value="{{old('email')}}"><i class="fa fa-user frm-ico"></i>
 
                 </div>
                 <!-- /.frm-input -->
                 <div class="frm-input">
-                <input type="password" id="password" name="password" placeholder="Password" class="frm-inp"><i class="fa fa-lock frm-ico"></i>
+                <input type="password" id="password" name="password" placeholder="Enter your password..." class="frm-inp"><i class="fa fa-lock frm-ico"></i>
 
                 </div>
                 <!-- /.frm-input -->

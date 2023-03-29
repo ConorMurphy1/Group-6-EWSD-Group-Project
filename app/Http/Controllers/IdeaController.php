@@ -239,7 +239,7 @@ class IdeaController extends Controller
         $report->description = $request->input('description');
         $report->save();
 
-        Alert::toast('You have submitted the report', 'success');
+        Alert::toast('You have reported the idea to admin', 'success');
         return back();
     }
 }

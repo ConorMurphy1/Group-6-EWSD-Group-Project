@@ -78,4 +78,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(IdeaReport::class);
     }
+
+    public function commentReports()
+    {
+        return $this->hasMany(CommentReport::class);
+    }
 }

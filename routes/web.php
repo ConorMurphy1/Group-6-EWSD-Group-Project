@@ -73,6 +73,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function() {
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function() {
     Route::get('/reports', [AdminReportController::class, 'index'])->name('admin.reports');
     Route::delete('/reports/{ideaReport}/destroy', [AdminReportController::class, 'destroy'])->name('admin.reports.destroy');
+    Route::delete('/reports/comments/{commentReport}/destroy', [AdminReportController::class, 'destroyComment'])->name('admin.reports.comments.destroy');
 });
 
 /** Statistical Analysis */

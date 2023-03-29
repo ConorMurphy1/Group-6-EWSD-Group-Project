@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\SendEmailNotification;
 use App\Models\Comment;
+use App\Models\CommentReport;
 use App\Models\Idea;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -78,6 +79,28 @@ class IdeaCommentController extends Controller
     {
         $comment->delete();
         Alert::toast('Congrats!, You have successfully deleted your Comment', 'success');
+        return back();
+    }
+
+    /** Report submitted by QA Coord */
+    public function report(Request $request, Idea $idea, Comment $comment)
+    {
+        $reporter = $request->input('reporter_id');
+
+        /** can't report twice for a specific idea */
+        if(CommentReport::where('user_id', $reporter)->where('comment_id', $comment->id)->exists())
+        {
+            Alert::toast('You cannot submit more than one report to a comment', 'error');
+            return back();
+        }
+
+        $report = new CommentReport();
+        $report->comment_id = $comment->id; 
+        $report->user_id = $reporter;
+        $report->description = $request->input('description');
+        $report->save();
+
+        Alert::toast('You have reported the comment to admin', 'success');
         return back();
     }
 }

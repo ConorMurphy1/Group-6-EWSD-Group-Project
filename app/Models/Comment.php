@@ -21,4 +21,9 @@ class Comment extends Model
     {
         return $this->belongsTo(Idea::class);
     }
+
+    public function reports()
+    {
+        return $this->hasMany(CommentReport::class);
+    }
 }
