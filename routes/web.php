@@ -105,6 +105,7 @@ Route::middleware(['auth'])->group(function() {
     Route::delete('/idea/{idea:id}/comment/{comment:id}', [IdeaCommentController::class, 'destroy'])->name('idea.comments.destroy');
 
     Route::get('/idea/create', [IdeaController::class, 'userCreate'])->name('idea.users.create');
+    Route::get('/idea/edit/{idea:id}', [IdeaController::class, 'userEdit'])->name('idea.users.edit');
 
     Route::post('/idea/{idea:id}/report', [IdeaController::class, 'report'])->name('report');
     Route::post('/idea/{idea:id}/comment/{comment:id}/report', [IdeaCommentController::class, 'report'])->name('comment.report');

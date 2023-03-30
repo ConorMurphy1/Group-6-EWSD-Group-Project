@@ -28,9 +28,14 @@
                     </div>
                 </div>
                 @endif
+                    @php
+                        $ideacat = App\Models\IdeaCategory::where('idea_id', $idea->id)->get();
+                    @endphp
                 <ul class="tt-list-badge mx-2">
-                    <li><a href="#"><span class="tt-badge ">movies</span></a></li>
-                    <li><a href="#"><span class="tt-badge ">new movies</span></a></li>
+                    @for ($i=0; $i < count($ideacat); $i++ )
+                        <li><span class="tt-badge ">{{$ideacat[$i]->category->name}}</span></li>
+                    @endfor
+                    {{-- @dd( $ideacat[0]->category->name) ff --}}
                 </ul>
                 <div class="text-center">
                     <a href="#" class="text-blue-500">{{$idea->event->name}}</a>
@@ -49,7 +54,7 @@
                         <style>button{}</style>
                         @if (auth()->id() == $idea->user->id)
                         <div class="px-3 py-1">
-                            <a href="{{ route('ideas.edit', $idea->id) }}" class="apperance-none hover:text-amber-400 focus:outline-none">Edit</a>
+                            <a href="{{ route('idea.users.edit', $idea->id) }}" class="apperance-none hover:text-amber-400 focus:outline-none">Edit</a>
                         </div>
                         <form action="{{ route('ideas.destroy', $idea->id) }}" method="POST" class="px-3 py-1">
                             @csrf
@@ -58,7 +63,7 @@
                         </form>
                         @else
                         <button id="report-{{$idea->id}}" type="button" class="px-3 py-1 hover:text-red-500 foucs:outline-none">Report</button>
-                        
+
                         <!-- Blur -->
                         <div id="blur-{{$idea->id}}" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden"></div>
 
@@ -120,6 +125,13 @@
 
         <div class="my-3 py-2 px-2 bg-blue-50 text-justify text-black rounded-lg">
             {{$idea->description}}
+            <br>
+            @if ($idea->document)
+            <span>Support Documents:</span>
+            <a href="{{asset('storage/documents/'.$idea->document)}}" target="_blank" >{{$idea->document}}</a>
+            @else
+                <span> No Doc uploaded </span>
+            @endif
         </div>
 
         <div class="flex space-x-5 mb-4">
@@ -194,7 +206,7 @@
                         console.log(error.message);
                     });
                 });
-            </script> 
+            </script>
             @endif
 
             {{-- unlike --}}
@@ -216,7 +228,7 @@
                     @endif
                 </div>
                 <span class="ml-2 mt-1 self-center text-xs">{{$idea->reactions()->where('reaction', '=', 'unlike')->count()}}</span>
-            </div>    
+            </div>
             @else
             <div>
                 <button id="unlike-{{ $idea->id }}" type="button" class="focus:outline-none">
@@ -294,7 +306,7 @@
                             let url = '/idea/' + {{ $idea->id }} + '/comment?sort=' + value;
                             console.log(url);
 
-                            // Send AJAX request 
+                            // Send AJAX request
                             fetch(url, {
                                 method: 'GET',
                             })
@@ -348,21 +360,21 @@
 
                     commentBtn.disabled = true;
                     svg.style.display = 'none';
-                    
+
                     let comment = commentBox.value;
                     let anon;
                     if (checkbox.checked) {
                         anon = 1;
                     } else {
                         anon = 0;
-                    } 
+                    }
                     console.log(anon);
                     let ideaId = {{ $idea->id }};
                     let url = '/idea/' + {{ $idea->id }} + '/comment';
                     console.log(url);
 
-                    // Send AJAX request 
-                    if(comment.trim() !== '') 
+                    // Send AJAX request
+                    if(comment.trim() !== '')
                     {
                         fetch(url, {
                             method: 'POST',
@@ -382,19 +394,19 @@
                             console.log(data);
                             document.getElementById("comments-section-{{ $idea->id }}").insertAdjacentHTML('afterbegin', data);
                             commentBox.value = '';
-                            
+
                             var commentsSection = document.getElementById('comments-section-{{$idea->id}}');
-                            
+
                             // toggle border based on child elements
                             if (commentsSection.childElementCount > 0) {
                                 commentsSection.classList.add("border");
                             } else {
                                 commentsSection.classList.remove("border");
                             }
-                            
+
                             commentBtn.disabled = false;
                             svg.style.display = 'block';
-                       
+
                             /** reload to allow scripts tags to work for the newly added  */
                             window.location.reload();
 
@@ -404,7 +416,7 @@
                             console.log(error.message);
                         });
                     }
-                    else 
+                    else
                     {
                         commentBtn.disabled = false;
                         svg.style.display = 'block';
@@ -414,7 +426,7 @@
                             commentBox.placeholder = 'What are your thoughts on this';
                         }, 4000);
                     }
-                    
+
                 });
             </script>
             @endif
@@ -465,7 +477,7 @@
                                             </form>
                                             @else
                                             <button id="report-{{$comment->id}}" type="button" class="px-3 py-1 hover:text-red-500 foucs:outline-none">Report</button>
-                                            
+
                                             <!-- Blur -->
                                             <div id="blur-{{$comment->id}}" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden"></div>
 
@@ -512,7 +524,7 @@
                                     @endif
                                 </div>
                             </div>
-                            
+
                             <div class="mt-6">
                                 @if ($comment->is_edited)
                                 <span class="py-1 text-gray-500 px-1 rounded-lg text-xl">Edited</span>
@@ -536,20 +548,20 @@
                                     let editCommentTextArea_{{$comment->id}} = document.getElementById('edit-comment-textarea-{{$comment->id}}');
                                     let url_{{$comment->id}} = '{{ route('idea.comments.update', [$idea->id, $comment->id]) }}';
 
-                                    
+
                                     if(editCommentBtn_{{$comment->id}})
                                     {
                                         editCommentBtn_{{$comment->id}}.addEventListener('click', function(event) {
                                             editCommentArea_{{$comment->id}}.classList.toggle('hidden');
                                             activeCommentArea_{{$comment->id}}.classList.toggle('hidden');
                                         })
-                                        
+
                                         updateCommentBtn_{{$comment->id}}.addEventListener('click', function(event) {
                                             let editedComment_{{$comment->id}} = editCommentTextArea_{{$comment->id}}.value;
                                             console.log(editCommentTextArea_{{$comment->id}}.value);
 
-                                            // Send AJAX request 
-                                            if(editedComment_{{$comment->id}}.trim() !== '') 
+                                            // Send AJAX request
+                                            if(editedComment_{{$comment->id}}.trim() !== '')
                                             {
                                                 fetch(url_{{$comment->id}}, {
                                                     method: 'PUT',
@@ -567,12 +579,12 @@
                                                 })
                                                 .then(function(data) {
                                                     console.log(data);
-                                                    
+
                                                     editCommentArea_{{$comment->id}}.classList.toggle('hidden');
                                                     activeCommentArea_{{$comment->id}}.classList.toggle('hidden');
-                                                    
+
                                                     document.getElementById('span-edited-{{$comment->id}}').classList.remove('hidden');
-                                                    
+
                                                     editCommentTextArea_{{$comment->id}}.value = data.comment;
                                                     activeCommentArea_{{$comment->id}}.innerHTML = data.comment;
                                                 })
@@ -583,7 +595,7 @@
                                         });
                                     }
                                 </script>
-                            
+
                             </div>
 
                             {{-- TODO: comment reactions --}}
@@ -601,7 +613,7 @@
                                     </form>
                                     <span class="text-xs">{{$idea->reactions()->where('reaction', '=', 'like')->count()}}</span>
                                 </div>
-                    
+
                                 <div>
                                     <form action="{{route('unlike', ['idea' => $idea->id])}}" method="POST" class="inline">
                                         @csrf
@@ -634,8 +646,15 @@
 
         </section>
     </div>
-@endforeach
+    @endforeach
 @else
     <p class="mt-10 text-center">There are currently no posts. <a href="{{route('ideas.create')}}" class="block text-blue-500 hover:text-blue-700 text-center">Post some ideas</a></p>
 @endif
+
+<div class="col-12 d-flex justify-content-center   ">
+    <div class="tt-row-btn ">
+        {{ $ideas->appends(request()->query())->links() }}
+    </div>
+</div>
+
 @endsection

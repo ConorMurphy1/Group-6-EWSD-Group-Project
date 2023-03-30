@@ -10,9 +10,14 @@ class Category extends Model
     use HasFactory, SoftDeletes;
     protected $guarded = [];
 
-        /** relations */
-        public function users()
-        {
-            return $this->hasMany(Idea::class);
-        }
+    /** relations */
+    public function users()
+    {
+        return $this->hasMany(Idea::class);
+    }
+
+    // public function ideas()
+    // {
+    //     return $this->hasMany(IdeaCategory::class);
+    // }
 }
