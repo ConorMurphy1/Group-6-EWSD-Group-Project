@@ -54,7 +54,7 @@ class DepartmentController extends Controller
 
         Alert::toast('New Department Added successfully', 'success');
 
-        return redirect('departments')->with('success','New Department Added successfully!');
+        return redirect('admin/departments')->with('success','New Department Added successfully!');
     }
 
     /**
@@ -91,7 +91,7 @@ class DepartmentController extends Controller
     {
         $request->validate([
             'name' => ['required|max:30'],
-            'description' => ['required']
+            'description' => ['nullable']
         ]);
 
         Department::find($id)->update([
@@ -102,7 +102,7 @@ class DepartmentController extends Controller
 
         Alert::toast('Department updated successfully', 'success');
 
-        return redirect('departments')->with('success','Department updated successfully!');
+        return redirect('admin/departments')->with('success','Department updated successfully!');
     }
 
     /**

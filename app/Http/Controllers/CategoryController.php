@@ -79,7 +79,7 @@ class CategoryController extends Controller
         $category = Category::find($id);
 
         $data = $request ->validate([
-            'name' => 'required|min:2|max:20',
+            'name' => 'required|string|min:2|max:20',
             'updated_at' => now()
         ]);
 
@@ -87,7 +87,7 @@ class CategoryController extends Controller
 
         Alert::toast('Category updated successfully', 'success');
 
-        return redirect('categories')->with('success', 'Category Updated!');
+        return redirect('admin/categories')->with('success', 'Category Updated!');
 
     }
 
@@ -108,14 +108,14 @@ class CategoryController extends Controller
 
             Alert::toast('Category deleted successfully', 'success');
 
-            return redirect('categories')->with('success', 'Category deleted successfully.');
+            return redirect('admin/categories')->with('success', 'Category deleted successfully.');
             
         }
         else
         {
             Alert::toast('Cannot delete. Category is currently in use.', 'error');
 
-            return redirect('categories')->with('failure', 'Cannot delete. Category is currently in use.');
+            return redirect('admin/categories')->with('failure', 'Cannot delete. Category is currently in use.');
         }
     }
 }
