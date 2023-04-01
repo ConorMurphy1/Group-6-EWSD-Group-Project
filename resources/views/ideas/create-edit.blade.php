@@ -13,7 +13,7 @@
                         <strong>Idea Edit Form</strong>
                         <a href="{{ route('ideas.index') }}" class="btn btn-primary btn-sm float-right"><i class="fa fa-angle-double-left"></i> Back </a>
                     @else
-                    <form action="{{ route('ideas.store') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('ideas.store') }}" method="post" enctype="multipart/form-data" id="terms">
                     <div class="card-header">
                         <strong>Idea Create Form</strong>
                         <a href="{{ route('ideas.index') }}" class="btn btn-primary btn-sm float-right"><i class="fa fa-angle-double-left"></i> Back </a>
@@ -50,7 +50,7 @@
                     </div>
                     <div class="my-2">
                         <p class="margin-top-20">Category</p>
-                        <select class="select2_2 form-control" multiple="multiple" name="category_ids[]">
+                        <select class="select2_2 form-control" multiple="multiple" name="category_ids[]" required>
                             @foreach ($categories as $category)
                                 <option value="{{$category->id}}">{{$category->name}}</option>
                             @endforeach
@@ -69,8 +69,11 @@
                     </div>
 
                     <!-- <button type="button" onclick="conditionsModal()" class="btn btn-primary btn-ladda" data-toggle="modal" data-target="#termsCondition">Save </button> -->
-                    <button type="button"  data-remodal-target="remodal" class="btn btn-primary waves-effect waves-light">Save</button>
-             
+                    @if ($idea->id)
+                        <button type="submit"  data-remodal-target="remodal" class="btn btn-primary waves-effect waves-light">Save</button>
+                    @else
+                        <button type="button"  data-remodal-target="remodal" class="btn btn-primary waves-effect waves-light">Save</button>
+                    @endif
                     <!-- <button type="button" onclick="conditionsModal()" class="btn btn-primary margin-bottom-10 waves-effect waves-light" data-toggle="modal" data-target="#termsCondition">Save</button> -->
                 </div>
     
@@ -102,6 +105,21 @@
             document.getElementById("termsCondition").removeAttribute('hidden');
         }
         
+
+        const submitForm = ()=>{
+            // console.log('hello')
+            document.getElementById('terms').submit()
+        }
+
+    function enableSave(){
+            document.getElementById("save").removeAttribute('disabled');
+        }
+
+    function conditionsModal(title, description, anonymous) {
+        $('#title').val(title);
+        $('#description').val(description);
+        $('#anonymous').val(anonymous);
+    }
     </script>
 @endsection
 

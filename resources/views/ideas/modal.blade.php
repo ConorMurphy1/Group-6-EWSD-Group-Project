@@ -19,38 +19,7 @@
             <br>
             <input type="checkbox" id="agree" onclick="enableSave()"> <label for="">Accept Terms & Condition</label>
         <div class="d-flex justify-content-end my-2">
-            @if ($idea->id)
-            <form action="{{ route('ideas.update', $idea->id)}}" method="post" enctype="multipart/form-data">
-                @method('PATCH')
-                <div class="card-header">
-                    <strong>Idea Edit Form</strong>
-                @else
-                <form action="{{ route('ideas.store') }}" method="post" enctype="multipart/form-data">
-                <div class="card-header">
-                    <strong>Idea Create Form</strong>
-            @endif
-                @csrf
-                </div>
-                <button type="submit" class="btn btn-primary btn-ladda" id="save" disabled>Save</button>
-            </form>
+            <button type="button" class="btn btn-primary btn-ladda" id="save" disabled onclick="submitForm()">Save</button>
         </div>
 	</div>
-
 </div>
-
-@section('javascript')
-    <script>
-            function enableSave(){
-            document.getElementById("save").removeAttribute('disabled');
-        }
-    </script>
-
-
-<script>
-    function conditionsModal(title, description, anonymous) {
-        $('#title').val(title);
-        $('#description').val(description);
-        $('#anonymous').val(anonymous);
-    }
-</script>
-@endsection

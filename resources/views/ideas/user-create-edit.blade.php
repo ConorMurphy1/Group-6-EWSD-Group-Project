@@ -35,7 +35,7 @@
                     <div class="row">
                         <div class="form-group w-full px-2">
                             <h6 class="pt-title">Category</h6>
-                            <select class="select2_2 form-control" multiple="multiple" name="category_ids[]">
+                            <select class="select2_2 form-control" multiple="multiple" name="category_ids[]" required>
                                 @foreach ($categories as $category)
                                     <option value="{{$category->id}}" >{{$category->name}}</option>
                                 @endforeach
