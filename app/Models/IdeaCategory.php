@@ -13,11 +13,11 @@ class IdeaCategory extends Model
 
     public function idea()
     {
-        return $this->belongsTo('App\Model\Idea', 'idea_id')->withDefult();
+        return $this->belongsTo('App\Models\Idea', 'idea_id')->withDefault();
     }
 
     public function category()
     {
-        return $this->belongsTo('App\Model\Category', 'category_id')->withDefult();
+        return $this->belongsTo('App\Models\Category', 'category_id')->withDefault();
     }
 }

@@ -123,6 +123,15 @@ class IdeaController extends Controller
 
         return view('ideas.user-create-edit', compact('idea', 'events', 'categories', 'departments'));
     }
+    public function userEdit($id)
+    {
+        $idea = Idea::findOrFail($id);
+        $categories = Category::all();
+        $departments = Department::all();
+        $events = Event::whereDate('closure', '>', now())->get();
+        
+        return view('ideas.user-create-edit', compact('idea', 'events', 'categories', 'departments'));
+    }
 
     public function store(Request $request)
     {
@@ -152,16 +161,23 @@ class IdeaController extends Controller
 
         $idea = Idea::create($data);
 
-        // for($i = 0; $i < count($request->category_ids); ++$i)
-        // {
-        //     IdeaCategory::create([
-        //         'idea_id' => $idea->id,
-        //         'category_id' => $request->category_ids[$i],
-        //     ]);
-        // }
-
-        Alert::toast('Idea created successfully', 'success');
-        return redirect()->route('ideas.feed');
+        for($i = 0; $i < count($request->category_ids); ++$i)
+        {
+            IdeaCategory::create([
+                'idea_id' => $idea->id,
+                'category_id' => $request->category_ids[$i],
+            ]);
+        }
+        
+        
+        if(auth()->user()->role_id == 1 || auth()->user()->role_id == 3){
+            Alert::toast('Idea created successfully', 'success');
+            return redirect()->route('ideas.index');
+        }
+        else{
+            Alert::toast('Idea created successfully', 'success');
+            return redirect()->route('ideas.feed');
+        }
     }
 
 
@@ -185,15 +201,19 @@ class IdeaController extends Controller
     public function edit($id)
     {
         $idea = Idea::findOrFail($id);
-        $events = Event::all();
+        $categories = Category::all();
+        $departments = Department::all();
+        $events = Event::whereDate('closure', '>', now())->get();
         if(auth()->user()->role_id == 1 || auth()->user()->role_id == 3){
-            return view('ideas.create-edit', compact('idea', 'events'));
+            return view('ideas.create-edit', compact('idea', 'events', 'departments', 'categories'));
         }
         else{
             Alert::alert('You do not have permission to view this website!!!');
             return redirect()->route('ideas.feed');
         }
     }
+
+    
 
     /**
      * Update the specified resource in storage.
@@ -204,7 +224,23 @@ class IdeaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $idea = Idea::find($id);
+        $data = $request->validate([
+            'title' => 'required | string ',
+            'description' => 'required | string',
+            'event_id' => 'required | integer'
+        ]);
+
+        $idea->update($data);
+
+        if(auth()->user()->role_id == 1 || auth()->user()->role_id == 3){
+            Alert::toast('Idea update successfully', 'success');
+            return redirect()->route('ideas.index');
+        }
+        else{
+            Alert::toast('Idea update successfully', 'success');
+            return redirect()->route('ideas.feed');
+        }
     }
 
     /**

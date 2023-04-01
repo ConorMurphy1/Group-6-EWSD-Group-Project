@@ -42,7 +42,7 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-        $data= $request->validate([
+        $data = $request->validate([
             'name' => 'required|max:30',
             'description' => 'nullable'
         ]);
@@ -86,10 +86,11 @@ class DepartmentController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|max:30',
-            'description' => 'required'
+            'description' => 'nullable'
         ]);
 
         Department::find($id)->update($data);
+
 
         return redirect()->route('departments.index')->with('success','Department updated successfully!');
     }

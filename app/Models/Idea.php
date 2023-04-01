@@ -52,6 +52,12 @@ class Idea extends Model
         return $this->hasMany(IdeaReport::class);
     }
 
+
+    public function categories()
+    {
+        return $this->hasMany(IdeaCategory::class);
+    }
+
     public static function getAllIdea($event_id)
     {
         $result = DB::table('ideas')

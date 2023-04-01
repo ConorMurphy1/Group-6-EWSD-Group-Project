@@ -42,7 +42,7 @@
                                     <div class="mx-3 text-center">
                                         <form action="{{ route('categories.destroy', $category->id) }}" method="post">
                                             @csrf @method('delete')
-                                            <a href="{{ url('categories/'.$category->id.'/edit') }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Edit">
+                                            <a href="{{ url('admin/categories/'.$category->id.'/edit') }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Edit">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete?')" data-toggle="tooltip" data-placement="top" title="Delete">
