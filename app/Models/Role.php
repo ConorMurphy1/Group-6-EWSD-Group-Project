@@ -11,7 +11,7 @@ class Role extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $table = 'role_entry';
+    protected  $guarded = [];
 
     /** relations */
     public function users()

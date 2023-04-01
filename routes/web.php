@@ -3,7 +3,7 @@
 use App\Http\Controllers\{AdminReportController, PasswordController, UserController, IdeaReportController, CsvExportController, reportQACoordinatorController};
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{AdminController, AdminDeletedUserController, AdminUserController, IdeaController, IdeaReactionController, NewsFeedController, EventController, IdeaCommentController, SessionController, UserDashboardController};
-use App\Http\Controllers\{RoleEntryController, CategoryController, DepartmentController, CommentController};
+use App\Http\Controllers\{RoleEntryController, CategoryController, DepartmentController, CommentController, RoleController};
 
 /*
 |--------------------------------------------------------------------------
@@ -146,9 +146,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
     /**
      * Role Entry related routes
      */
-    Route::resource('role', RoleEntryController::class);
-    Route::get('role/{id}/delete',[RoleEntryController::class,'destroy']);
-    Route::put('role/{id}/edit', [RoleEntryController::class, 'update']);
+    Route::resource('roles', RoleController::class);
 
     /**
      * Event

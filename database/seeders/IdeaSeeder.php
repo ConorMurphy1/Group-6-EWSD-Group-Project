@@ -37,7 +37,7 @@ class IdeaSeeder extends Seeder
         $excludedRoles = ['QA Manager', 'QA Coordinator', 'Admin'];
         $excludedUserIds = User::whereIn('role_id', function ($query) use ($excludedRoles) {
             $query->select('id')
-                ->from('role_entry')
+                ->from('roles')
                 ->whereIn('role', $excludedRoles);
         })->pluck('id');
 

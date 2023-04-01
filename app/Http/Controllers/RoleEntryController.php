@@ -15,8 +15,8 @@ class RoleEntryController extends Controller
      */
     public function index()
     {
-        $roleData = role::all();
-        return view('role.roleEntry', ['roleMembers' => $roleData]);
+        $roleData = Role::all();
+        return view('role.index', ['roleMembers' => $roleData]);
     }
 
     /**
@@ -62,7 +62,7 @@ class RoleEntryController extends Controller
      */
     public function show($id)
     {
-        $roleData = role::find($id);
+        $roleData = Role::find($id);
         return view('role.updateRole', ['roleMembers' => $roleData]);
     }
 
@@ -74,7 +74,7 @@ class RoleEntryController extends Controller
      */
     public function edit($id)
     {
-        $roleData = role::find($id);
+        $roleData = Role::find($id);
         return view('role.updateRole', ['roleMembers' => $roleData]);
     }
 
@@ -87,7 +87,7 @@ class RoleEntryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $roles = role::find($id);
+        $roles = Role::find($id);
         $roles->role = $request->input('roleUpdate');
         $roles->updated_at = now();
         $roles->save();
@@ -104,7 +104,7 @@ class RoleEntryController extends Controller
      */
     public function destroy($id)
     {
-        $roleData = role::findOrFail($id);
+        $roleData = Role::findOrFail($id);
         $roleData->delete();
         Alert::toast('You have successfully deleted a Role called ' . $roleData->role . ' ', 'success');
         return back();
