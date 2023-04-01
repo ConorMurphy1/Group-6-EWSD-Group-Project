@@ -42,19 +42,14 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => ['required|max:30'],
-            'description' => ['nullable']
+        $data= $request->validate([
+            'name' => 'required|max:30',
+            'description' => 'nullable'
         ]);
 
-        Department::create([
-            'name' => $request->department_name,
-            'description' => $request->department_des
-        ]);
+        Department::create($data);
 
-        Alert::toast('New Department Added successfully', 'success');
-
-        return redirect('departments')->with('success','New Department Added successfully!');
+        return redirect()->route('departments.index')->with('success','New Department Added successfully!');
     }
 
     /**
@@ -89,20 +84,14 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => ['required|max:30'],
-            'description' => ['required']
+        $data = $request->validate([
+            'name' => 'required|max:30',
+            'description' => 'required'
         ]);
 
-        Department::find($id)->update([
-            'name' => $request->department_name,
-            'description' => $request->department_des,
-            'updated_at' => now()
-        ]);
+        Department::find($id)->update($data);
 
-        Alert::toast('Department updated successfully', 'success');
-
-        return redirect('departments')->with('success','Department updated successfully!');
+        return redirect()->route('departments.index')->with('success','Department updated successfully!');
     }
 
     /**
