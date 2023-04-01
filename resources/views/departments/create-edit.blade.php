@@ -4,11 +4,11 @@
             <div class="card shadow-sm border-primary p-2 position-relative">
                 <div class="custom-heading bg-primary">Department</div>
                 <div class="card">
-                    
+
             </div>
         </div>
         <div class="col-md-4">
-            
+
         </div>
     </div>
 </div>
@@ -35,20 +35,20 @@
             @csrf
             </div>
             <div class="my-2">
-                <label for="department_name" class="d-block text-muted">Department Name</label>
-                <input name="department_name" id="department_name" type="text" class="form-control" 
-                @error('department_name')is-invalid @enderror
+                <label for="name" class="d-block text-muted">Department Name</label>
+                <input name="name" id="name" type="text" class="form-control"
+                @error('name')is-invalid @enderror
                 required value="{{$department->name ?? ''}}">
-                @error('department_name')
+                @error('name')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
             <div class="my-2">
-                <label for="department_des" class="d-block text-muted">Department Description</label>
-                <input name="department_des" id="department_des" type="text" class="form-control" 
-                @error('department_des')is-invalid @enderror
+                <label for="description" class="d-block text-muted">Department Description</label>
+                <input name="description" id="description" type="text" class="form-control"
+                @error('description')is-invalid @enderror
                 required value="{{$department->description ?? ''}}">
-                @error('department_des')
+                @error('description')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
@@ -57,7 +57,7 @@
             </div>
         </form>
         </div>
-        
+
         <!-- /.card-content -->
     </div>
     <!-- /.box-content -->
