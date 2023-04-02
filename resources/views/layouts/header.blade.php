@@ -78,6 +78,9 @@
 
 	<script src="https://cdn.tailwindcss.com"></script>
 
+
+    @yield('styles')
+
 </head>
 
 <body>
@@ -162,6 +165,7 @@
 				</li>
 				<li>
 					<a class="waves-effect" href="{{ route('stats.index') }}"><i class="menu-icon fa fa-bar-chart"></i><span>Stats</span></a>
+					<a class="waves-effect" href="{{ route('export-csv') }}"><i class="menu-icon fa fa-bar-chart"></i><span>Dowload zip</span></a>
 				</li>
 
 

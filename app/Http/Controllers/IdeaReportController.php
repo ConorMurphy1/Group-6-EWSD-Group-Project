@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Idea;
-use App\Models\Department;
+use App\Models\{Idea, Department, Event};
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Session;
