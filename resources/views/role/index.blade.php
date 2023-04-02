@@ -7,7 +7,7 @@
                 <h4 class="box-title">Roles</h4>
                 <div>
                     <a href="{{route('roles.create')}}" class="btn btn-success justify-content-end" @if (Auth::user()->role->id  != 3)
-                        @disabled(true)
+                        onclick="return false;" disabled
                     @endif>+Add New</a>
                 </div>
                 <!-- /.box-title -->
@@ -44,12 +44,12 @@
                                         <form action="{{ route('roles.destroy', $idea->id) }}" method="post">
                                             @csrf @method('delete')
                                             <a @if (Auth::user()->role->id  != 3)
-                                                @disabled(true)
+                                                onclick="return false;" disabled
                                             @endif href="{{ route('roles.edit', $idea->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Edit">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <button @if (Auth::user()->role->id  != 3)
-                                                @disabled(true)
+                                                disabled
                                             @endif type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete?')" data-toggle="tooltip" data-placement="top" title="Delete">
                                                 <i class="fa fa-trash-o text-dark"></i>
                                             </button>
