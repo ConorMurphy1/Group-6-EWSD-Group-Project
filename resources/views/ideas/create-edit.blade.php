@@ -36,13 +36,22 @@
                         <input name="title" type="text" class="form-control" required value="{{$idea->title ?? ''}}">
                     </div>
                     <div class="my-2">
-                        <label for="" class="d-block text-muted">Anonymous</label>
-                        {{-- <input name="is_anonymous" type="checkbox" value="yes"> --}}
-                        <select name="is_anonymous" id="" required>
+                        <!-- <label for="" class="d-block text-muted">Anonymous</label> -->
+                        <label for="" class="block mb-2 font-medium text-gray-900 dark:text-white">Anonymous</label>
+                        <!-- <input name="is_anonymous" type="checkbox" value="yes"> -->
+                        <!-- <select name="is_anonymous" id="" required>
                             <option >Choose option</option>
                             <option value="no" {{strtolower($idea->is_anonymous) == 'no' ? 'selected' : ''}}>No</option>
                             <option value="yes" {{strtolower($idea->is_anonymous) == 'yes' ? 'selected' : ''}}>Yes</option>
-                        </select>
+                        </select> -->
+                        
+                       <!------------------------------------------------------------------->
+
+                        <select name="is_anonymous" id="" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option >Choose Option</option>
+                        <option value="no" {{strtolower($idea->is_anonymous) == 'no' ? 'selected' : ''}}>No</option>
+                            <option value="yes" {{strtolower($idea->is_anonymous) == 'yes' ? 'selected' : ''}}>Yes</option>
+                </select>
                     </div>
                     <div class="my-2">
                         <label for="" class="d-block text-muted">Description</label>
@@ -57,15 +66,25 @@
                         </select>
                     </div>
                     <div class="my-2">
-                        <label for="" class="d-block text-muted">Events</label>
-                        <select name="event_id">
+                        <!-- <label for="" class="d-block text-muted">Events</label> -->
+                        <label for="event_id" class="block mb-2 font-medium text-gray-900 dark:text-white">Events</label>
+                        <!-- <select name="event_id">
                             <option >Choose an Event</option>
                             @foreach ($events as $event)
                                 <option required value="{{ $event->id }}" @if ($idea->event_id == $event->id)
                                     selected
                                 @endif > {{ $event->name }} </option>
                             @endforeach
-                        </select>
+                        </select> -->
+
+                        <select name="event_id" id="event_id" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option >Choose an Event</option>
+                        @foreach ($events as $event)
+                        <option required value="{{ $event->id }}" @if ($idea->event_id == $event->id)
+                                    selected
+                                @endif > {{ $event->name }} </option>
+                    @endforeach
+                </select>
                     </div>
 
                     <!-- <button type="button" onclick="conditionsModal()" class="btn btn-primary btn-ladda" data-toggle="modal" data-target="#termsCondition">Save </button> -->

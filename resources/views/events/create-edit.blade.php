@@ -15,7 +15,7 @@
 
 @extends('layouts.app')
 @section('content')
-<div class="col-lg-6 col-xs-12">
+<div class="col-md-12">
     <div class="box-content card white">
         <h4 class="box-title">Event</h4>
         <!-- /.box-title -->
