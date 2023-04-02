@@ -183,7 +183,7 @@
                         <!-- <div class="">
                             <p>Name</p>
                         </div> -->
-                        <div class="custom-select-01" id="js-settings-btn">
+                        <div class="custom-select-02" id="js-settings-btn">
                             <select disabled>
                                 <option value="">{{ auth()->user()->full_name }}</option>
                             </select>

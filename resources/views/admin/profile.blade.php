@@ -74,7 +74,7 @@
 										<div class="row">
 											<div class="col-xs-5"><label>Department:</label></div>
 											<!-- /.col-xs-5 -->
-											<div class="col-xs-7">{{ $user->departments }} </div>
+											<div class="col-xs-7">{{ $user->department->name }} </div>
 											<!-- /.col-xs-7 -->
 										</div>
 										<!-- /.row -->
@@ -84,49 +84,25 @@
 										<div class="row">
 											<div class="col-xs-5"><label>Role:</label></div>
 											<!-- /.col-xs-5 -->
-											<div class="col-xs-7">{{ $user->roles }}</div>
+											<div class="col-xs-7">{{ $user->role->role }}</div>
 											<!-- /.col-xs-7 -->
 										</div>
 										<!-- /.row -->
 									</div>
 									<!-- /.col-md-6 -->
-									<div class="col-md-6">
-										<div class="row">
-											<div class="col-xs-5"><label>Birthday:</label></div>
-											<!-- /.col-xs-5 -->
-											<div class="col-xs-7">Jan 22, 1984</div>
-											<!-- /.col-xs-7 -->
-										</div>
+									
 										<!-- /.row -->
 									</div>
 									<!-- /.col-md-6 -->
-									<div class="col-md-6">
-										<div class="row">
-											<div class="col-xs-5"><label>Interests:</label></div>
-											<!-- /.col-xs-5 -->
-											<div class="col-xs-7">Basketball, Web, Design, etc.</div>
-											<!-- /.col-xs-7 -->
-										</div>
+									
 										<!-- /.row -->
-									</div>
+									
 									<!-- /.col-md-6 -->
-									<div class="col-md-6">
-										<div class="row">
-											<div class="col-xs-5"><label>Website:</label></div>
-											<!-- /.col-xs-5 -->
-											<div class="col-xs-7"><a href="#">yourwebsite.com</a></div>
-											<!-- /.col-xs-7 -->
-										</div>
+									
 										<!-- /.row -->
-									</div>
+									
 									<!-- /.col-md-6 -->
-									<div class="col-md-6">
-										<div class="row">
-											<div class="col-xs-5"><label>Phone:</label></div>
-											<!-- /.col-xs-5 -->
-											<div class="col-xs-7">+1-234-5678</div>
-											<!-- /.col-xs-7 -->
-										</div>
+									
                                         <div class="mt-6">
                                             <a href="{{ route('admin.edit') }}" class="block text-center w-60 mt-10 px-6 py-3 text-white text-2xl rounded-lg bg-blue-500 hover:bg-blue-700">Edit</a>
                                         </div>
@@ -147,7 +123,7 @@
 							<!-- /.card-content -->
 						</div>
 						<!-- /.box-content card -->
-					</div>
+					
 
                     
             </div>
