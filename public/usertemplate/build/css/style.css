@@ -6763,7 +6763,7 @@ hr {
 /*-------  3.1 Basic settings for page content  --------*/
 
 #tt-pageContent:not([class^="tt-offset"]) {
-    padding-top: 100px;
+    padding-top: 70px;
 }
 
 #tt-pageContent.tt-offset-small {

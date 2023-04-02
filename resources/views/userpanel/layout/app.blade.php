@@ -18,26 +18,12 @@
 	<script src="https://cdn.tailwindcss.com"></script>
 
     {{-- ADMIN STYLE --}}
-	<!-- Main Styles -->
-	<link rel="stylesheet" href="{{asset('adminpanel/assets/styles/style.min.css')}}">
-
-	<!-- mCustomScrollbar -->
-	<link rel="stylesheet" href="{{asset('adminpanel/assets/plugin/mCustomScrollbar/jquery.mCustomScrollbar.min.css')}}">
-
-	<!-- Waves Effect -->
-	<link rel="stylesheet" href="{{asset('adminpanel/assets/plugin/waves/waves.min.css')}}">
 
 	<!-- Sweet Alert -->
 	<link rel="stylesheet" href="{{asset('adminpanel/assets/plugin/sweet-alert/sweetalert.css')}}">
 
 	<!-- Bootstrap Icon -->
 	<link rel="stylesheet" href="{{asset('node_modules/bootstrap-icons/font/bootstrap-icons.css')}}">
-
-	<!-- Percent Circle -->
-	<link rel="stylesheet" href="{{asset('adminpanel/assets/plugin/percircle/css/percircle.css')}}">
-
-	<!-- Chartist Chart -->
-	<link rel="stylesheet" href="{{asset('adminpanel/assets/plugin/chart/chartist/chartist.min.css')}}">
 
 	<!-- FullCalendar -->
 	<link rel="stylesheet" href="{{asset('adminpanel/assets/plugin/fullcalendar/fullcalendar.min.css')}}">
@@ -240,69 +226,8 @@
     <main id="tt-pageContent">
         <div class="tt-custom-mobile-indent container">
             <div class="row">
-                <div class="tt-categories-title col-lg-12">
-                    <div class="tt-title">Lastest</div>
-                </div>
-                <div class="col-lg-3 tt-categories-list fix-left">
-                    <div class="tt-item  vertical-scrollable ">
-                        <form class="form-default">
-                            <div class="form-group">
-                                <i class="pt-customInputIcon">
-                               <svg class="tt-icon">
-                                  <use xlink:href="#icon-search"></use>
-                                </svg>
-                            </i>
-                            </div>
-                            <div class="form-group">
-                                <label for="searchaTopics">Categories</label>
-                                <select class="form-control" id="searchaTopics">
-                                    <option>Choose a Category</option>
-                                @foreach ($categories as $category)
-                                    <option value="{{$category->id}}">{{$category->name}}</option>
-                                @endforeach
-                            </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="searchAdvTime">Posted</label>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <input type="text" name="name" class="form-control" id="searchAdvTime" placeholder="dd-mm-yyyy">
-                                    </div>
-                                    <div class="col-6">
-                                        <input type="text" name="name" class="form-control" id="searchAdvTime" placeholder="dd-mm-yyyy">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="searchaTopics">Event</label>
-                                <select class="form-control" id="searchaTopics">
-                                    <option> Choose an Event </option>
-                                @foreach ($events as $event )
-                                    <option value="{{$event->id}}">{{ $event->name }}</option>
-                                @endforeach
-                            </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="minPostCount">Department</label>
-                                <select class="form-control" id="minPostCount">
-                                    <option >Choose a Department</option>
-                                @foreach ($departments as $department )
-                                    <option value="{{$department->id}}">{{ $department->name }}</option>
-                                @endforeach
-                            </select>
-                            </div>
-                            <div class="form-group">
-                                <a href="#" class="btn btn-secondary btn-block">Search</a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="tt-categories-list col-lg-9">
-
                     @yield('content') 
                     @include('sweetalert::alert')                   
-
-                </div>
             </div>
         </div>
     </main>

@@ -2,6 +2,8 @@
 
 @section('content')
 
+<div class="tt-categories-list col-lg-12">
+
 <main id="tt-pageContent">
     <div class="container">
             @if ($idea->id)
@@ -33,7 +35,7 @@
                         <textarea name="description" class="form-control" rows="5" placeholder="Lets get started">{{$idea->description ?? ''}}</textarea>
                     </div>
                     <div class="row">
-                        <div class="form-group w-full px-2">
+                        <div class="form-group w-100 px-2">
                             <h6 class="pt-title">Category</h6>
                             <select class="select2_2 form-control" multiple="multiple" name="category_ids[]" required>
                                 @foreach ($categories as $category)
@@ -95,7 +97,7 @@
         </div>
     </div>
 </main>
-
+</div>
 @endsection
 
 @section('user-javascript')
