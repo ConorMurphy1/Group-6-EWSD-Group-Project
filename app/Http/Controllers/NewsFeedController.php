@@ -16,9 +16,7 @@ class NewsFeedController extends Controller
         $ideas = Idea::with('comments', 'user', 'event')->latest()->paginate(5);
 
         $ideaCategories = IdeaCategory::all();
-
-        // $ideas = Idea::with('comments', 'user')->latest()->paginate(5);
-
+        
         return view('newsfeed.index', compact('ideas', 'departments', 'events', 'ideaCategories', 'categories'));
     }
 

@@ -44,14 +44,34 @@ class SendEmailNotification implements ShouldQueue
      */
     public function handle()
     {
-        Log::info('Sending email notification for comment '.$this->comment->id.' to user '.$this->user->id.' for idea '.$this->idea->id);
+        Log::info('Sending email notification for comment "'.$this->comment->comment.'" to user "'.$this->user->full_name.'" for idea "'.$this->idea->title.'"');
+
+        $coordinators = $this->user->departmentCoordinators;
+        
+        $ccEmails = $coordinators->pluck('email')->toArray();
+        $ccNames = $coordinators->pluck('full_name')->toArray();
+
+        // Log::info($ccEmails);
+        // Log::info($ccNames);
+
+        $postOwner = $this->user->full_name;
+        $postTitle = $this->idea->title;
+
+        /**
+         * title - name of the idea
+         * name - name of the user who created the idea 
+         * comment - the comment
+         */
         Mail::send('emails.notify', [
+            'title' => $this->idea->title,
+            'name' => $postOwner,
             'comment' => $this->comment->comment,
-            'user' => $this->user,
-            'title' => $this->idea->title
-        ], function($mail) {
-            $mail->from('example@laravel.ac.uk', 'Laravel');
-            $mail->to($this->user->email, $this->user->name)->subject('New comment on you idea post');
+        ], function($mail) use ($ccEmails, $ccNames, $postOwner, $postTitle) {
+            $mail->from('g6.university@myuni.ac.uk', 'University Mgmt System');
+            $mail->to($this->user->email, $postOwner)
+                ->cc($ccEmails, $ccNames)
+                ->subject('New comment posted on '.$postTitle);
         });
     }
 }
+
