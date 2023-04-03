@@ -246,9 +246,15 @@
 
 <!-- close header -->
 
-@yield('content') 
+{{-- @yield('content')  --}}
 
-
+<main id="tt-pageContent" class="container-fluid ">
+    <div class="tt-custom-mobile-indent ">
+        <div class="row">
+                @yield('content') 
+        </div>
+    </div>
+</main>
 
 <div id="js-popup-settings" class="tt-popup-settings">
     <div class="tt-btn-col-close">

@@ -3,7 +3,6 @@
 @section('content')
 
 <div class="tt-categories-list col-lg-12">
-
 <main id="tt-pageContent">
     <div class="container">
             @if ($idea->id)
@@ -35,7 +34,7 @@
                         <textarea name="description" class="form-control" rows="5" placeholder="Lets get started">{{$idea->description ?? ''}}</textarea>
                     </div>
                     <div class="row">
-                        <div class="form-group w-100 px-2">
+                        <div class="form-group w-full px-2">
                             <h6 class="pt-title">Category</h6>
                             <select class="select2_2 form-control" multiple="multiple" name="category_ids[]" required>
                                 @foreach ($categories as $category)
@@ -48,7 +47,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="inputTopicTags">Event</label>
-                                <select name="event_id" class="select2_2 form-control">
+                                <select name="event_id" class="form-control">
                                     <option >Choose an Event</option>
                                     @foreach ($events as $event)
                                         <option required value="{{ $event->id }}" 
@@ -62,7 +61,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="inputTopicTags">Anonymous</label>
-                                <select name="is_anonymous" id="" required class="select2_2 form-control">
+                                <select name="is_anonymous" id="" required class="form-control">
                                     <option >Choose option</option>
                                     <option value="no" {{strtolower($idea->is_anonymous) == 'no' ? 'selected' : ''}}>No</option>
                                     <option value="yes" {{strtolower($idea->is_anonymous) == 'yes' ? 'selected' : ''}}>Yes</option>
@@ -88,7 +87,7 @@
                         <input name="document" type="file" accept="application/pdf,xls,doc" value="{{$idea->document ?? ''}}">
                     </div>
                     <div class="row">
-                        <div class="col-auto ml-md-auto">
+                        <div class="col-auto ml-md-auto mb-3">
                             <button type="submit" class="btn btn-secondary btn-width-lg">Create Post</button>
                         </div>
                     </div>

@@ -2,67 +2,12 @@
 
 @section('content')
 
-<div class="col-lg-3 tt-categories-list fix-left">
-    <div class="tt-item  vertical-scrollable ">
-        <form class="form-default">
-            <div class="form-group">
-                <i class="pt-customInputIcon">
-               <svg class="tt-icon">
-                  <use xlink:href="#icon-search"></use>
-                </svg>
-            </i>
-            </div>
-            <div class="form-group">
-                <label for="searchaTopics">Categories</label>
-                <select class="form-control" id="searchaTopics">
-                    <option>Choose a Category</option>
-                @foreach ($categories as $category)
-                    <option value="{{$category->id}}">{{$category->name}}</option>
-                @endforeach
-            </select>
-            </div>
-            <div class="form-group">
-                <label for="searchAdvTime">Posted</label>
-                <div class="row">
-                    <div class="col-6">
-                        <input type="text" name="name" class="form-control" id="searchAdvTime" placeholder="dd-mm-yyyy">
-                    </div>
-                    <div class="col-6">
-                        <input type="text" name="name" class="form-control" id="searchAdvTime" placeholder="dd-mm-yyyy">
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="searchaTopics">Event</label>
-                <select class="form-control" id="searchaTopics">
-                    <option> Choose an Event </option>
-                @foreach ($events as $event )
-                    <option value="{{$event->id}}">{{ $event->name }}</option>
-                @endforeach
-            </select>
-            </div>
-            <div class="form-group">
-                <label for="minPostCount">Department</label>
-                <select class="form-control" id="minPostCount">
-                    <option >Choose a Department</option>
-                @foreach ($departments as $department )
-                    <option value="{{$department->id}}">{{ $department->name }}</option>
-                @endforeach
-            </select>
-            </div>
-            <div class="form-group">
-                <a href="#" class="btn btn-secondary btn-block">Search</a>
-            </div>
-        </form>
-    </div>
-</div>
-
-<div class="tt-categories-list col-lg-9">
+<div class="tt-categories-list col-12  mt-3">
 @if (!$ideas->isEmpty())
 @foreach ($ideas as $idea)
 
     {{-- TODO: later convert tailwind to BS-4 --}}
-    <div class="col-md-12 col-lg-12 flex flex-col px-4 py-3 bg-white shadow-sm rounded mb-8">
+    <div class="col-lg-6 col-md-12 flex flex-col px-4 py-3 bg-white shadow-sm rounded mb-8">
         <div class="relative">
             <div class="flex justify-between items-center">
                 @if ($idea->is_anonymous ?? false)
@@ -343,7 +288,9 @@
         <!-- Comment Section -->
         <section>
             <div class="flex flex-col space-y-4 justify-between items-center py-2.5 border-t md:space-y-0 md:flex-row">
-                <h1>Comments</h1>
+                 <div>
+                     <h1>Comment</h1>
+                </div>
                 <div class="flex items-center gap-x-2">
                     <input id="idea-comment-{{ $idea->id }}-anon" type="checkbox" name="is_anonymous" value="1">
                     <span class="text-sm">Comment Anonymously</span>

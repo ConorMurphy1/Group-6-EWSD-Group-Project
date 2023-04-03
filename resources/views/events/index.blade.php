@@ -1,75 +1,46 @@
-@extends('layouts.app')
+@extends('userpanel.layout.example')
 
 @section('content')
-    <div class="col-xs-12">
-        <div class="center">
-            <div class="box-content">
-                <h4 class="box-title">Event</h4>
-                <div>
-                    <a href="{{route('events.create')}}" class="btn btn-success justify-content-end">+Add New Event</a>
+<main id="tt-pageContent">
+    <div class="tt-custom-mobile-indent container">
+        <div class="tt-categories-title">
+            <div class="tt-title">Events</div>
+        </div>
+        <div class="tt-categories-list">
+            <div class="row">
+                <div class="col-md-6 col-lg-4">
+                    <div class="tt-item">
+                        <div class="tt-item-header">
+                            <ul class="tt-list-badge">
+                                <li><a href="#"><span class="tt-color04 tt-badge">pets</span></a></li>
+                            </ul>
+                            <h6 class="tt-title"><a href="page-categories-single.html">Threads - 1,245</a></h6>
+                        </div>
+                        <div class="tt-item-layout">
+                            <div class="tt-innerwrapper">
+                                Lets discuss about whats happening around the world politics.
+                            </div>
+                            <div class="tt-innerwrapper">
+                                <h6 class="tt-title">Similar TAGS</h6>
+                                <ul class="tt-list-badge">
+                                    <li><a href="#"><span class="tt-badge">world politics</span></a></li>
+                                    <li><a href="#"><span class="tt-badge">human rights</span></a></li>
+                                    <li><a href="#"><span class="tt-badge">trump</span></a></li>
+                                    <li><a href="#"><span class="tt-badge">climate change</span></a></li>
+                                    <li><a href="#"><span class="tt-badge">foreign policy</span></a></li>
+                                </ul>
+                            </div>
+                            <div class="tt-innerwrapper">
+                                <a href="#" class="tt-btn-icon">
+                                    <i class="tt-icon"><svg><use xlink:href="#icon-favorite"></use></svg></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <!-- /.box-title -->
-                <div class="dropdown js__drop_down">
-                    <a href="#" class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
-                    <ul class="sub-menu">
-                        <li><a href="#">Product</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else there</a></li>
-                        <li class="split"></li>
-                        <li><a href="#">Separated link</a></li>
-                    </ul>
-                    <!-- /.sub-menu -->
-                </div>
-                <!-- /.dropdown js__dropdown -->
-                <div class="table-responsive table-purchases">
-                    <table class="table table-bordered border-1 m-1">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Event</th>
-                                <th>Description</th>
-                                <th>Closure Date</th>
-                                <th>Final Closure</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($events as $event)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $event->name }}</td>
-                                <td>{{ $event->description }}</td>
-                                @if ($event->closure < now())
-                                    <td>{{ Carbon\Carbon::parse($event->closure)->format('d-m-Y') }} <span class="ml-2 px-2 py-1 bg-gray-500 text-white rounded-lg">closed</span></td>
-                                @else
-                                    <td>{{ Carbon\Carbon::parse($event->closure)->format('d-m-Y') }}</td>
-                                @endif
-                                @if ($event->final_closure < now())
-                                    <td>{{ Carbon\Carbon::parse($event->final_closure)->format('d-m-Y') }} <span class="ml-2 px-2 py-1 bg-gray-500 text-white rounded-lg">closed</span></td>
-                                @else
-                                    <td>{{ Carbon\Carbon::parse($event->final_closure)->format('d-m-Y') }}</td>
-                                @endif
-                                <td class="flex-warp">
-                                    <div class="mx-3 text-center">
-                                        <form action="{{ route('events.destroy', $event->id) }}" method="post">
-                                            @csrf @method('delete')
-                                            <a href="{{ route('events.edit', $event->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Edit">
-                                                <i class="fa fa-edit"></i>
-                                            </a>
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete?')" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                <i class="fa fa-trash-o text-dark"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <!-- /.table-responsive -->
             </div>
-            <!-- /.box-content -->
         </div>
     </div>
+</main>
+        
 @endsection
