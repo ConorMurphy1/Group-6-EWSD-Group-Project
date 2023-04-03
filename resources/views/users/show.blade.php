@@ -1,4 +1,4 @@
-@extends('userpanel.layout.temp')
+@extends('userpanel.layout.example')
 
 @section('content')
 <div class="flex flex-col items-center gap-y-10 md:gap-y-0 mt-2 md:flex-row">

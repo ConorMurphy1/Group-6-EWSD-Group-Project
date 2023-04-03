@@ -1,4 +1,4 @@
-@extends('userpanel.layout.temp')
+@extends('userpanel.layout.app')
 @section('content')
     <!doctype html>
     <html lang="en">

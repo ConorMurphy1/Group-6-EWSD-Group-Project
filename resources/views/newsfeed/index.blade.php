@@ -1,11 +1,13 @@
 @extends('userpanel.layout.app')
 
 @section('content')
+
+<div class="tt-categories-list col-12  mt-3">
 @if (!$ideas->isEmpty())
 @foreach ($ideas as $idea)
 
     {{-- TODO: later convert tailwind to BS-4 --}}
-    <div class="col-md-6 col-lg-8 flex flex-col px-4 py-3 bg-white shadow-sm rounded mb-8">
+    <div class="col-lg-6 col-md-12 flex flex-col px-4 py-3 bg-white shadow-sm rounded mb-8">
         <div class="relative">
             <div class="flex justify-between items-center">
                 @if ($idea->is_anonymous ?? false)
@@ -286,7 +288,9 @@
         <!-- Comment Section -->
         <section>
             <div class="flex flex-col space-y-4 justify-between items-center py-2.5 border-t md:space-y-0 md:flex-row">
-                <h1>Comments</h1>
+                 <div>
+                     <h1>Comment</h1>
+                </div>
                 <div class="flex items-center gap-x-2">
                     <input id="idea-comment-{{ $idea->id }}-anon" type="checkbox" name="is_anonymous" value="1">
                     <span class="text-sm">Comment Anonymously</span>
@@ -655,6 +659,8 @@
     <div class="tt-row-btn ">
         {{ $ideas->appends(request()->query())->links() }}
     </div>
+</div>
+
 </div>
 
 @endsection
