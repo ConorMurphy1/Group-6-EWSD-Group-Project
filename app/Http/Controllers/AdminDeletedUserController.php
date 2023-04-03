@@ -37,7 +37,7 @@ class AdminDeletedUserController extends Controller
     public function destroy($id)
     {
         $user = User::withTrashed()->findOrFail($id);
-        $user->forceDelete();
+        // $user->forceDelete();
 
         Alert::toast('User account removed!', 'warning');
         return redirect()->route('admin.users.index');

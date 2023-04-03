@@ -47,7 +47,7 @@
 
     <!-- Data Table -->
     <link href="https://cdn.datatables.net/v/dt/dt-1.13.3/af-2.5.2/b-2.3.5/cr-1.6.1/date-1.3.1/fh-3.3.1/r-2.4.0/rr-1.3.2/sp-2.1.1/sr-1.2.1/datatables.min.css" rel="stylesheet"/>
-	
+
 	<!-- Remodal -->
 	<link rel="stylesheet" href="{{asset('adminpanel/assets/plugin/modal/remodal/remodal.css')}}">
 	<link rel="stylesheet" href="{{asset('adminpanel/assets/plugin/modal/remodal/remodal-default-theme.css')}}">
@@ -78,32 +78,31 @@
 
 	<script src="https://cdn.tailwindcss.com"></script>
 
+
+    @yield('styles')
+
 </head>
 
 <body>
+
 <div class="main-menu">
 	<header class="header">
-		
-		<a href="{{route('home')}}" class="logo">G6</a>
-		{{-- <div class="tt-logo">
-			<a href="{{route('home')}}"><img src="images/anon.png" alt="">G6</a>
-		</div> --}}
+		<a href="index.html" class="logo">G6 Uni</a>
 		<button type="button" class="button-close fa fa-times js__menu_close"></button>
 		<div class="user">
-			<a href="{{ route('admin.profile') }}" class="avatar"><img src="{{ asset('storage/images/'.$user->image) }}" alt=""><span class="status online"></span></a>
-			<h5 class="name"><a href="{{ route('admin.profile') }}">{{ $user->full_name }}</a></h5>
-			<h5 class="position">{{ $user->department->name }}</h5>
+			<a href="#" class="avatar"><img src="http://placehold.it/80x80" alt=""><span class="status online"></span></a>
+			<h5 class="name"><a href="profile.html">{{$user->username}}</a></h5>
+			<h5 class="position">{{$user->department->name}}</h5>
 			<!-- /.name -->
 			<div class="control-wrap js__drop_down">
 				<i class="fa fa-caret-down js__drop_down_button"></i>
 				<div class="control-list">
                     <form action="{{route('logout')}}" method="post">
                         @csrf
-                        <div class="control-item"><a href="profile.html"><i class="fa fa-user"></i> Profile</a></div>
-                        <div class="control-item"><a href="#"><i class="fa fa-gear"></i> Settings</a></div>
-                        <div class="control-item"><button ><i class="fa fa-sign-out"></i> Log out</button></div>
-                    </form>
-				</div>
+                        <div class="control-item"><a href="{{route('admin.profile')}}"><i class="fa fa-user"></i> Profile</a></div>
+                        <div class="control-item"><a href="#"><i class="fa fa-sign-out"></i> Log out</a></div>
+				    </form>
+                </div>
 				<!-- /.control-list -->
 			</div>
 			<!-- /.control-wrap -->
@@ -112,8 +111,7 @@
 	</header>
 	<!-- /.header -->
 	<div class="content">
-
-		<div class="navigation">
+        <div class="navigation">
 			<h5 class="title">Navigation</h5>
 			<!-- /.title -->
 			<ul class="menu js__accordion">
@@ -167,6 +165,7 @@
 				</li>
 				<li>
 					<a class="waves-effect" href="{{ route('stats.index') }}"><i class="menu-icon fa fa-bar-chart"></i><span>Stats</span></a>
+					<a class="waves-effect" href="{{ route('export-csv') }}"><i class="menu-icon fa fa-bar-chart"></i><span>Dowload zip</span></a>
 				</li>
 
 
