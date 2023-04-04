@@ -37,7 +37,9 @@
                             <tr>
                                 <td>{{ ($reportedIdeas->currentPage()-1) * $reportedIdeas->perPage() + $loop->index + 1 }}</td>
                                 @if ($report->idea->image)
-                                <td><img src="{{ asset('storage/images/' . $report->idea->image) }}" alt=""></td> 
+                                <td>
+                                    <img src="{{ asset('storage/images/' . $report->idea->image) }}" alt="" width="200" height="200">
+                                </td> 
                                 @else
                                 <td>No image uploaded</td>
                                 @endif

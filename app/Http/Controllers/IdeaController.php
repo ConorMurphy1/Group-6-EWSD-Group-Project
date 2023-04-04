@@ -296,6 +296,15 @@ class IdeaController extends Controller
         return back();
     }
 
+    /** For user panel */
+    public function userDelete(Idea $idea)
+    {
+        $idea->delete();
+
+        Alert::toast('Congrats!, You have successfully deleted an Idea', 'success');
+        return redirect()->route('ideas.feed');
+    }
+
     /** report submitted by QA Coord */
     public function report(Request $request, Idea $idea)
     {

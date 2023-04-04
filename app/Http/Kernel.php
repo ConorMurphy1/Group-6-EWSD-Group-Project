@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'admin_access' => \App\Http\Middleware\AdminLevelAccess::class,
         'admin_only' => \App\Http\Middleware\AdminOnlyAccess::class,
         'qam_only' => \App\Http\Middleware\QAMOnlyAccess::class,
+        'constraint' => \App\Http\Middleware\PostingLogic::class,
     ];
 }

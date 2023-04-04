@@ -73,10 +73,10 @@
                     <div class="tt-desktop-menu">
                         <nav>
                                 <ul>
-                                    @if (auth()->user()->role->role == 'Admin')
+                                    @if (auth()->user()->role->role == 'Admin' || auth()->user()->role->role == 'QA Manager')
                                     <li><a href="{{ route('home') }}"><span>Dashboard</span></a></li>
                                     @endif
-                                    <li><a href="{{ route('ideas.feed') }}"><span>Home</span></a></li>
+                                    <li><a href="{{ route('ideas.feed') }}"><span>NewsFeed</span></a></li>
                                     <li><a href="{{route('idea.users.create')}}"><span>Create</span></a></li>
                                     <li><a href="{{route('events.index')}}"><span>Event</span></a></li>
                                 </ul>
@@ -186,13 +186,15 @@
 
 
     <!-- create icon -->
+    @if (auth()->user()->role->role == 'Staff' || auth()->user()->role->role == 'Admin')
     <a href="{{ route('idea.users.create') }}" class="tt-btn-create-topic">
         <span class="tt-icon">
-        <svg>
-          <use xlink:href="#icon-create_new"></use>
-        </svg>
-    </span>
+            <svg>
+                <use xlink:href="#icon-create_new"></use>
+            </svg>
+        </span>
     </a>
+    @endif
     <!-- advance search -->
     <div class="modal fade" id="modalAdvancedSearch" tabindex="-1" role="dialog" aria-label="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm">

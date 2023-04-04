@@ -119,6 +119,16 @@ Route::prefix('admin')->middleware(['auth', 'qam_only'])->group(function() {
 
 
 
+/** Only Staff and Admin can post ideas */
+Route::middleware(['auth', 'constraint'])->group(function() {
+    Route::get('/idea/create', [IdeaController::class, 'userCreate'])->name('idea.users.create');
+    Route::get('/idea/edit/{idea:id}', [IdeaController::class, 'userEdit'])->name('idea.users.edit');
+    Route::put('/idea/{idea:id}', [IdeaController::class, 'userUpdate'])->name('idea.users.update');
+    Route::delete('/idea/{idea:id}', [IdeaController::class, 'userDelete'])->name('idea.users.delete');
+});
+
+
+
 /** Global Accessed Routes: Every role can access these routes if they are authenticated */
 Route::middleware(['auth'])->group(function() {
     Route::get('/users', [UserController::class, 'show'])->name('user.show');         /** to check other people's profiles  */
@@ -138,10 +148,7 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/idea/{idea:id}/comment/{comment:id}/edit', [IdeaCommentController::class, 'edit'])->name('idea.comments.edit');
     Route::put('/idea/{idea:id}/comment/{comment:id}', [IdeaCommentController::class, 'update'])->name('idea.comments.update');
     Route::delete('/idea/{idea:id}/comment/{comment:id}', [IdeaCommentController::class, 'destroy'])->name('idea.comments.destroy');
-    
-    Route::get('/idea/create', [IdeaController::class, 'userCreate'])->name('idea.users.create');
-    Route::get('/idea/edit/{idea:id}', [IdeaController::class, 'userEdit'])->name('idea.users.edit');
-    Route::put('/idea/{idea:id}', [IdeaController::class, 'userUpdate'])->name('idea.users.update');
+
     
     Route::post('/idea/{idea:id}/report', [IdeaController::class, 'report'])->name('report');
     Route::post('/idea/{idea:id}/comment/{comment:id}/report', [IdeaCommentController::class, 'report'])->name('comment.report');

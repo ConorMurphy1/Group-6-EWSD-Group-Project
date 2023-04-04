@@ -86,7 +86,7 @@
                                     <div class="px-3 py-1">
                                         <a href="{{ route('idea.users.edit', $idea->id) }}" class="apperance-none hover:text-amber-400 focus:outline-none">Edit</a>
                                     </div>
-                                    <form action="{{ route('ideas.destroy', $idea->id) }}" method="POST" class="px-3 py-1">
+                                    <form action="{{ route('idea.users.delete', $idea->id) }}" method="POST" class="px-3 py-1">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="hover:text-red-500 foucs:outline-none">Delete</button>
