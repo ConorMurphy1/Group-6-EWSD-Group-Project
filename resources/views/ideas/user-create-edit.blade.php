@@ -46,7 +46,7 @@
                             @if ($idea->id)
                             <select class="select2_2 form-control" multiple="multiple" name="category_ids[]" required>
                                 @foreach ($categories as $category)
-                                    <option value="{{$category->id}}" @if(in_array($category->id, $idea->categories->pluck('id')->toArray())) selected @endif>{{$category->name}}</option>
+                                    <option value="{{$category->id}}" @if(in_array($category->id, $idea->categories()->select('id')->get()->toArray())) selected @endif>{{$category->name}}</option>
                                 @endforeach
                             </select>
                             @else

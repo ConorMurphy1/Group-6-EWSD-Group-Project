@@ -143,12 +143,13 @@ class IdeaController extends Controller
             'department_id' => ['required', 'integer'],
             // 'category_ids' => ['required', 'array'],
             // 'category_ids.*' => ['required', 'exists:categories,id'],
-            'image' => ['nullable', 'image', 'mimes:jpg,png,jpeg', 'max:2048'],
+            'image' => ['nullable', 'image', 'mimes:jpg,png,jpeg,webp', 'max:2048'],
         ]);
 
         if($request->image)
         {
-            $imageName = $this->updateImage('image', 'images', auth()->user()->image);
+            // $imageName = $this->updateImage('image', 'images', auth()->user()->image);
+            $imageName = $this->uploadImage('image', 'images');
             $ideaData['image'] = $imageName;
         }
 
@@ -175,7 +176,8 @@ class IdeaController extends Controller
         $data = $request->validate([
             'title' => 'required | string',
             'description' => 'required | string',
-            'event_id' => 'required | integer'
+            'event_id' => 'required | integer',
+            'image' => ['nullable', 'image', 'mimes:jpg,png,jpeg,webp', 'max:2048'],
         ]);
 
         if($request->image)

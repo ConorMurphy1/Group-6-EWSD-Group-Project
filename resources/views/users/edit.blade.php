@@ -5,7 +5,11 @@
     <div class="self-center bg-stone-100/[0.9] w-full p-4 rounded-lg md:basis-1/4 md:p-0 md:self-start md:bg-white">
         <div class="flex flex-col items-center gap-x-4 md:gap-x-10">
             <div class="h-20 w-20 flex items-center rounded-full border-2 border-slate-100 md:h-40 md:w-40 bg-white overflow-hidden">
+                @if ($user->image)
                 <img src="{{ asset('storage/images/'.$user->image) }}" alt="" class="h-full w-full object-cover">
+                @else
+                <img src="http://placehold.it/240x240" alt="" class="h-full w-full object-cover">
+                @endif
             </div>
             <div class="mt-2 text-center md:mt-8 md:text-start">
                 <div class="font-medium text-lg md:text-xl">{{ $user->full_name }}</div>

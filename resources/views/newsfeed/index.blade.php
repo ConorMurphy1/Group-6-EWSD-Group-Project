@@ -11,8 +11,8 @@
         <div class="relative">
             <div class="flex justify-between items-center">
                 @if ($idea->is_anonymous ?? false)
-                <div class="flex items-center gap-x-3 mb-1 basis-1/2">
-                    <div class="w-16 h-16 self-start border flex items-center rounded-full py-2 px-1 md:w-24 md:h-24">
+                <div class="flex shrink-0 items-center gap-x-3 mb-1 basis-1/2">
+                    <div class="w-16 h-16 shrink-0 self-start border flex items-center rounded-full py-2 px-1 md:w-24 md:h-24">
                         <img src="{{ asset('images/anon.png') }}" alt="">
                     </div>
                     <div>
@@ -20,9 +20,13 @@
                     </div>
                 </div>
                 @else
-                <div class="flex items-center gap-x-3 mb-1 basis-1/2">
-                    <a href="users?username={{ $idea->createdBy->username }}" class="w-16 h-16 self-start border flex items-center rounded-full overflow-hidden md:w-24 md:h-24">
+                <div class="flex shrink-0 items-center gap-x-3 mb-1 basis-1/2">
+                    <a href="users?username={{ $idea->createdBy->username }}" class="w-16 h-16 shrink-0 self-start border flex items-center rounded-full overflow-hidden md:w-24 md:h-24">
+                        @if ($idea->user->image)
                         <img src="{{ asset('storage/images/'.$idea->user->image) }}" alt="" class="w-full h-full object-cover">
+                        @else
+                        <img src="http://placehold.it/240x240" alt="" class="w-full h-full object-cover">
+                        @endif
                     </a>
                     <div>
                         <h1 class="text-black font-medium"><a href="users?username={{ $idea->createdBy->username }}">{{$idea->createdBy->full_name}}</a></h1>
@@ -127,13 +131,14 @@
 
         <div class="my-3 py-2 px-2 bg-blue-50 text-justify text-black rounded-lg">
             {{$idea->description}}
-            <br>
-            @if ($idea->document)
-            <span>Support Documents:</span>
-            <a href="{{asset('storage/documents/'.$idea->document)}}" target="_blank" >{{$idea->document}}</a>
-            @else
-                <span> No Doc uploaded </span>
-            @endif
+            <div class="mt-2 text-sm">
+                @if ($idea->document)
+                <span class="text-green-600">Support Documents:</span>
+                <a href="{{asset('storage/documents/'.$idea->document)}}" target="_blank" >{{$idea->document}}</a>
+                @else
+                <span class="text-gray-500"> No Doc uploaded </span>
+                @endif
+            </div>
         </div>
 
         <div class="flex space-x-5 mb-4">
@@ -439,11 +444,15 @@
             <section id="comments-section-{{ $idea->id }}" class="relative max-h-96 bg-white px-3 mt-2.5 border rounded-lg divide-y overflow-y-auto">
                 @foreach ($idea->comments()->latest()->get() as $comment)
                     <div class="flex items-center py-8">
-                        <div class="w-12 h-12 self-start border flex items-center rounded-full overflow-hidden md:w-16 md:h-16">
+                        <div class="w-12 h-12 shrink-0 self-start border flex items-center rounded-full overflow-hidden md:w-16 md:h-16">
                             @if ($comment->is_anonymous)
                             <img src="{{ asset('images/anon.png') }}" alt="" width="100%">
                             @else
-                            <img src="{{ asset('storage/images/'.$comment->user->image) }}" alt="" width="100%" class="w-full h-full object-cover">
+                                @if ($comment->user->image)
+                                <img src="{{ asset('storage/images/'.$comment->user->image) }}" alt="" width="100%" class="w-full h-full object-cover">
+                                @else
+                                <img src="http://placehold.it/120x120" alt="">
+                                @endif
                             @endif
                         </div>
                         <div class="flex-1 ml-3">

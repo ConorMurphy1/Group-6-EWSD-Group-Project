@@ -4,8 +4,12 @@
 <div class="flex flex-col items-center gap-y-10 md:gap-y-0 mt-2 md:flex-row">
     <div class="self-center bg-stone-100/[0.9] w-full p-4 rounded-lg md:basis-1/4 md:p-0 md:self-start md:bg-white">
         <div class="flex flex-col items-center gap-x-4 md:gap-x-10 md:items-start">
-            <div class="h-20 w-20 flex items-center rounded-full border-2 border-slate-100 md:h-40 md:w-40 bg-white overflow-hidden">
+            <div class="h-20 w-20 shrink-0 flex items-center rounded-full border-2 border-slate-100 md:h-40 md:w-40 bg-white overflow-hidden">
+                @if ($user->image)
                 <img src="{{ asset('storage/images/'.$user->image) }}" alt="" class="h-full w-full object-cover">
+                @else
+                <img src="http://placehold.it/240x240" alt="" class="h-full w-full object-cover">
+                @endif
             </div>
             <div class="mt-2 md:mt-8">
                 <div class="flex items-center font-medium text-lg md:text-xl">
@@ -48,7 +52,11 @@
                         <div class="flex justify-between items-center">
                             <div class="flex items-center gap-x-3 mb-1 basis-1/2">
                                 <a href="users?username={{ $idea->createdBy->username }}" class="w-16 h-16 self-start border flex items-center rounded-full overflow-hidden md:w-24 md:h-24">
+                                    @if ($idea->user->image)
                                     <img src="{{ asset('storage/images/'.$idea->user->image) }}" alt="" class="w-full h-full object-cover">
+                                    @else
+                                    <img src="http://placehold.it/120x120" alt="">
+                                    @endif
                                 </a>
                                 <div>
                                     <h1 class="text-black font-medium"><a href="users?username={{ $idea->createdBy->username }}">{{$idea->createdBy->full_name}}</a></h1>
@@ -449,11 +457,15 @@
                         <section id="comments-section-{{ $idea->id }}" class="relative max-h-96 bg-white px-3 mt-2.5 border rounded-lg divide-y overflow-y-auto">
                             @foreach ($idea->comments()->latest()->get() as $comment)
                                 <div class="flex items-center py-8">
-                                    <div class="w-12 h-12 self-start border flex items-center rounded-full overflow-hidden md:w-16 md:h-16">
+                                    <div class="w-12 h-12 shrink-0 self-start border flex items-center rounded-full overflow-hidden md:w-16 md:h-16">
                                         @if ($comment->is_anonymous)
                                         <img src="{{ asset('images/anon.png') }}" alt="" width="100%">
                                         @else
-                                        <img src="{{ asset('storage/images/'.$comment->user->image) }}" alt="" width="100%" class="w-full h-full object-cover">
+                                            @if ($comment->user->image)
+                                            <img src="{{ asset('storage/images/'.$comment->user->image) }}" alt="" width="100%" class="w-full h-full object-cover">
+                                            @else
+                                            <img src="http://placehold.it/120x120" alt="">
+                                            @endif
                                         @endif
                                     </div>
                                     <div class="flex-1 ml-3">
