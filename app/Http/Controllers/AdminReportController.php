@@ -8,12 +8,18 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class AdminReportController extends Controller
 {
-    public function index()
+    public function reportedIdeas()
     {
         $reportedIdeas = IdeaReport::paginate(5);
+        
+        return view('admin.reports.ideas.index', compact('reportedIdeas'));
+    }
+    
+    public function reportedComments()
+    {
         $reportedComments = CommentReport::paginate(5);
 
-        return view('admin.reports.index', compact('reportedIdeas', 'reportedComments'));
+        return view('admin.reports.comments.index', compact( 'reportedComments'));
     }
 
     public function destroy(IdeaReport $ideaReport)

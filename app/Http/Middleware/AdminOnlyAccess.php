@@ -6,9 +6,9 @@ use Closure;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class AdminLevelAccess
+class AdminOnlyAccess
 {
-    /** Admin Level Access, QAM can also access */
+    /** Only ADMIN  */
     public function handle(Request $request, Closure $next)
     {
         $user = auth()->user();
@@ -17,12 +17,8 @@ class AdminLevelAccess
         {
             return $next($request);
         }
-        if($user && strtolower($user->role->role) == 'qa manager')
-        {
-            return $next($request);
-        }
 
         Alert::toast('Trying to access the invalid url', 'error');
-        return redirect()->route('ideas.feed');
+        return redirect()->route('dashboard');
     }
 }

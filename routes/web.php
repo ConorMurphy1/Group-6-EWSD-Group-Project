@@ -37,7 +37,8 @@ Route::get('/', function() {
 })->name('home')->middleware('auth');
 
 
-/** login, logout and handling user passwords */
+
+/** Login, Logout */
 Route::middleware(['guest'])->group(function() {
     Route::get('/login', [SessionController::class, 'create'])->name('session.create');
     Route::post('/login', [SessionController::class, 'login'])->name('login');
@@ -48,13 +49,32 @@ Route::middleware(['auth'])->group(function() {
 });
 
 
-Route::prefix('admin')->middleware(['auth', 'admin'])->group(function() {
 
-    /** Admin , QA Manger dashboard or Main page after login */
+/** Admin and QAC's shared routes */
+Route::prefix('admin')->middleware(['auth', 'admin_access'])->group(function() {
+
+    // Dashboard
     Route::get('/dashboard', fn() => view('home'))->name('dashboard');
 
-    /** Admin related User CRUD routes */
-    /** section of admin-panel where admin controls the user account CRUD operations */
+    // CSV Exports
+    Route::resource('/export-csv', CsvExportController::class);
+    Route::get('/export-csv-download', [IdeaController::class,'exportToCSV'])->name('export-csv-download');
+    Route::get('/export-csv', [CsvExportController::class, 'index'])->name('export-csv');
+    Route::get('/download-document', [IdeaController::class, 'downloadDocument'])->name('download-document');
+
+    // Closure Dates (Events)
+    Route::resource('events', EventController::class);
+
+    // Statistical Analysis
+    Route::resource('/stats', IdeaReportController::class );
+});
+
+
+
+/** Admin Only Accessed routes */
+Route::prefix('admin')->middleware(['auth', 'admin_only'])->group(function() {
+
+    // Admin User CRUD
     Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users.index');
     Route::get('/user/register', [AdminUserController::class, 'create'])->name('admin.users.create');
     Route::post('/user/store', [AdminUserController::class, 'store'])->name('admin.users.store');
@@ -62,64 +82,44 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function() {
     Route::put('/user/{user:id}/update', [AdminUserController::class, 'update'])->name('admin.users.update');
     Route::delete('/user/{user:id}/destroy', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
     
-    /** section of admin-panel where admin can reactivate the user accounts */
+    // Admin User Soft Delete UD
     Route::get('/users/deleted', [AdminDeletedUserController::class, 'index'])->name('admin.users.deleted.index');
     Route::put('/users/deleted/{id}/reactivate', [AdminDeletedUserController::class, 'reactivate'])->name('admin.users.deleted.reactivate');
     Route::delete('/users/deleted/{id}/destroy', [AdminDeletedUserController::class, 'destroy'])->name('admin.users.deleted.destroy');
     
-    /** section of admin-panel where admin controls his own account/profile updates */
+    // Admin Profile 
     Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile');
     Route::get('/edit', [AdminController::class, 'edit'])->name('admin.edit');
     Route::put('/update', [AdminController::class, 'update'])->name('admin.update');
     Route::delete('/destroy', [AdminController::class, 'destroy'])->name('admin.destroy');
-    /** Idea reports for admin panel */
-    Route::get('/reports', [AdminReportController::class, 'index'])->name('admin.reports');
-    Route::delete('/reports/{ideaReport}/destroy', [AdminReportController::class, 'destroy'])->name('admin.reports.destroy');
-    Route::delete('/reports/comments/{commentReport}/destroy', [AdminReportController::class, 'destroyComment'])->name('admin.reports.comments.destroy');
-    
-    /** Statistical Analysis */
-    Route::resource('/stats', IdeaReportController::class );         // statistical report for Admin and QA Manager
 
-    /**
-     * Role Entry related routes
-     */
+    // Role Department CRUD
     Route::resource('roles', RoleController::class);
-
-    /**
-     * Event
-     */
-    Route::resource('events', EventController::class);
-
-    /**
-     * CSV Export
-     */
-    Route::resource('/export-csv', CsvExportController::class);
-    Route::get('/export-csv-download', [IdeaController::class,'exportToCSV'])->name('export-csv-download');
-    Route::get('/export-csv', [CsvExportController::class, 'index'])->name('export-csv');
-    Route::get('/download-document', [IdeaController::class, 'downloadDocument'])->name('download-document');
-
-    /**
-     * Department(Dashboard) related routes
-     */
     Route::resource('departments', DepartmentController::class);
 
-    /**
-     * Category(Dashboard) related routes
-     */
-    Route::resource('categories', CategoryController::class);
-    
-    /**
-     * Idea(Dashboard) related routes
-     */
+    // Idea and Comment 
     Route::resource('ideas', IdeaController::class);
-
-    /**
-     * Comment(Dashboard) related routes 
-     */
     Route::resource('comments', CommentController::class);
 });
 
-/** section of user-panel where user controls his own account/profile updates */
+
+
+/** QAM Only Accessed routes */
+Route::prefix('admin')->middleware(['auth', 'qam_only'])->group(function() {
+
+    // Category Idea Comment CRUD
+    Route::resource('categories', CategoryController::class);
+
+    // Reported Ideas and Comments RD
+    Route::get('/reports/ideas', [AdminReportController::class, 'reportedIdeas'])->name('admin.reports.ideas');
+    Route::get('/reports/comments', [AdminReportController::class, 'reportedComments'])->name('admin.reports.comments');
+    Route::delete('/reports/{ideaReport}/destroy', [AdminReportController::class, 'destroy'])->name('admin.reports.destroy');
+    Route::delete('/reports/comments/{commentReport}/destroy', [AdminReportController::class, 'destroyComment'])->name('admin.reports.comments.destroy');
+});
+
+
+
+/** Global Accessed Routes: Every role can access these routes if they are authenticated */
 Route::middleware(['auth'])->group(function() {
     Route::get('/users', [UserController::class, 'show'])->name('user.show');         /** to check other people's profiles  */
     Route::get('/{user:username}/profile', [UserController::class, 'profile'])->name('user.profile');   /** own profile */

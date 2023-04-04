@@ -115,6 +115,7 @@
 			<h5 class="title">Navigation</h5>
 			<!-- /.title -->
 			<ul class="menu js__accordion">
+
 				<li class="current">
 					<a class="waves-effect" href="index.html"><i class="menu-icon fa fa-home"></i><span>Dashboard</span></a>
 				</li>
@@ -135,16 +136,13 @@
 
 				@if (auth()->user()->role->role == 'QA Manager')
 				<li>
-					<a class="waves-effect parent-item js__control" href="#"><i class="menu-icon fa fa-adjust"></i><span>Reports Management</span><span class="menu-arrow fa fa-angle-down"></span></a>
+					<a class="waves-effect parent-item js__control" href="#"><i class="menu-icon fa fa-exclamation-triangle"></i><span>Reports Management</span><span class="menu-arrow fa fa-angle-down"></span></a>
 					<ul class="sub-menu js__content">
 						<li>
-							<a class="waves-effect" href="{{route('ideas.index')}}"><i class="menu-icon fa fa-lightbulb-o"></i><span>Ideas</span></a>
+							<a class="waves-effect" href="{{ route('admin.reports.ideas') }}"><i class="menu-icon  fa fa-lightbulb-o" aria-hidden="true"></i></i><span>Reported Ideas</span></a>
 						</li>
 						<li>
-							<a class="waves-effect" href="{{route('comments.index')}}"><i class="menu-icon fa fa-comment-o"></i><span>Comments</span></a>
-						</li>
-						<li>
-							<a class="waves-effect" href="{{ route('admin.reports') }}"><i class="menu-icon fa fa-exclamation-triangle" aria-hidden="true"></i></i><span>Reports</span></a>
+							<a class="waves-effect" href="{{ route('admin.reports.comments') }}"><i class="menu-icon fa fa-comment-o" aria-hidden="true"></i></i><span>Reported Comments</span></a>
 						</li>
 					</ul>
 				</li>
@@ -163,6 +161,15 @@
 				<li>
 					<a class="waves-effect" href="{{route('events.index')}}"><i class="menu-icon fa fa-calendar"></i><span>Events</span></a>
 				</li>
+
+				@if (auth()->user()->role->role == 'Admin')
+				<li>
+					<a class="waves-effect" href="{{route('ideas.index')}}"><i class="menu-icon fa fa-lightbulb-o"></i><span>Ideas</span></a>
+				</li>
+				<li>
+					<a class="waves-effect" href="{{route('comments.index')}}"><i class="menu-icon fa fa-comment-o"></i><span>Comments</span></a>
+				</li>
+				@endif
 				
 				@if (auth()->user()->role->role == 'QA Manager')
 				<li>
