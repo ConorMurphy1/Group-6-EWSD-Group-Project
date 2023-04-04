@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\IdeaUploaded;
 use App\Models\{Idea, Event, Category, Department, IdeaCategory, IdeaReport};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -123,6 +124,44 @@ class IdeaController extends Controller
 
         return view('ideas.user-create-edit', compact('idea', 'events', 'categories', 'departments'));
     }
+
+    public function userStore(Request $request)
+    {
+        $ideaData = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['required'],
+            'event_id' => ['required', 'integer'],
+            'is_anonymous' => ['required'],
+            'department_id' => ['required', 'integer'],
+            // 'category_ids' => ['required', 'array'],
+            // 'category_ids.*' => ['required', 'exists:categories,id'],
+            'image' => ['nullable', 'image', 'mimes:jpg,png,jpeg,webp', 'max:2048'],
+        ]);
+
+        $ideaData['user_id'] = auth()->id();
+
+        if($request->image)
+        {
+            // $imageName = $this->updateImage('image', 'images', auth()->user()->image);
+            $imageName = $this->uploadImage('image', 'images');
+            $ideaData['image'] = $imageName;
+        }
+
+        if($request->hasFile('document'))
+        {
+            $documentName = $this->uploadDoc('document', 'documents');
+            $ideaData['document'] = $documentName;
+        }
+
+        $idea = Idea::create($ideaData);
+
+        /** dispatch the event -> then send email to department coordinator */
+        event(new IdeaUploaded($idea));
+
+        Alert::toast('Idea created successfully', 'success');
+        return redirect()->route('ideas.feed');       
+    }
+
     public function userEdit($id)
     {
         $idea = Idea::findOrFail($id);

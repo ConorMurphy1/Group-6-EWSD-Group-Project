@@ -122,6 +122,7 @@ Route::prefix('admin')->middleware(['auth', 'qam_only'])->group(function() {
 /** Only Staff and Admin can post ideas */
 Route::middleware(['auth', 'constraint'])->group(function() {
     Route::get('/idea/create', [IdeaController::class, 'userCreate'])->name('idea.users.create');
+    Route::post('/idea/create', [IdeaController::class, 'userStore'])->name('idea.users.store');
     Route::get('/idea/edit/{idea:id}', [IdeaController::class, 'userEdit'])->name('idea.users.edit');
     Route::put('/idea/{idea:id}', [IdeaController::class, 'userUpdate'])->name('idea.users.update');
     Route::delete('/idea/{idea:id}', [IdeaController::class, 'userDelete'])->name('idea.users.delete');

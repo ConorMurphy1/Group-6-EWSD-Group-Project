@@ -13,7 +13,12 @@
                     Edit Idea
                 </h1>
             @else
-        <form action="{{ route('ideas.store') }}" method="post" enctype="multipart/form-data" class="form-default form-create-topic">
+
+            @if (request()->routeIs('idea.users.create'))
+            <form action="{{ route('idea.users.store')}}" method="post" enctype="multipart/form-data" class="form-default form-create-topic">
+            @else
+            <form action="{{ route('ideas.store') }}" method="post" enctype="multipart/form-data" class="form-default form-create-topic">
+            @endif
             <div class="tt-wrapper-inner">
                 <h1 class="tt-title-border">
                     Create New Idea
