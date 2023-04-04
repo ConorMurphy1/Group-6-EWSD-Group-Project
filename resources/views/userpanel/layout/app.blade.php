@@ -224,7 +224,7 @@
                             <label for="searchaTopics">Categories</label>
                             <select class="form-control" id="searchaTopics">
                                 <option>Choose a Category</option>
-                            @foreach ($categories as $category)
+                            @foreach (\App\Models\Category::all() as $category)
                                 <option value="{{$category->id}}">{{$category->name}}</option>
                             @endforeach
                         </select>
@@ -244,7 +244,7 @@
                             <label for="searchaTopics">Event</label>
                             <select class="form-control" id="searchaTopics">
                                 <option> Choose an Event </option>
-                            @foreach ($events as $event )
+                            @foreach (\App\Models\Event::all() as $event )
                                 <option value="{{$event->id}}">{{ $event->name }}</option>
                             @endforeach
                         </select>
@@ -253,7 +253,7 @@
                             <label for="minPostCount">Department</label>
                             <select class="form-control" id="minPostCount">
                                 <option >Choose a Department</option>
-                            @foreach ($departments as $department )
+                            @foreach (\App\Models\Department::all() as $department )
                                 <option value="{{$department->id}}">{{ $department->name }}</option>
                             @endforeach
                         </select>

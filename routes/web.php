@@ -21,11 +21,11 @@ Route::get('/', function() {
     {
         return view('home');
     }
-    if(auth()->user() && strtolower(auth()->user()->role->role) == 'qa coordinator')
+    if(auth()->user() && strtolower(auth()->user()->role->role) == 'qa manager')
     {
         return view('home');
     }
-    if(auth()->user() && strtolower(auth()->user()->role->role) == 'qa manager')
+    if(auth()->user() && strtolower(auth()->user()->role->role) == 'qa coordinator')
     {
         return redirect()->route('ideas.feed');
     }

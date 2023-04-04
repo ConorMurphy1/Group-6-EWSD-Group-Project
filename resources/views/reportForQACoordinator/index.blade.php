@@ -42,7 +42,7 @@
             </a>
         </div>
 
-        <form method="GET" action="{{ route('stats.index') }}">
+        <form method="GET" action="{{ route('analytics.index') }}">
 
          
             @if (!empty($eventName))

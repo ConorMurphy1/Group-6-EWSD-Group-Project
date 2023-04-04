@@ -21,6 +21,7 @@ class SessionController extends Controller
 
         if(!auth()->attempt($credentials))
         {
+            Alert::toast('Invalid credentials', 'errors');
             return back()->withInput()->withErrors(['email' => 'Your provided credentials could not be verified']);
         }
 
@@ -34,12 +35,12 @@ class SessionController extends Controller
             return redirect()->route('user.edit', $user->username);
         }
 
-        if($user->role->role === "Admin" || $user->role_id == 2){
+        /** admin and qa manager redirected to admin panel dashboard */
+        if($user->role->role === "Admin" || $user->role->role === "QA Manager"){
             return redirect()->route('home')->with('success', 'Welcome!!');
         }
             
         Alert::toast('Welcome ' . $user->full_name . '!', 'success');
-        // if ($user->role->role)
         return redirect()->route('ideas.feed');
     }
 

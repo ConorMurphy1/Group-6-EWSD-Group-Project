@@ -260,6 +260,11 @@ class IdeaController extends Controller
     /** report submitted by QA Coord */
     public function report(Request $request, Idea $idea)
     {
+        if (!$request->filled('description')) {
+            Alert::toast('Description must be defined', 'error');
+            return back();
+        }
+
         $reporter = $request->input('reporter_id');
 
         /** can't report twice for a specific idea */

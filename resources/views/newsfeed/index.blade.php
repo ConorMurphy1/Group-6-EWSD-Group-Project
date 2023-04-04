@@ -323,6 +323,7 @@
                             .then(function(data) {
                                 console.log(data);
                                 document.getElementById('comments-section-{{ $idea->id }}').innerHTML = data.html;
+
                             })
                             .catch(function(error) {
                                 console.log(error.message);
