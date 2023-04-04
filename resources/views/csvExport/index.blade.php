@@ -53,13 +53,17 @@
                         <select class="form-control" id="event-select" name="event" style="max-width: 800px;">
                             <option value="">Select Event to export</option>
                             @foreach (\App\Models\Event::all() as $event)
-                                @if ($event->end_date < today())
-                                    @if (auth()->user()->role_id == 1)
+                                @if (auth()->user()->role->role == 'Admin')
+                                    @if ($event->final_closure < today())
                                         <option value="{{ $event->id }}">{{ $event->name }} (Finished Event)</option>
                                     @endif
-                                @else
+                                @elseif(auth()->user()->role->role == 'QA Manager')
+                                    @if ($event->final_closure < today())
+                                    <option value="{{ $event->id }}">{{ $event->name }} (Finished Event)</option>
+                                    @else
                                     <option value="{{ $event->id }}">{{ $event->name }} (Active Event)</option>
-                                @endif
+                                    @endif
+                                @endif                             
                             @endforeach
                         </select>
                         <input type="hidden" id="selected-event" value="" name="event">

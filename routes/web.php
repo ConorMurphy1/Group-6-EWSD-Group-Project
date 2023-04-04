@@ -16,14 +16,15 @@ use App\Http\Controllers\{CategoryController, DepartmentController, CommentContr
 |
 */
 
+/** Home route just serves as a redirector between admin level access users and normal users */
 Route::get('/', function() {
     if(auth()->user() && strtolower(auth()->user()->role->role) == 'admin')
     {
-        return view('home');
+        return redirect()->route('dashboard');
     }
     if(auth()->user() && strtolower(auth()->user()->role->role) == 'qa manager')
     {
-        return view('home');
+        return redirect()->route('dashboard');
     }
     if(auth()->user() && strtolower(auth()->user()->role->role) == 'qa coordinator')
     {
@@ -48,6 +49,10 @@ Route::middleware(['auth'])->group(function() {
 
 
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function() {
+
+    /** Admin , QA Manger dashboard or Main page after login */
+    Route::get('/dashboard', fn() => view('home'))->name('dashboard');
+
     /** Admin related User CRUD routes */
     /** section of admin-panel where admin controls the user account CRUD operations */
     Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users.index');
@@ -107,6 +112,11 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function() {
      * Idea(Dashboard) related routes
      */
     Route::resource('ideas', IdeaController::class);
+
+    /**
+     * Comment(Dashboard) related routes 
+     */
+    Route::resource('comments', CommentController::class);
 });
 
 /** section of user-panel where user controls his own account/profile updates */
@@ -135,8 +145,5 @@ Route::middleware(['auth'])->group(function() {
     
     Route::post('/idea/{idea:id}/report', [IdeaController::class, 'report'])->name('report');
     Route::post('/idea/{idea:id}/comment/{comment:id}/report', [IdeaCommentController::class, 'report'])->name('comment.report');
-    
-    /** shared functionalities between admin panel and user panel  */
-    Route::resource('comments', CommentController::class);
 });
 

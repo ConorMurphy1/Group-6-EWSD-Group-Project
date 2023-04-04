@@ -122,36 +122,53 @@
 					<a class="waves-effect" href="{{ route('ideas.feed') }}"><i class="menu-icon fa fa-comments-o" aria-hidden="true"></i><span>Ideas Feed</span></a>
 				</li>
 
+				@if (auth()->user()->role->role == 'Admin')
 				<li>
-					<a class="waves-effect parent-item js__control" href="#"><i class="menu-icon fa fa-adjust"></i><span>User Interface</span><span class="menu-arrow fa fa-angle-down"></span></a>
+					<a class="waves-effect parent-item js__control" href="#"><i class="menu-icon fa fa-adjust"></i><span>RDU Management</span><span class="menu-arrow fa fa-angle-down"></span></a>
 					<ul class="sub-menu js__content">
 						<li><a class="waves-effect" href="{{ route('roles.index') }}"><i class="menu-icon fa fa-users"></i><span>Roles</span></a></li>
 						<li><a class="waves-effect" href="{{ route('departments.index') }}"><i class="menu-icon fa fa-university"></i><span>Departments</span></a></li>
                         <li><a class="waves-effect" href="{{ route('admin.users.index') }}"><i class="menu-icon fa fa-user-plus"></i><span>Users</span></a></li>
-
-
 					</ul>
-					<!-- /.sub-menu js__content -->
 				</li>
+				@endif
+
+				@if (auth()->user()->role->role == 'QA Manager')
 				<li>
-					<a class="waves-effect" href="{{route('categories.index')}}"><i class="menu-icon fa fa-list"></i><span>Category</span></a>
+					<a class="waves-effect parent-item js__control" href="#"><i class="menu-icon fa fa-adjust"></i><span>Reports Management</span><span class="menu-arrow fa fa-angle-down"></span></a>
+					<ul class="sub-menu js__content">
+						<li>
+							<a class="waves-effect" href="{{route('ideas.index')}}"><i class="menu-icon fa fa-lightbulb-o"></i><span>Ideas</span></a>
+						</li>
+						<li>
+							<a class="waves-effect" href="{{route('comments.index')}}"><i class="menu-icon fa fa-comment-o"></i><span>Comments</span></a>
+						</li>
+						<li>
+							<a class="waves-effect" href="{{ route('admin.reports') }}"><i class="menu-icon fa fa-exclamation-triangle" aria-hidden="true"></i></i><span>Reports</span></a>
+						</li>
+					</ul>
 				</li>
+				@endif
+
+
 			</ul>
 			<!-- /.menu js__accordion -->
 			<h5 class="title">Components</h5>
 			<!-- /.title -->
 			<ul class="menu js__accordion">
 
-				<li>
-					{{-- <a class="waves-effect" href="{{route('calendar.index')}}"><i class="menu-icon fa fa-calendar"></i><span>Calendar</span></a> --}}
+				{{-- <li>
 					<a class="waves-effect" href=""><i class="menu-icon fa fa-calendar"></i><span>Calendar</span></a>
-				</li>
+				</li> --}}
 				<li>
 					<a class="waves-effect" href="{{route('events.index')}}"><i class="menu-icon fa fa-calendar"></i><span>Events</span></a>
 				</li>
+				
+				@if (auth()->user()->role->role == 'QA Manager')
 				<li>
-					<a class="waves-effect" href="{{route('ideas.store')}}"><i class="menu-icon fa fa-lightbulb-o"></i><span>Ideas</span></a>
+					<a class="waves-effect" href="{{route('categories.index')}}"><i class="menu-icon fa fa-list"></i><span>Category</span></a>
 				</li>
+				@endif
 			</ul>
 			<!-- /.menu js__accordion -->
 			<h5 class="title">Additions</h5>
@@ -160,12 +177,13 @@
 				<li>
 					<a class="waves-effect" href="{{ route('admin.profile') }}"><i class="menu-icon fa fa-user"></i><span>Profile</span></a>
 				</li>
-				<li>
-					<a class="waves-effect" href="{{ route('admin.reports') }}"><i class="menu-icon fa fa-exclamation-triangle" aria-hidden="true"></i></i><span>Reports</span></a>
-				</li>
+
 				<li>
 					<a class="waves-effect" href="{{ route('stats.index') }}"><i class="menu-icon fa fa-bar-chart"></i><span>Stats</span></a>
-					<a class="waves-effect" href="{{ route('export-csv') }}"><i class="menu-icon fa fa-bar-chart"></i><span>Dowload zip</span></a>
+				</li>
+
+				<li>
+					<a class="waves-effect" href="{{ route('export-csv') }}"><i class="menu-icon fa fa-download"></i><span>Dowload zip</span></a>
 				</li>
 
 

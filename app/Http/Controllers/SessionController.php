@@ -37,7 +37,8 @@ class SessionController extends Controller
 
         /** admin and qa manager redirected to admin panel dashboard */
         if($user->role->role === "Admin" || $user->role->role === "QA Manager"){
-            return redirect()->route('home')->with('success', 'Welcome!!');
+            Alert::toast('Welcome ' . $user->full_name . '!', 'success');
+            return redirect()->route('dashboard');
         }
             
         Alert::toast('Welcome ' . $user->full_name . '!', 'success');

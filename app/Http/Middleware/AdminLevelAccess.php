@@ -17,12 +17,15 @@ class AdminLevelAccess
      */
     public function handle(Request $request, Closure $next)
     {
-        if(auth()->user() && strtolower(auth()->user()->role->role) == 'admin')
+        $user = auth()->user();
+
+        if($user && strtolower($user->role->role) == 'admin')
         {
             return $next($request);
         }
-        if(auth()->user() && strtolower(auth()->user()->role->role) == 'qa manager')
+        if($user && strtolower($user->role->role) == 'qa manager')
         {
+            
             return $next($request);
         }
 
