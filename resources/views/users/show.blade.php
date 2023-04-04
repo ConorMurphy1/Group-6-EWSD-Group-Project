@@ -76,7 +76,7 @@
                                     <style>button{}</style>
                                     @if (auth()->id() == $idea->user->id)
                                     <div class="px-3 py-1">
-                                        <a href="{{ route('ideas.edit', $idea->id) }}" class="apperance-none hover:text-amber-400">Edit</a>
+                                        <a href="{{ route('idea.users.edit', $idea->id) }}" class="apperance-none hover:text-amber-400 focus:outline-none">Edit</a>
                                     </div>
                                     <form action="{{ route('ideas.destroy', $idea->id) }}" method="POST" class="px-3 py-1">
                                         @csrf

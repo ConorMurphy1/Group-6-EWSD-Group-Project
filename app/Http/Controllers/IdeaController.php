@@ -133,6 +133,43 @@ class IdeaController extends Controller
         return view('ideas.user-create-edit', compact('idea', 'events', 'categories', 'departments'));
     }
 
+    public function userUpdate(Request $request, Idea $idea)
+    {
+        $ideaData = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['required'],
+            'event_id' => ['required', 'integer'],
+            'is_anonymous' => ['required'],
+            'department_id' => ['required', 'integer'],
+            // 'category_ids' => ['required', 'array'],
+            // 'category_ids.*' => ['required', 'exists:categories,id'],
+            'image' => ['nullable', 'image', 'mimes:jpg,png,jpeg', 'max:2048'],
+        ]);
+
+        if($request->image)
+        {
+            $imageName = $this->updateImage('image', 'images', auth()->user()->image);
+            $ideaData['image'] = $imageName;
+        }
+
+        if($request->hasFile('document'))
+        {
+            $documentName = $this->uploadDoc('document', 'documents');
+            $ideaData['document'] = $documentName;
+        }
+
+        $idea->update($ideaData);
+
+        // $categories = request()->input('category_ids');
+        // if(!empty($categories))
+        // {
+        //     $idea->categories->attach($categories);
+        // }
+
+        Alert::toast('Idea updated', 'success');
+        return back();
+    }
+
     public function store(Request $request)
     {
         $data = $request->validate([

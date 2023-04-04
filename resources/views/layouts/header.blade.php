@@ -91,7 +91,7 @@
 		<button type="button" class="button-close fa fa-times js__menu_close"></button>
 		<div class="user">
 			<a href="#" class="avatar"><img src="http://placehold.it/80x80" alt=""><span class="status online"></span></a>
-			<h5 class="name"><a href="profile.html">{{$user->username}}</a></h5>
+			<h5 class="name"><a href="{{ route('admin.profile') }}">{{$user->username}}</a></h5>
 			<h5 class="position">{{$user->department->name}}</h5>
 			<!-- /.name -->
 			<div class="control-wrap js__drop_down">
