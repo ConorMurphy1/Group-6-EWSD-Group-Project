@@ -22,7 +22,7 @@ return new class extends Migration
 
             /** constraints */
             $table->unique(['comment_id', 'user_id']);     // qac can only report once per comment
-            $table->foreign('comment_id')->references('id')->on('ideas')->onDelete('cascade');
+            $table->foreign('comment_id')->references('id')->on('comments')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

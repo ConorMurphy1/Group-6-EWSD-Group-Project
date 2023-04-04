@@ -368,7 +368,7 @@
                         <div class="relative">
                             <input type="hidden" name="id" value="{{$idea->id}}">
                             <textarea name="comment" id="comment-{{$idea->id}}" placeholder="What are your thoughts on this?" class="resize-none bg-white border-2 border-blue-300 text-gray-900 rounded-lg focus:outline-blue-500 focus:border-blue-500 block w-full py-1.5 pl-2 pr-10 overflow-hidden"></textarea>
-                            <button id="idea-comment-{{ $idea->id }}" type="submit" class="absolute top-7 right-2 px-2 focus:outline-none text-gray-400 hover:text-green-700">
+                            <button id="idea-comment-{{ $idea->id }}" type="submit" class="absolute top-1/2 transform -translate-y-1/2 right-2 px-2 focus:outline-none text-gray-400 hover:text-green-700">
                                 <svg id="comment-svg-{{$idea->id}}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
                                 </svg>
@@ -483,7 +483,7 @@
                                             <div class="flex items-center gap-x-2">
                                                 <span class="text-gray-600"><time>{{ $comment->created_at->diffForHumans() }}</time></span>
             
-                                                {{-- report, edit, delete --}}
+                                                {{-- comment report, edit, delete --}}
                                                 @if ((auth()->user()->role->role == 'QA Coordinator' || auth()->id() == $comment->user->id) && $idea->event->final_closure > now())
                                                 <div class="relative">
                                                     <button id="dd-btn-{{ $comment->id }}" type="button" class="outline-none focus:outline-none">
@@ -552,6 +552,7 @@
                                             </div>
                                         </div>
                                         
+                                        {{-- comment edit box --}}
                                         <div class="mt-6">
                                             @if ($comment->is_edited)
                                             <span class="py-1 text-gray-500 px-1 rounded-lg text-xl">Edited</span>
@@ -561,7 +562,7 @@
                                             <p id="active-comment-{{$comment->id}}" class="text-gray-800 bg-gray-50 h-full px-3 py-2 mb-0 rounded-lg">{{ $comment->comment }}</p>
                                             <div id="edit-comment-{{$comment->id}}" class="w-full hidden relative">
                                                 <textarea id="edit-comment-textarea-{{$comment->id}}" class="text-gray-800 resize-none overflow-auto text-xl h-full w-full bg-white px-3 py-2 pr-5 rounded-lg border relative">{{$comment->comment}}</textarea>
-                                                <button id="update-comment-{{ $comment->id }}" type="submit" class="absolute top-5 right-2 px-2 focus:outline-none text-gray-400 hover:text-green-700">
+                                                <button id="update-comment-{{ $comment->id }}" type="submit" class="absolute top-1/2 transform -translate-y-1/2 right-2 px-2 focus:outline-none text-gray-400 hover:text-green-700">
                                                     <svg id="update-comment-svg-{{$comment->id}}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
                                                     </svg>

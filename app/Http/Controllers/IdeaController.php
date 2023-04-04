@@ -300,7 +300,7 @@ class IdeaController extends Controller
     public function report(Request $request, Idea $idea)
     {
         if (!$request->filled('description')) {
-            Alert::toast('Description must be defined', 'error');
+            Alert::toast('Description must be defined', 'warning');
             return back();
         }
 

@@ -86,16 +86,15 @@ class IdeaCommentController extends Controller
     public function report(Request $request, Idea $idea, Comment $comment)
     {
         if (!$request->filled('description')) {
-            Alert::toast('Description must be defined', 'error');
+            Alert::toast('Description must be defined', 'warning');
             return back();
         }
-
         $reporter = $request->input('reporter_id');
 
         /** can't report twice for a specific idea */
         if(CommentReport::where('user_id', $reporter)->where('comment_id', $comment->id)->exists())
         {
-            Alert::toast('Cannot report the same comment twice', 'error');
+            Alert::toast('You cannot submit more than one report to a comment', 'error');
             return back();
         }
 
