@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Events\IdeaUpload;
+use App\Events\IdeaUploaded;
+use App\Jobs\SendCoordinatorsEmailNotification;
 use App\Listeners\SendIdeaUploadedNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;

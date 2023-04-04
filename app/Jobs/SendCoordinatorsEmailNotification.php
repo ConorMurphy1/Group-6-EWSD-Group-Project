@@ -47,7 +47,7 @@ class SendCoordinatorsEmailNotification implements ShouldQueue
 
         $coordinator = $this->coordinators->first();
 
-        Mail::send('emails.notify', [
+        Mail::send('emails.notify-coordinator', [
             'idea' => $this->idea,
             'user' => $this->user,
             'coordinator' => $coordinator,

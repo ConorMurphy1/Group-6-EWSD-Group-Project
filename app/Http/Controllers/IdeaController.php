@@ -12,7 +12,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\CSV_Export;
 use ZipArchive;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Log;
 
 class IdeaController extends Controller
 {
@@ -157,6 +157,7 @@ class IdeaController extends Controller
 
         /** dispatch the event -> then send email to department coordinator */
         event(new IdeaUploaded($idea));
+        Log::info('Event dispatched');
 
         Alert::toast('Idea created successfully', 'success');
         return redirect()->route('ideas.feed');       

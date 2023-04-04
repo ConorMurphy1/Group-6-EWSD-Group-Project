@@ -6,6 +6,7 @@ use App\Events\IdeaUploaded;
 use App\Jobs\SendCoordinatorsEmailNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 
 class SendIdeaUploadedNotification 
 {
@@ -27,6 +28,8 @@ class SendIdeaUploadedNotification
      */
     public function handle(IdeaUploaded $event)
     {
+        Log::info('listener is called handle');
+
         $idea = $event->idea;
         $user = $idea->user;
         
