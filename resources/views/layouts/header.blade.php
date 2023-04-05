@@ -117,7 +117,7 @@
 			<ul class="menu js__accordion">
 
 				<li class="current">
-					<a class="waves-effect" href="index.html"><i class="menu-icon fa fa-home"></i><span>Dashboard</span></a>
+					<a class="waves-effect" href="{{route('dashboard')}}"><i class="menu-icon fa fa-home"></i><span>Dashboard</span></a>
 				</li>
 				<li class="">
 					<a class="waves-effect" href="{{ route('ideas.feed') }}"><i class="menu-icon fa fa-comments-o" aria-hidden="true"></i><span>Ideas Feed</span></a>
