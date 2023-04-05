@@ -26,8 +26,6 @@ class NewsFeedController extends Controller
         $events = Event::whereDate('closure', '>', now()->format('Y-m-d'))->get();
         $categories = Category::all();
         $ideaCategories = IdeaCategory::all();
-        
-        // dd($request->all());
 
         $ideas = Idea::with('comments', 'user', 'event')->where(function ($query) use ($request){
                             if($request->category_id)
@@ -56,6 +54,7 @@ class NewsFeedController extends Controller
 
     public function events()
     {
-        return view('newsfeed.events');
+        $events = Event::where('final_closure', '<', now())->get();
+        return view('newsfeed.events', compact('events'));
     }
 }

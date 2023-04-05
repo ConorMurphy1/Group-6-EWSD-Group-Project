@@ -97,10 +97,10 @@
 			<div class="control-wrap js__drop_down">
 				<i class="fa fa-caret-down js__drop_down_button"></i>
 				<div class="control-list">
-                    <form action="{{route('logout')}}" method="post">
+                    <form action="{{route('logout')}}" method="post" id="logout">
                         @csrf
                         <div class="control-item"><a href="{{route('admin.profile')}}"><i class="fa fa-user"></i> Profile</a></div>
-                        <div class="control-item"><a href="#"><i class="fa fa-sign-out"></i> Log out</a></div>
+                        <div class="control-item"><a href="javascript:{}" onclick="document.getElementById('logout').submit();" ><i class="fa fa-sign-out"></i> Log out</a></div>
 				    </form>
                 </div>
 				<!-- /.control-list -->
@@ -170,7 +170,7 @@
 					<a class="waves-effect" href="{{route('comments.index')}}"><i class="menu-icon fa fa-comment-o"></i><span>Comments</span></a>
 				</li>
 				@endif
-				
+
 				@if (auth()->user()->role->role == 'QA Manager')
 				<li>
 					<a class="waves-effect" href="{{route('categories.index')}}"><i class="menu-icon fa fa-list"></i><span>Category</span></a>

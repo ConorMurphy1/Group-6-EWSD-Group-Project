@@ -739,7 +739,7 @@
     </div>
 </div>
 <div >
-    <button type="button" data-toggle="modal" data-target="#modalAdvancedSearch" class="tt-btn-create-topic mt-5 p-0.5" style="background-color: #3571B8; border-radius: 50px;"> 
+    <button type="button" data-toggle="modal" data-target="#modalAdvancedSearch" class="tt-btn-create-topic my-5 p-0.5" style="background-color: #3571B8; border-radius: 50px;">
         <span class="tt-icon">
             <svg>
                 <use xlink:href="#icon-search"></use>
