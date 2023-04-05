@@ -36,7 +36,7 @@
                             @foreach ($reportedIdeas as $report)
                             <tr>
                                 <td>{{ ($reportedIdeas->currentPage()-1) * $reportedIdeas->perPage() + $loop->index + 1 }}</td>
-                                @if ($report->idea->image)
+                                @if ($idea->image ?? false)
                                 <td>
                                     <img src="{{ asset('storage/images/' . $report->idea->image) }}" alt="" width="200" height="200">
                                 </td> 
@@ -51,7 +51,7 @@
                                 <td>{{ $report->created_at->format('d M Y'); }}</td>
                                 <td class="flex-warp">
                                     <div class="mx-3 text-center">
-                                        <form action="{{ route('admin.reports.destroy', $report->id) }}" method="post">
+                                        <form action="{{ route('admin.reports.ideas.destroy', $report->id) }}" method="post">
                                             @csrf 
                                             @method('delete')
                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete?')" data-toggle="tooltip" data-placement="top" title="Delete">

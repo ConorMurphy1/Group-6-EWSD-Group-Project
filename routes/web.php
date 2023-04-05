@@ -67,6 +67,10 @@ Route::prefix('admin')->middleware(['auth', 'admin_access'])->group(function() {
 
     // Statistical Analysis
     Route::resource('/stats', IdeaReportController::class );
+
+    // Idea and Comment (To allow QAM to remove reported ideas and comments)
+    Route::resource('ideas', IdeaController::class);
+    Route::resource('comments', CommentController::class);
 });
 
 
@@ -96,10 +100,6 @@ Route::prefix('admin')->middleware(['auth', 'admin_only'])->group(function() {
     // Role Department CRUD
     Route::resource('roles', RoleController::class);
     Route::resource('departments', DepartmentController::class);
-
-    // Idea and Comment 
-    Route::resource('ideas', IdeaController::class);
-    Route::resource('comments', CommentController::class);
 });
 
 
@@ -113,7 +113,7 @@ Route::prefix('admin')->middleware(['auth', 'qam_only'])->group(function() {
     // Reported Ideas and Comments RD
     Route::get('/reports/ideas', [AdminReportController::class, 'reportedIdeas'])->name('admin.reports.ideas');
     Route::get('/reports/comments', [AdminReportController::class, 'reportedComments'])->name('admin.reports.comments');
-    Route::delete('/reports/{ideaReport}/destroy', [AdminReportController::class, 'destroy'])->name('admin.reports.destroy');
+    Route::delete('/reports/{ideaReport}/destroy', [AdminReportController::class, 'destroyIdea'])->name('admin.reports.ideas.destroy');
     Route::delete('/reports/comments/{commentReport}/destroy', [AdminReportController::class, 'destroyComment'])->name('admin.reports.comments.destroy');
 });
 
