@@ -81,13 +81,13 @@ Route::prefix('admin')->middleware(['auth', 'admin_only'])->group(function() {
     Route::get('/user/{user:id}/edit', [AdminUserController::class, 'edit'])->name('admin.users.edit');
     Route::put('/user/{user:id}/update', [AdminUserController::class, 'update'])->name('admin.users.update');
     Route::delete('/user/{user:id}/destroy', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
-    
+
     // Admin User Soft Delete UD
     Route::get('/users/deleted', [AdminDeletedUserController::class, 'index'])->name('admin.users.deleted.index');
     Route::put('/users/deleted/{id}/reactivate', [AdminDeletedUserController::class, 'reactivate'])->name('admin.users.deleted.reactivate');
     Route::delete('/users/deleted/{id}/destroy', [AdminDeletedUserController::class, 'destroy'])->name('admin.users.deleted.destroy');
-    
-    // Admin Profile 
+
+    // Admin Profile
     Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile');
     Route::get('/edit', [AdminController::class, 'edit'])->name('admin.edit');
     Route::put('/update', [AdminController::class, 'update'])->name('admin.update');
@@ -97,7 +97,7 @@ Route::prefix('admin')->middleware(['auth', 'admin_only'])->group(function() {
     Route::resource('roles', RoleController::class);
     Route::resource('departments', DepartmentController::class);
 
-    // Idea and Comment 
+    // Idea and Comment
     Route::resource('ideas', IdeaController::class);
     Route::resource('comments', CommentController::class);
 });
@@ -126,6 +126,8 @@ Route::middleware(['auth', 'constraint'])->group(function() {
     Route::get('/idea/edit/{idea:id}', [IdeaController::class, 'userEdit'])->name('idea.users.edit');
     Route::put('/idea/{idea:id}', [IdeaController::class, 'userUpdate'])->name('idea.users.update');
     Route::delete('/idea/{idea:id}', [IdeaController::class, 'userDelete'])->name('idea.users.delete');
+
+    Route::get('newsfeed/events', [NewsFeedController::class, 'events'])->name('events.newsfeed');
 });
 
 
@@ -136,21 +138,21 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/{user:username}/profile', [UserController::class, 'profile'])->name('user.profile');   /** own profile */
     Route::get('/{user:username}/edit', [UserController::class, 'edit'])->name('user.edit');
     Route::put('/{user:username}/update', [UserController::class, 'update'])->name('user.update');
-    
+
     Route::put('/update-password', [PasswordController::class, 'store'])->name('password.update');
     Route::resource('/analytics', reportQACoordinatorController::class );        // statistical report for both admin and QA Manager
 
     Route::get('/newsfeed', [NewsFeedController::class, 'index'])->name('ideas.feed');
     Route::post('/idea/{idea:id}/like', [IdeaReactionController::class, 'like'])->name('like');
     Route::post('/idea/{idea:id}/unlike', [IdeaReactionController::class, 'unlike'])->name('unlike');
-    
+
     Route::get('/idea/{idea:id}/comment', [IdeaCommentController::class, 'index'])->name('idea.comments.index');
     Route::post('/idea/{idea:id}/comment', [IdeaCommentController::class, 'store'])->name('idea.comments.store');
     Route::get('/idea/{idea:id}/comment/{comment:id}/edit', [IdeaCommentController::class, 'edit'])->name('idea.comments.edit');
     Route::put('/idea/{idea:id}/comment/{comment:id}', [IdeaCommentController::class, 'update'])->name('idea.comments.update');
     Route::delete('/idea/{idea:id}/comment/{comment:id}', [IdeaCommentController::class, 'destroy'])->name('idea.comments.destroy');
 
-    
+
     Route::post('/idea/{idea:id}/report', [IdeaController::class, 'report'])->name('report');
     Route::post('/idea/{idea:id}/comment/{comment:id}/report', [IdeaCommentController::class, 'report'])->name('comment.report');
 });

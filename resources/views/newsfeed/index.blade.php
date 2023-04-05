@@ -2,12 +2,12 @@
 
 @section('content')
 
-<div class="tt-categories-list col-12  mt-3">
+<div class="container mt-3">
 @if (!$ideas->isEmpty())
 @foreach ($ideas as $idea)
 
     {{-- TODO: later convert tailwind to BS-4 --}}
-    <div class="col-lg-6 col-md-12 flex flex-col px-4 py-3 bg-white shadow-sm rounded mb-8">
+    <div class="py-3 px-md-5 bg-white shadow-sm rounded mb-8">
         <div class="relative">
             <div class="flex justify-between items-center">
                 @if ($idea->is_anonymous ?? false)
