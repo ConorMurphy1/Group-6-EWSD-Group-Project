@@ -50,7 +50,7 @@ class Idea extends Model
     public function reports()
     {
         return $this->hasMany(IdeaReport::class);
-    }
+    }   
 
 
     public function categories()

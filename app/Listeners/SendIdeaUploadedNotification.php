@@ -28,7 +28,7 @@ class SendIdeaUploadedNotification
      */
     public function handle(IdeaUploaded $event)
     {
-        Log::info('listener is called handle');
+        // Log::info('listener is called handle');
 
         $idea = $event->idea;
         $user = $idea->user;

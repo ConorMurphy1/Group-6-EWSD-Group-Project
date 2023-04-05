@@ -674,4 +674,77 @@
 
 </div>
 
+<!-- advance search -->
+<div class="modal fade" id="modalAdvancedSearch" tabindex="-1" role="dialog" aria-label="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="tt-modal-advancedSearch">
+                <div class="tt-modal-title">
+                    <i class="pt-icon">
+                    <svg>
+                        <use xlink:href="#icon-advanced_search"></use>
+                    </svg>
+                </i> Advanced Search
+                    <a class="pt-close-modal" href="#" data-dismiss="modal">
+                        <svg class="icon">
+                        <use xlink:href="#icon-cancel"></use>
+                    </svg>
+                    </a>
+                </div>
+                <form class="form-default" action="{{ route('ideas.search')}}" method="get">
+                    <div class="form-group">
+                        <label for="searchaTopics">Categories</label>
+                        <select class="form-control" id="searchaTopics" name="category_id">
+                            <option value="">Choose a Category</option>
+                        @foreach ($categories as $category)
+                            <option value="{{$category->id}}">{{$category->name}}</option>
+                        @endforeach
+                    </select>
+                    </div>
+                    {{-- <div class="form-group">
+                        <label for="searchAdvTime">Posted</label>
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="text" name="start_date" class="form-control" id="searchAdvTime" placeholder="dd-mm-yyyy">
+                            </div>
+                            <div class="col-6">
+                                <input type="text" name="end_date" class="form-control" id="searchAdvTime" placeholder="dd-mm-yyyy">
+                            </div>
+                        </div>
+                    </div> --}}
+                    <div class="form-group">
+                        <label for="searchaTopics">Event</label>
+                        <select class="form-control" id="searchaTopics" name="event_id">
+                            <option value=""> Choose an Event </option>
+                        @foreach ($events as $event )
+                            <option value="{{$event->id}}">{{ $event->name }}</option>
+                        @endforeach
+                    </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="minPostCount">Department</label>
+                        <select class="form-control" id="minPostCount" name="department_id">
+                            <option value="">Choose a Department</option>
+                        @foreach ($departments as $department )
+                            <option value="{{$department->id}}">{{ $department->name }}</option>
+                        @endforeach
+                    </select>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-secondary btn-block">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div >
+    <button type="button" data-toggle="modal" data-target="#modalAdvancedSearch" class="tt-btn-create-topic mt-5 p-0.5" style="background-color: #3571B8; border-radius: 50px;"> 
+        <span class="tt-icon">
+            <svg>
+                <use xlink:href="#icon-search"></use>
+            </svg>
+        </span>
+    </button>
+</div>
 @endsection

@@ -87,10 +87,10 @@
                 <div class="col-auto ml-auto">
                     <div class="tt-user-info d-flex justify-content-center">
                         <div class="tt-avatar-icon tt-size-md">
-                            <a href="#" type="button" data-toggle="modal" data-target="#modalAdvancedSearch" class="tt-btn-icon"> <i class="tt-icon"><svg>
+                            {{-- <button type="button" data-toggle="modal" data-target="#modalAdvancedSearch" class="tt-btn-icon"> <i class="tt-icon"><svg>
                                 <use xlink:href="#icon-search"></use>
                             </svg></i>
-                            </a>
+                            </button> --}}
                             <a href="{{ route('user.profile', auth()->user()->username) }}" class="tt-btn-icon">
                                 <i class="tt-icon"><svg>
                                     <use xlink:href="#icon-ava-a"></use>

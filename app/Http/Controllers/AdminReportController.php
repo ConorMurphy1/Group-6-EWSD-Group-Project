@@ -11,7 +11,7 @@ class AdminReportController extends Controller
     public function reportedIdeas()
     {
         $reportedIdeas = IdeaReport::paginate(5);
-        
+        // dd($reportedIdeas);
         return view('admin.reports.ideas.index', compact('reportedIdeas'));
     }
     
@@ -22,19 +22,24 @@ class AdminReportController extends Controller
         return view('admin.reports.comments.index', compact( 'reportedComments'));
     }
 
-    public function destroy(IdeaReport $ideaReport)
+    public function destroyIdea(IdeaReport $ideaReport)
     {
+        // Soft deletes
+        $idea = $ideaReport->idea;
+        $idea->delete();
         $ideaReport->delete();
         
-        Alert::toast('Report removed', 'success');
-        return redirect()->route('admin.reports');
+        Alert::toast('Idea removed successfully', 'success');
+        return redirect()->route('admin.reports.ideas');
     }
 
     public function destroyComment(CommentReport $commentReport)
     {
+        $comment = $commentReport->comment;
+        $comment->delete();
         $commentReport->delete();
 
-        Alert::toast('Comment report removed', 'success');
-        return redirect()->route('admin.reports');
+        Alert::toast('Comment removed successfully', 'success');
+        return redirect()->route('admin.reports.comments');
     }
 }

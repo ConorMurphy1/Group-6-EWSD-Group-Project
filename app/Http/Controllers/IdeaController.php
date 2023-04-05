@@ -157,7 +157,7 @@ class IdeaController extends Controller
 
         /** dispatch the event -> then send email to department coordinator */
         event(new IdeaUploaded($idea));
-        Log::info('Event dispatched');
+        // Log::info('Event dispatched');
 
         Alert::toast('Idea created successfully', 'success');
         return redirect()->route('ideas.feed');       
