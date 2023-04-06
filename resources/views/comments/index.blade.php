@@ -5,9 +5,6 @@
         <div class="center">
             <div class="box-content">
                 <h4 class="box-title">Comments</h4>
-                <div>
-                    <a href="{{route('comments.create')}}" class="btn btn-success justify-content-end">+Add New Comment</a>
-                </div>
                 <!-- /.box-title -->
                 <div class="dropdown js__drop_down">
                     <a href="#" class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
@@ -41,9 +38,6 @@
                                     <div class="mx-3 text-center">
                                         <form action="{{ route('comments.destroy', $comment->id) }}" method="post">
                                             @csrf @method('delete')
-                                            <a href="{{ url('comments/'.$comment->id.'/edit') }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Edit">
-                                                <i class="fa fa-edit"></i>
-                                            </a>
                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete?')" data-toggle="tooltip" data-placement="top" title="Delete">
                                                 <i class="fa fa-trash-o text-dark"></i>
                                             </button>
