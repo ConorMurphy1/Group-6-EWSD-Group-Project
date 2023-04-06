@@ -72,7 +72,7 @@
         </div>
 
         <div class="row">
-            <div class="col-md-6" style="margin-bottom: 30px;">
+            <div class="col-lg-5 col-md-5 col-sm-12" style="margin-bottom: 30px;">
                 <div class="chartCard">
                     <div class="chartBox">
                         <span><strong>Anonymous Post Upload Indicator</strong></span>
@@ -80,7 +80,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-lg-5 col-md-5 col-sm-12">
                 <div class="chartCard" style="margin-bottom: 30px;">
                     <div class="chartBox">
                         <span><strong>Total Comments Participants: </strong></span>
