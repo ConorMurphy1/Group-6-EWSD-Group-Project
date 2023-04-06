@@ -54,7 +54,8 @@ class NewsFeedController extends Controller
 
     public function events()
     {
-        return view('newsfeed.events');
+        $events = Event::where('final_closure', '<', now())->get();
+        return view('newsfeed.events', compact('events'));
     }
 
     public function latestLikedDisLiked(Request $request )

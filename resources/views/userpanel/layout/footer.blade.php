@@ -1,5 +1,5 @@
 <!-- create icon -->
-@if (auth()->user()->role->role == 'Staff' || auth()->user()->role->role == 'Admin')
+@if (auth()->user()->role->role == 'Staff' || auth()->user()->role->role == 'Admin' || auth()->user()->role->role == 'QA Cordinator')
 <a href="{{ route('idea.users.create') }}" class="tt-btn-create-topic">
     <span class="tt-icon">
         <svg>
