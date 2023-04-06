@@ -114,7 +114,7 @@
 
     <div id="js-popup-settings" class="tt-popup-settings">
         <div class="tt-btn-col-close">
-            <a href="{{ route('user.profile', auth()->user()->username) }}"href="{{ route('user.profile', auth()->user()->username) }}">
+            <a href="{{ route('user.profile', auth()->user()->username) }}">
                 <span class="tt-icon-text">
                     Profile
                 </span>
