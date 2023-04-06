@@ -7,105 +7,28 @@
             <div class="tt-title">Events</div>
         </div>
         <div class="tt-categories-list col-lg-9">
-            <div class="col-md-12 col-lg-12">
+            @foreach ($events as $event )
+            <div class="col-md-12 col-lg-12 shadow-lg">
                 <div class="tt-item">
                     <div class="tt-item-layout">
                         <div class="tt-innerwrapper">
-                            <h2 class="tt-title"> What are you think</h2>
                             <div class="d-flex justify-content-between">
-                                <h6 class="tt"> Department</h6>
-                                <h6 class="tt">Date</h6>
+                                <form action="{{ route('ideas.search')}}" method="get" id="search">
+                                    <input type="text" hidden name="event_id" value="{{$event->id}}">
+                                    <a href="javascript:{}" onclick="document.getElementById('search').submit();" ><h1 class="tt-title"> {{ $event->name }}</h1></a>
+                                </form>
+                                <h6 class="tt">Final Date: {{Carbon\Carbon::parse($event->closure)->format('d-m-Y')}}</h6>
                             </div>
                             <div class="tt-item-layout">
                                 <div class="innerwrapper show-read-more">
-                                    Lets discuss about whats happening around the world politics
+                                    {{$event->description}}
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 col-lg-12">
-                <div class="tt-item">
-                    <div class="tt-item-layout">
-                        <div class="tt-innerwrapper">
-                            <h2 class="tt-title"> What are you think</h2>
-                            <div class="d-flex justify-content-between">
-                                <h6 class="tt"> Department</h6>
-                                <h6 class="tt">Date</h6>
-                            </div>
-                            <div class="tt-item-layout">
-                                <div class="innerwrapper show-read-more">
-                                    Lets discuss about whats happening around the world politics
-                                </div>
-
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12 col-lg-12">
-                <div class="tt-item">
-                    <div class="tt-item-layout">
-                        <div class="tt-innerwrapper">
-                            <h2 class="tt-title"> What are you think</h2>
-                            <div class="d-flex justify-content-between">
-                                <h6 class="tt"> Department</h6>
-                                <h6 class="tt">Date</h6>
-                            </div>
-                            <div class="tt-item-layout">
-                                <div class="innerwrapper show-read-more">
-                                    Lets discuss about whats happening around the world politics
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12 col-lg-12">
-                <div class="tt-item">
-                    <div class="tt-item-layout">
-                        <div class="tt-innerwrapper">
-                            <h2 class="tt-title"> What are you think</h2>
-                            <div class="d-flex justify-content-between">
-                                <h6 class="tt"> Department</h6>
-                                <h6 class="tt">Date</h6>
-                            </div>
-                            <div class="tt-item-layout">
-                                <div class="innerwrapper show-read-more">
-                                    Lets discuss about whats happening around the world politics
-                                </div>
-
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12 col-lg-12">
-                <div class="tt-item">
-                    <div class="tt-item-layout">
-                        <div class="tt-innerwrapper">
-                            <h2 class="tt-title"> What are you think</h2>
-                            <div class="d-flex justify-content-between">
-                                <h6 class="tt"> Department</h6>
-                                <h6 class="tt">Date</h6>
-                            </div>
-                            <div class="tt-item-layout">
-                                <div class="innerwrapper show-read-more">
-                                    Lets discuss about whats happening around the world politics Lorem ipsum, dolor sit amet consectetur adipisicing elit. At totam cumque tenetur consequatur, explicabo obcaecati tempora velit ullam eveniet ex numquam repudiandae, enim fugiat reprehenderit,
-                                    a nemo nisi molestiae alias!
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
 </main>

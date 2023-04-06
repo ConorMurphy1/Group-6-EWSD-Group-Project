@@ -77,7 +77,9 @@
                                     <li><a href="{{ route('home') }}"><span>Dashboard</span></a></li>
                                     @endif
                                     <li><a href="{{ route('ideas.feed') }}"><span>NewsFeed</span></a></li>
+                                    @if (auth()->user()->role->role == 'Staff')
                                     <li><a href="{{route('idea.users.create')}}"><span>Create</span></a></li>
+                                    @endif
                                     <li><a href="{{route('events.newsfeed')}}"><span>Event</span></a></li>
                                 </ul>
                         </nav>
@@ -112,7 +114,7 @@
 
     <div id="js-popup-settings" class="tt-popup-settings">
         <div class="tt-btn-col-close">
-            <a href="{{ route('user.profile', auth()->user()->username) }}"href="{{ route('user.profile', auth()->user()->username) }}">
+            <a href="{{ route('user.profile', auth()->user()->username) }}">
                 <span class="tt-icon-text">
                     Profile
                 </span>

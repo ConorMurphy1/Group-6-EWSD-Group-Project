@@ -88,7 +88,6 @@
                             <div class="form-group">
                                 <label for="inputTopicTags">Anonymous</label>
                                 <select name="is_anonymous" id="" required class="form-control">
-                                    <option >Choose option</option>
                                     <option value="0" {{strtolower($idea->is_anonymous) == '0' ? 'selected' : ''}}>No</option>
                                     <option value="1" {{strtolower($idea->is_anonymous) == '1' ? 'selected' : ''}}>Yes</option>
                                 </select>
@@ -127,6 +126,7 @@
                     @enderror
                     <div class="row">
                         <div class="col-auto ml-md-auto mb-3">
+                            <a href="{{route('ideas.feed')}}" class="btn btn-warning btn-width-lg">Back</a>
                             @if ($idea->id)
                             <button type="submit" class="btn btn-secondary btn-width-lg">Edit Post</button>
                             @else

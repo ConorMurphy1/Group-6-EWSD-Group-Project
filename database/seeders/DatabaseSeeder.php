@@ -7,8 +7,10 @@ namespace Database\Seeders;
 use App\Models\Department;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Category;
 use Illuminate\Database\Seeder;
 use Database\Seeders\DepartmentSeeder;
+use Database\Seeders\CategorySeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -41,6 +43,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             IdeaSeeder::class,
             RoleSeeder::class,
+            CategorySeeder::class,
         ]);
     }
 }
