@@ -55,6 +55,7 @@
                         </tbody>
                     </table>
                 </div>
+                {{ $comments->appends(request()->query())->links() }}
                 <!-- /.table-responsive -->
             </div>
             <!-- /.box-content -->
