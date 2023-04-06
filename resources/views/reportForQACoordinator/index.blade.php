@@ -6,9 +6,6 @@
         padding: 0;
         font-family: sans-serif;
     }
-
-
-
     .chartCard {
         display: flex;
         align-items: center;
@@ -16,7 +13,7 @@
     }
 
     .chartBox {
-        width: 700px;
+        width: 100%;
         padding: 20px;
         border-radius: 20px;
         border: solid 3px rgba(54, 162, 235, 1);
@@ -71,8 +68,8 @@
             <strong>Total {{ $staffCount }} Staff Users from {{ $department_name }} Departments : </strong>
         </div>
 
-        <div class="row">
-            <div class="col-lg-5 col-md-5 col-sm-12" style="margin-bottom: 30px;">
+        <div class="row my-1">
+            <div class="col-md-6" >
                 <div class="chartCard">
                     <div class="chartBox">
                         <span><strong>Anonymous Post Upload Indicator</strong></span>
@@ -80,18 +77,18 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-5 col-md-5 col-sm-12">
-                <div class="chartCard" style="margin-bottom: 30px;">
+            <div class="col-md-6">
+                <div class="chartCard" >
                     <div class="chartBox">
                         <span><strong>Total Comments Participants: </strong></span>
-                        <canvas id="myChart1"></canvas>
+                        <canvas class="mx-2" id="myChart1"></canvas>
                     </div>
                 </div>
             </div>
         </div>
-
+        
         <div class="row">
-            <div class="col-md-6" style="margin-bottom: 30px;">
+            <div class="col-md-6" >
                 <div class="chartCard">
                     <div class="chartBox">
                         <span><strong>Active Participants in the event</strong></span>
@@ -213,21 +210,8 @@
         options: {
             plugins: {
                 legend: {
-                    display: false
-                },
-                // tooltip: {
-                //     yAlign: 'bottom',
-                //     displayColors: false,
-                //     callbacks: {
-                //         label: function(tooltipItem, data) {
-                //             const tracker = tooltipItem.dataset.needleValue;
-                //             return `Tracker Score: ${tracker}%`;
-                //         },
-                //         title: function() {
-                //             return '';
-                //         }
-                //     }
-                // }
+                    display: true
+                }
             }
         },
         // plugins: [gaugeNeedle]
@@ -266,11 +250,6 @@
                 legend: {
                     display: true
                 }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
             }
         }
     };
@@ -306,11 +285,6 @@
                     display: false
                 }
             },
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
         }
     };
 
