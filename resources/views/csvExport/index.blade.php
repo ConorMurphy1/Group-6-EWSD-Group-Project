@@ -74,7 +74,7 @@
                                     title="Export Idea Post from Event in CSV Format">Export</button>
                             </div>
                             <div class="col-sm-6 text-right">
-                                <button class="btn btn-secondary" id="downloadDocBtn" type="button" name="downloadDocBtn"
+                                <button class="btn btn-primary" id="downloadDocBtn" type="button" name="downloadDocBtn"
                                     title="Download Attached Document from Event">Download Attached Document</button>
                             </div>
                         </div>

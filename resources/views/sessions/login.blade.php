@@ -21,6 +21,7 @@
         <form action="{{ route('login') }}" method="POST" class="frm-single">
             @csrf
             <div class="inside">
+                <img src="{{ asset('images/Logo-Original.png') }}" alt="">
                 <div class="title"><strong>G6-</strong>Admin</div>
                 <!-- /.title -->
                 <div class="frm-title">Login</div>

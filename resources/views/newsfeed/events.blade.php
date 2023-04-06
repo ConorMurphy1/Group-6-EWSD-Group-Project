@@ -17,7 +17,7 @@
                                     <input type="text" hidden name="event_id" value="{{$event->id}}">
                                     <a href="javascript:{}" onclick="document.getElementById('search').submit();" ><h1 class="tt-title"> {{ $event->name }}</h1></a>
                                 </form>
-                                <h6 class="tt">Final Date: {{Carbon\Carbon::parse($event->closure)->format('d-m-Y H:i:s')}}</h6>
+                                <h6 class="tt">Final Date: {{Carbon\Carbon::parse($event->closure)->format('d-m-Y')}}</h6>
                             </div>
                             <div class="tt-item-layout">
                                 <div class="innerwrapper show-read-more">

@@ -701,34 +701,31 @@
                         @endforeach
                     </select>
                     </div>
-                    {{-- <div class="form-group">
-                        <label for="searchAdvTime">Posted</label>
-                        <div class="row">
-                            <div class="col-6">
-                                <input type="text" name="start_date" class="form-control" id="searchAdvTime" placeholder="dd-mm-yyyy">
-                            </div>
-                            <div class="col-6">
-                                <input type="text" name="end_date" class="form-control" id="searchAdvTime" placeholder="dd-mm-yyyy">
-                            </div>
-                        </div>
-                    </div> --}}
                     <div class="form-group">
                         <label for="searchaTopics">Event</label>
                         <select class="form-control" id="searchaTopics" name="event_id">
-                            <option value=""> Choose an Event </option>
-                        @foreach ($events as $event )
-                            <option value="{{$event->id}}">{{ $event->name }}</option>
-                        @endforeach
-                    </select>
+                                <option value=""> Choose an Event </option>
+                            @foreach ($events as $event )
+                                <option value="{{$event->id}}">{{ $event->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="minPostCount">Department</label>
                         <select class="form-control" id="minPostCount" name="department_id">
-                            <option value="">Choose a Department</option>
-                        @foreach ($departments as $department )
-                            <option value="{{$department->id}}">{{ $department->name }}</option>
-                        @endforeach
-                    </select>
+                                <option value="">Choose a Department</option>
+                            @foreach ($departments as $department )
+                                <option value="{{$department->id}}">{{ $department->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="minPostCount">Popularity</label>
+                        <select class="form-control" id="minPostCount" name="popularity">
+                                <option value="">Choose status</option>
+                                <option value="most">Most Liked</option>
+                                <option value="less">Less Liked</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-secondary btn-block">Search</button>
