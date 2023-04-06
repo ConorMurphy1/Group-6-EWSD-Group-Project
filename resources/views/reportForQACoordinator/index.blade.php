@@ -23,7 +23,7 @@
             }
 
             .chartBox {
-                width: 700px;
+                width: 390px;
                 padding: 20px;
                 border-radius: 20px;
                 border: solid 3px rgba(54, 162, 235, 1);
@@ -80,7 +80,7 @@
         </div>
 
         <div class="row">
-            <div class="col-md-6" style="margin-bottom: 30px;">
+            <div class="col-lg-5 col-md-5 col-sm-12" style="margin-bottom: 30px;">
                 <div class="chartCard">
                     <div class="chartBox">
                         <span><strong>Anonymous Post Upload Indicator</strong></span>
@@ -88,7 +88,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-lg-5 col-md-5 col-sm-12">
                 <div class="chartCard" style="margin-bottom: 30px;">
                     <div class="chartBox">
                         <span><strong>Total Comments Participants: </strong></span>
