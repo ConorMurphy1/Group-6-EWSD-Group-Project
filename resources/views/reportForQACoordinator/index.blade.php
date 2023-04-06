@@ -131,23 +131,22 @@
 
             // setup 
             const data = {
-                labels: ['Mon', 'Tue', 'Wed'],
+                
+                labels: ['Not Anonymous', 'Anonymous Upload'],
                 datasets: [{
-                    label: 'Weekly Sales',
-                    data: [40, 30, 30],
-                    backgroundColor: [
-                        'rgba(255, 26, 104, 1)', //red
-                        'rgba(255, 206, 86, 1)', //yellow
-                        'rgba(75, 192, 192, 1)' //green
-                    ],
-                    needleValue: {{ $percentageAnonymous }},
-                    borderColor: 'white',
-                    borderWidth: 2,
-                    cutout: '95%',
-                    circumference: 180,
-                    rotation: 270,
-                    borderRadius: 5
+                    data: [{{ $percentageNotAnonymous }}, {{ $percentageAnonymous }}],
+                    backgroundColor: backgroundColors,
+                    borderColor: borderColors,
+                    borderWidth: 1
                 }]
+                    // needleValue: {{ $percentageAnonymous }},
+                    // borderColor: 'white',
+                    // borderWidth: 2,
+                    // cutout: '95%',
+                    // circumference: 180,
+                    // rotation: 270,
+                    // borderRadius: 5
+                // }]
             };
 
             //gaugeNeedle block 
@@ -212,29 +211,29 @@
             };
             // config 
             const config = {
-                type: 'doughnut',
+                type: 'pie',
                 data,
                 options: {
                     plugins: {
                         legend: {
                             display: false
                         },
-                        tooltip: {
-                            yAlign: 'bottom',
-                            displayColors: false,
-                            callbacks: {
-                                label: function(tooltipItem, data) {
-                                    const tracker = tooltipItem.dataset.needleValue;
-                                    return `Tracker Score: ${tracker}%`;
-                                },
-                                title: function() {
-                                    return '';
-                                }
-                            }
-                        }
+                        // tooltip: {
+                        //     yAlign: 'bottom',
+                        //     displayColors: false,
+                        //     callbacks: {
+                        //         label: function(tooltipItem, data) {
+                        //             const tracker = tooltipItem.dataset.needleValue;
+                        //             return `Tracker Score: ${tracker}%`;
+                        //         },
+                        //         title: function() {
+                        //             return '';
+                        //         }
+                        //     }
+                        // }
                     }
                 },
-                plugins: [gaugeNeedle]
+                // plugins: [gaugeNeedle]
             };
 
             // render init block
