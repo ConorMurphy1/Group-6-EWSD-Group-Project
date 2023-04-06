@@ -28,6 +28,8 @@
                                 <th>No</th>
                                 <th>Department</th>
                                 <th>Description</th>
+                                <th>Closure Date</th>
+                                <th>Final Closure Date</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -37,6 +39,8 @@
                                 <td>{{ ($events->currentPage()-1) * $events->perPage() + $loop->index + 1 }}</td>
                                 <td>{{ $event->name }}</td>
                                 <td>{{ $event->description }}</td>
+                                <td>{{Carbon\Carbon::parse($event->closure)->format('d-m-Y')}}</td>
+                                <td>{{Carbon\Carbon::parse($event->final_closure)->format('d-m-Y')}}</td>
                                 <td class="flex-warp">
                                     <div class="mx-3 text-center">
                                         <form action="{{ route('events.destroy', $event->id) }}" method="post">

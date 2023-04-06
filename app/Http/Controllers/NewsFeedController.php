@@ -85,7 +85,7 @@ class NewsFeedController extends Controller
 
     public function events()
     {
-        $events = Event::where('final_closure', '<', now())->get();
+        $events = Event::where('final_closure', '>=', now())->get();
         return view('newsfeed.events', compact('events'));
     }
 
