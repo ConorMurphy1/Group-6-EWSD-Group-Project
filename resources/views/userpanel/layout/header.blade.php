@@ -77,7 +77,9 @@
                                     <li><a href="{{ route('home') }}"><span>Dashboard</span></a></li>
                                     @endif
                                     <li><a href="{{ route('ideas.feed') }}"><span>NewsFeed</span></a></li>
+                                    @if (auth()->user()->role->role == 'Staff')
                                     <li><a href="{{route('idea.users.create')}}"><span>Create</span></a></li>
+                                    @endif
                                     <li><a href="{{route('events.newsfeed')}}"><span>Event</span></a></li>
                                 </ul>
                         </nav>
