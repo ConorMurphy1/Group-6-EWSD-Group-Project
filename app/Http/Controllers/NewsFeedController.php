@@ -26,8 +26,6 @@ class NewsFeedController extends Controller
         $events = Event::whereDate('closure', '>', now()->format('Y-m-d'))->get();
         $categories = Category::all();
         $ideaCategories = IdeaCategory::all();
-        
-        // dd($request->all());
 
         $ideas = Idea::with('comments', 'user', 'event')->where(function ($query) use ($request){
                             if($request->category_id)
@@ -58,4 +56,38 @@ class NewsFeedController extends Controller
     {
         return view('newsfeed.events');
     }
+
+    public function latestLikedDisLiked(Request $request )
+    {
+        $departments = Department::all();
+        $events = Event::whereDate('closure', '>', now()->format('Y-m-d'))->get();
+        $categories = Category::all();
+        $ideaCategories = IdeaCategory::all();
+
+        $ideas = Idea::with('comments', 'user', 'event')->where(function ($query) use ($request){
+                            if($request->category_id)
+                            {
+                                $query->whereHas(function ($categories) use ($request)
+                                {
+                                    $categories->where('category_id', $request->category_id);
+                                });
+                            }
+                            if($request->event_id)
+                            {
+                                $query->where('event_id', $request->event_id);
+                            }
+
+                            if($request->department_id)
+                            {
+                                $query->where('department_id', $request->department_id);
+                            }
+                        })
+                        ->latest()->paginate(5);
+
+
+
+        return view('newsfeed.index', compact('ideas', 'departments', 'events', 'ideaCategories', 'categories'));
+    }
+
+
 }
