@@ -131,13 +131,13 @@ Route::middleware(['auth', 'constraint'])->group(function() {
     Route::put('/idea/{idea:id}', [IdeaController::class, 'userUpdate'])->name('idea.users.update');
     Route::delete('/idea/{idea:id}', [IdeaController::class, 'userDelete'])->name('idea.users.delete');
 
-    Route::get('newsfeed/events', [NewsFeedController::class, 'events'])->name('events.newsfeed');
 });
 
 
 
 /** Global Accessed Routes: Every role can access these routes if they are authenticated */
 Route::middleware(['auth'])->group(function() {
+    Route::get('newsfeed/events', [NewsFeedController::class, 'events'])->name('events.newsfeed');
     Route::get('/users', [UserController::class, 'show'])->name('user.show');         /** to check other people's profiles  */
     Route::get('/{user:username}/profile', [UserController::class, 'profile'])->name('user.profile');   /** own profile */
     Route::get('/{user:username}/edit', [UserController::class, 'edit'])->name('user.edit');

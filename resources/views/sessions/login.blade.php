@@ -48,7 +48,6 @@
                 <!-- /.clearfix -->
                 <button type="submit" class="frm-submit">Login<i class="fa fa-arrow-circle-right"></i></button>
                 <!-- /.row -->
-                <a href="page-register.html" class="a-link"><i class="fa fa-key"></i>New to G6? Register.</a>
                 <div class="frm-footer">G6 © 2023.</div>
                 <!-- /.footer -->
             </div>
