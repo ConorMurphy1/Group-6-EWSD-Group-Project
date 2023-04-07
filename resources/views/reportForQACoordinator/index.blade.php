@@ -99,7 +99,7 @@
         </div>
 
         <div class="row">
-            <div class="col-md-6" style="margin-bottom: 30px;">
+            <div class="col-lg-5 col-md-5 col-sm-12" style="margin-bottom: 30px;">
                 <div class="chartCard">
                     <div class="chartBox">
                         <span><strong>Active Participants in the event</strong></span>
