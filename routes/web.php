@@ -102,7 +102,13 @@ Route::prefix('admin')->middleware(['auth', 'admin_only'])->group(function() {
     Route::resource('departments', DepartmentController::class);
 
     // Idea and Comment
-    Route::resource('ideas', IdeaController::class);
+    // Route::resource('ideas', IdeaController::class);
+    Route::get('ideas', [IdeaController::class, 'index'])->name('ideas.index');
+    Route::get('ideas/create', [IdeaController::class, 'create'])->name('ideas.create');
+    Route::get('ideas/{idea}', [IdeaController::class, 'show'])->name('ideas.show');
+    Route::patch('ideas/{idea}', [IdeaController::class, 'update'])->name('ideas.update');
+    Route::delete('ideas/{idea}', [IdeaController::class, 'destroy'])->name('ideas.destroy');
+    Route::get('ideas/{idea}/edit', [IdeaController::class, 'edit'])->name('ideas.edit');
     Route::resource('comments', CommentController::class);
 });
 
@@ -160,5 +166,8 @@ Route::middleware(['auth'])->group(function() {
 
     Route::post('/idea/{idea:id}/report', [IdeaController::class, 'report'])->name('report');
     Route::post('/idea/{idea:id}/comment/{comment:id}/report', [IdeaCommentController::class, 'report'])->name('comment.report');
+
+    Route::post('ideas', [IdeaController::class, 'store'])->name('ideas.store');
+
 });
 

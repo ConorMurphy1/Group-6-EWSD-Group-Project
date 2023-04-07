@@ -13,12 +13,7 @@
                     Edit Idea
                 </h1>
             @else
-
-            @if (request()->routeIs('idea.users.create'))
-            <form action="{{ route('idea.users.store')}}" method="post" enctype="multipart/form-data" class="form-default form-create-topic">
-            @else
-            <form action="{{ route('ideas.store') }}" method="post" enctype="multipart/form-data" class="form-default form-create-topic">
-            @endif
+                <form action="{{ route('ideas.store') }}" method="post" enctype="multipart/form-data" class="form-default form-create-topic" id="terms">
             <div class="tt-wrapper-inner">
                 <h1 class="tt-title-border">
                     Create New Idea
@@ -28,7 +23,7 @@
                 <div class="form-group">
                     <label for="inputTopicTitle">Idea Title</label>
                     <div class="tt-value-wrapper">
-                        <input name="title" type="text" class="form-control" required value="{{$idea->title ?? ''}}" >
+                        <input name="title" type="text" id="title" class="form-control" required value="{{$idea->title ?? ''}}" >
                         <span class="tt-value-input">99</span>
                     </div>
                     <div class="tt-note">Describe your topic well, while keeping the subject as short as possible.</div>
@@ -39,7 +34,7 @@
                 <div class="pt-editor">
                     <h6 class="pt-title">Idea Description</h6>
                     <div class="form-group">
-                        <textarea name="description" class="form-control" rows="5" placeholder="Lets get started">{{$idea->description ?? ''}}</textarea>
+                        <textarea name="description" class="form-control" id="description" rows="5" placeholder="Lets get started">{{$idea->description ?? ''}}</textarea>
                     </div>
                     @error('description')
                         <div class="alert alert-danger">{{ $message }}</div>
@@ -48,10 +43,10 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="inputTopicTags">Event</label>
-                                <select name="event_id" class="form-control">
+                                <select name="event_id" id="event_id" class="form-control">
                                     <option >Choose an Event</option>
                                     @foreach ($events as $event)
-                                        <option required value="{{ $event->id }}" 
+                                        <option required value="{{ $event->id }}"
                                         @if ($idea->event_id == $event->id)
                                             selected
                                         @endif > {{ $event->name }} </option>
@@ -65,7 +60,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="inputTopicTags">Anonymous</label>
-                                <select name="is_anonymous" id="" required class="form-control">
+                                <select name="is_anonymous" id="is_anonymous" required class="form-control">
                                     <option value="0" {{strtolower($idea->is_anonymous) == '0' ? 'selected' : ''}}>No</option>
                                     <option value="1" {{strtolower($idea->is_anonymous) == '1' ? 'selected' : ''}}>Yes</option>
                                 </select>
@@ -78,7 +73,7 @@
                             <div class="form-group">
                                 <label for="inputTopicTags">Department</label>
                                 <input type="text" readonly class="form-control" id="inputTopicTags" value="{{auth()->user()->department->name}}">
-                                <input type="hidden" readonly name="department_id" class="form-control" id="inputTopicTags" value="{{auth()->user()->department->id}}">
+                                <input type="hidden" readonly name="department_id" class="form-control" id="department_id" value="{{auth()->user()->department->id}}">
                             </div>
                             @error('department_id')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -95,7 +90,7 @@
                                 @endforeach
                             </select>
                             @else
-                            <select class="form-control" id="field1" multiple onchange="console.log(Array.from(this.selectedOptions).map(x=>x.value??x.text))" multiselect-hide-x="true" name="category_ids[]" required>
+                            <select class="form-control" multiple onchange="console.log(Array.from(this.selectedOptions).map(x=>x.value??x.text))" multiselect-hide-x="true" name="category_ids[]" required>
                                 @foreach ($categories as $category)
                                     <option value="{{$category->id}}" >{{$category->name}}</option>
                                 @endforeach
@@ -108,7 +103,7 @@
                     </div>
                     <div class="my-2">
                         <label for="" class="d-block text-muted">Image</label>
-                        <input name="image" type="file" accept="image/*" id="imgInp" value="{{$idea->image ?? ''}}">
+                        <input name="image" type="file" accept="image/*" id="image" value="{{$idea->image ?? ''}}">
                         <div class="d-flex justify-content-center">
                             <img id="displayImg" src="{{ asset('storage/images/'.$idea->image) }}" alt="your image" class="w-50" />
                         </div>
@@ -118,7 +113,7 @@
                     </div>
                     <div class="my-2">
                         <label for="" class="d-block text-muted">File</label>
-                        <input name="document" type="file" accept="application/pdf,xls,doc" value="{{$idea->document ?? ''}}">
+                        <input name="document" type="file" accept="application/pdf,xls,doc" id="document" value="{{$idea->document ?? ''}}">
                     </div>
                     @error('document')
                     <div class="alert alert-danger">{{ $message }}</div>
@@ -127,12 +122,12 @@
                         <div class="col-auto ml-md-auto mb-3">
                             <a href="{{route('ideas.feed')}}" class="btn btn-warning btn-width-lg">Back</a>
                             @if ($idea->id)
-                            <button type="submit" data-remodal-target="remodal" class="btn btn-secondary btn-width-lg">Edit Post</button>
+                            <button type="submit"  class="btn btn-secondary btn-width-lg">Edit Post</button>
                             @else
-                            <button type="submit" data-remodal-target="remodal" class="btn btn-secondary btn-width-lg">Create Post</button>
+                            <button type="button" data-remodal-target="remodal" class="btn btn-secondary btn-width-lg">Create Post</button>
                             @endif
                         </div>
-                                            @include('ideas.modal')
+                    @include('ideas.modal')
 
                     </div>
                 </div>
@@ -161,6 +156,17 @@
 
     function enableSave(){
         document.getElementById("save").removeAttribute('disabled');
+    }
+
+    function submitForm (){
+        console.log('hello')
+        document.getElementById('terms').submit()
+    }
+
+    function conditionsModal(title, description, is_anonymous, category_ids, image, event_id, department_id) {
+        $('#title').val(title);
+        $('#description').val(description);
+        $('#is_anonymous').val(is_anonymous);
     }
 </script>
 @endsection
