@@ -43,6 +43,7 @@ class reportQACoordinatorController extends Controller
 
             $percentageAnonymous = ($totalPosts > 0) ? ($anonymousPosts / $totalPosts) * 100 : 0;
             $percentageAnonymous = round($percentageAnonymous, 0);
+            $percentageNotAnonymous = 100 - $percentageAnonymous;
 
             $commentingUsersCount = User::where('department_id', $department->id)
                 ->whereHas('comments', function ($query) use ($department, $eventId) {
@@ -73,7 +74,7 @@ class reportQACoordinatorController extends Controller
                 ->count();
 
 
-            return view('reportForQACoordinator.index', compact('staffCount', 'department_name', 'percentageAnonymous', 'percentageCommentingUsers', 'percentageNotCommentingUsers', 'staffWithPostsCount', 'staffNotPostingIdeas', 'eventName'));
+            return view('reportForQACoordinator.index', compact('staffCount', 'department_name', 'percentageAnonymous','percentageNotAnonymous', 'percentageCommentingUsers', 'percentageNotCommentingUsers', 'staffWithPostsCount', 'staffNotPostingIdeas', 'eventName'));
         } else {
 
             $anonymousPosts = Idea::where('department_id', $department->id)
@@ -83,6 +84,7 @@ class reportQACoordinatorController extends Controller
 
             $percentageAnonymous = ($totalPosts > 0) ? ($anonymousPosts / $totalPosts) * 100 : 0;
             $percentageAnonymous = round($percentageAnonymous, 0);
+            $percentageNotAnonymous = 100 - $percentageAnonymous;
 
             $commentingUsersCount = User::where('department_id', $department->id)
                 ->whereHas('comments', function ($query) use ($department) {
@@ -112,7 +114,7 @@ class reportQACoordinatorController extends Controller
 
 
 
-            return view('reportForQACoordinator.index', compact('staffCount', 'department_name', 'percentageAnonymous', 'percentageCommentingUsers', 'percentageNotCommentingUsers', 'staffWithPostsCount', 'staffNotPostingIdeas', 'eventName'));
+            return view('reportForQACoordinator.index', compact('staffCount', 'department_name', 'percentageAnonymous', 'percentageNotAnonymous','percentageCommentingUsers', 'percentageNotCommentingUsers', 'staffWithPostsCount', 'staffNotPostingIdeas', 'eventName'));
         }
     }
 

@@ -1,5 +1,5 @@
 <!-- create icon -->
-@if (auth()->user()->role->role == 'Staff' || auth()->user()->role->role == 'Admin' || auth()->user()->role->role == 'QA Cordinator')
+@if (auth()->user()->role->role == 'Staff')
 <a href="{{ route('idea.users.create') }}" class="tt-btn-create-topic">
     <span class="tt-icon">
         <svg>
@@ -9,6 +9,7 @@
 </a>
 @endif
 
+@yield('user-js')
 <script src="{{asset('usertemplate/build/js/bundle.js')}}"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

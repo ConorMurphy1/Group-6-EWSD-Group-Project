@@ -3,9 +3,9 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Forum - Responsive HTML5 Template</title>
+    <title>Group-6 Uni Blog</title>
     <meta name="keywords" content="HTML5 Template">
-    <meta name="description" content="Forum - Responsive HTML5 Template">
+    <meta name="description" content="Group-6 Uni Blog">
     <meta name="author" content="Forum">
     <link rel="shortcut icon" href="favicon/favicon.ico">
 
@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="{{asset('usertemplate/build/css/style.css')}}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<script src="https://cdn.tailwindcss.com"></script>
+
+    @yield('user-style')
 
     <style>
         .fix-left {
@@ -77,7 +79,9 @@
                                     <li><a href="{{ route('home') }}"><span>Dashboard</span></a></li>
                                     @endif
                                     <li><a href="{{ route('ideas.feed') }}"><span>NewsFeed</span></a></li>
+                                    @if (auth()->user()->role->role == 'Staff')
                                     <li><a href="{{route('idea.users.create')}}"><span>Create</span></a></li>
+                                    @endif
                                     <li><a href="{{route('events.newsfeed')}}"><span>Event</span></a></li>
                                 </ul>
                         </nav>
@@ -112,7 +116,7 @@
 
     <div id="js-popup-settings" class="tt-popup-settings">
         <div class="tt-btn-col-close">
-            <a href="{{ route('user.profile', auth()->user()->username) }}"href="{{ route('user.profile', auth()->user()->username) }}">
+            <a href="{{ route('user.profile', auth()->user()->username) }}">
                 <span class="tt-icon-text">
                     Profile
                 </span>

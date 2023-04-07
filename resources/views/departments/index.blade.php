@@ -55,6 +55,7 @@
                         </tbody>
                     </table>
                 </div>
+                {{ $departments->appends(request()->query())->links() }}
                 <!-- /.table-responsive -->
             </div>
             <!-- /.box-content -->
