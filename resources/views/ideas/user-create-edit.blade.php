@@ -81,7 +81,8 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group px-2">
+                        <div class="col">
+                        <div class="form-group">
                             <h6 class="pt-title">Category</h6>
                             @if ($idea->id)
                             <select class="form-control" id="field1" multiple onchange="console.log(Array.from(this.selectedOptions).map(x=>x.value??x.text))" multiselect-hide-x="true" name="category_ids[]" required>
@@ -99,6 +100,7 @@
                             @error('category_ids')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
+                        </div>
                         </div>
                     </div>
                     <div class="my-2">
