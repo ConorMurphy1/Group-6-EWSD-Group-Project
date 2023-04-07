@@ -44,28 +44,6 @@
                     @error('description')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
-
-                    <div class="row">
-                        <div class="form-group w-full px-2">
-                            <h6 class="pt-title">Category</h6>
-                            @if ($idea->id)
-                            <select class="select2_2 form-control" multiple="multiple" name="category_ids[]" required>
-                                @foreach ($categories as $category)
-                                    <option value="{{$category->id}}" @if(in_array($category->id, $idea->categories()->select('id')->get()->toArray())) selected @endif>{{$category->name}}</option>
-                                @endforeach
-                            </select>
-                            @else
-                            <select class="select2_2 form-control" multiple="multiple" name="category_ids[]" required>
-                                @foreach ($categories as $category)
-                                    <option value="{{$category->id}}" >{{$category->name}}</option>
-                                @endforeach
-                            </select>
-                            @endif
-                            @error('category_ids')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
@@ -107,6 +85,27 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="form-group px-2">
+                            <h6 class="pt-title">Category</h6>
+                            @if ($idea->id)
+                            <select class="form-control" id="field1" multiple onchange="console.log(Array.from(this.selectedOptions).map(x=>x.value??x.text))" multiselect-hide-x="true" name="category_ids[]" required>
+                                @foreach ($categories as $category)
+                                    <option value="{{$category->id}}" @if(in_array($category->id, $idea->categories()->select('id')->get()->toArray())) selected @endif>{{$category->name}}</option>
+                                @endforeach
+                            </select>
+                            @else
+                            <select class="form-control" id="field1" multiple onchange="console.log(Array.from(this.selectedOptions).map(x=>x.value??x.text))" multiselect-hide-x="true" name="category_ids[]" required>
+                                @foreach ($categories as $category)
+                                    <option value="{{$category->id}}" >{{$category->name}}</option>
+                                @endforeach
+                            </select>
+                            @endif
+                            @error('category_ids')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
                     <div class="my-2">
                         <label for="" class="d-block text-muted">Image</label>
                         <input name="image" type="file" accept="image/*" id="imgInp" value="{{$idea->image ?? ''}}">
@@ -128,11 +127,13 @@
                         <div class="col-auto ml-md-auto mb-3">
                             <a href="{{route('ideas.feed')}}" class="btn btn-warning btn-width-lg">Back</a>
                             @if ($idea->id)
-                            <button type="submit" class="btn btn-secondary btn-width-lg">Edit Post</button>
+                            <button type="submit" data-remodal-target="remodal" class="btn btn-secondary btn-width-lg">Edit Post</button>
                             @else
-                            <button type="submit" class="btn btn-secondary btn-width-lg">Create Post</button>
+                            <button type="submit" data-remodal-target="remodal" class="btn btn-secondary btn-width-lg">Create Post</button>
                             @endif
                         </div>
+                                            @include('ideas.modal')
+
                     </div>
                 </div>
             </form>
@@ -143,6 +144,7 @@
 @endsection
 
 @section('user-javascript')
+<script src="{{ asset('usertemplate/build/js/multiselect-dropdown.js')}}" ></script>
 <script>
     // Code displays the image
     imgInp.onchange = evt => {

@@ -58,7 +58,7 @@
                     </div>
                     <div class="my-2">
                         <p class="margin-top-20">Category</p>
-                        <select class="select2_2 form-control" multiple="multiple" name="category_ids[]" required>
+                        <select class="select2_2 form-control" multiple  name="category_ids[]" required>
                             @foreach ($categories as $category)
                                 <option value="{{$category->id}}">{{$category->name}}</option>
                             @endforeach
@@ -85,7 +85,6 @@
                     @endforeach
                 </select>
                     </div>
-
                     <!-- <button type="button" onclick="conditionsModal()" class="btn btn-primary btn-ladda" data-toggle="modal" data-target="#termsCondition">Save </button> -->
                     @if ($idea->id)
                         <button type="submit"  data-remodal-target="remodal" class="btn btn-primary waves-effect waves-light">Save</button>

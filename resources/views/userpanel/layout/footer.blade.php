@@ -14,6 +14,17 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
+
+
+<!-- Remodal -->
+<script src="{{asset('adminpanel/assets/plugin/modal/remodal/remodal.min.js')}}"></script>
+
+<script src="{{asset('adminpanel/assets/scripts/main.min.js')}}"></script>
+<script src="{{asset('adminpanel/assets/color-switcher/color-switcher.min.js')}}"></script>
+
+
+
+
 @yield('user-javascript')
 <svg width="0" height="0" class="hidden">
  <symbol aria-hidden="true" data-prefix="fab" data-icon="facebook-f" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 264 512" id="facebook-f-brands">
