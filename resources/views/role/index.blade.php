@@ -11,17 +11,6 @@
                     @endif>+Add New</a>
                 </div>
                 <!-- /.box-title -->
-                <div class="dropdown js__drop_down">
-                    <a href="#" class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
-                    <ul class="sub-menu">
-                        <li><a href="#">Product</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else there</a></li>
-                        <li class="split"></li>
-                        <li><a href="#">Separated link</a></li>
-                    </ul>
-                    <!-- /.sub-menu -->
-                </div>
                 <!-- /.dropdown js__dropdown -->
                 <div class="table-responsive table-purchases">
                     <table class="table table-bordered border-1 m-1">

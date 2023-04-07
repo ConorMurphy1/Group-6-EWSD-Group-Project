@@ -9,17 +9,6 @@
                     <a href="{{route('admin.users.create')}}" class="btn btn-success justify-content-end">+ Add New</a>
                 </div>
                 <!-- /.box-title -->
-                <div class="dropdown js__drop_down">
-                    <a href="#" class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
-                    <ul class="sub-menu">
-                        <li><a href="#">Product</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else there</a></li>
-                        <li class="split"></li>
-                        <li><a href="#">Separated link</a></li>
-                    </ul>
-                    <!-- /.sub-menu -->
-                </div>
                 <!-- /.dropdown js__dropdown -->
                 <div class="table-responsive table-purchases">
                     <table class="table table-bordered border-1 m-1">
@@ -66,11 +55,11 @@
                                 <td class="">{{ $user->department->name }}</td>
                                 <td class="">{{ $user->role->role }}</td>
                                 @endif
-                                
+
                                 <td class="flex-warp">
                                     <div class="mx-3 text-center">
                                         <form action="{{ route('admin.users.destroy', $user->id) }}" method="post">
-                                            @csrf 
+                                            @csrf
                                             @method('delete')
                                             <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Edit">
                                                 <i class="fa fa-edit"></i>
