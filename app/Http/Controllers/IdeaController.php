@@ -160,7 +160,7 @@ class IdeaController extends Controller
         // Log::info('Event dispatched');
 
         Alert::toast('Idea created successfully', 'success');
-        return redirect()->route('ideas.feed');       
+        return redirect()->route('ideas.feed');
     }
 
     public function userEdit($id)
@@ -169,7 +169,7 @@ class IdeaController extends Controller
         $categories = Category::all();
         $departments = Department::all();
         $events = Event::whereDate('closure', '>', now())->get();
-        
+
         return view('ideas.user-create-edit', compact('idea', 'events', 'categories', 'departments'));
     }
 
@@ -213,6 +213,8 @@ class IdeaController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
+
         $data = $request->validate([
             'title' => 'required | string',
             'description' => 'required | string',
@@ -247,8 +249,8 @@ class IdeaController extends Controller
                 'category_id' => $request->category_ids[$i],
             ]);
         }
-        
-        
+
+
         if(auth()->user()->role_id == 1 || auth()->user()->role_id == 3){
             Alert::toast('Idea created successfully', 'success');
             return redirect()->route('ideas.index');
@@ -292,7 +294,7 @@ class IdeaController extends Controller
         }
     }
 
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -363,7 +365,7 @@ class IdeaController extends Controller
         }
 
         $report = new IdeaReport();
-        $report->idea_id = $idea->id; 
+        $report->idea_id = $idea->id;
         $report->user_id = $reporter;
         $report->description = $request->input('description');
         $report->save();

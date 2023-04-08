@@ -44,7 +44,7 @@
                             <option value="no" {{strtolower($idea->is_anonymous) == 'no' ? 'selected' : ''}}>No</option>
                             <option value="yes" {{strtolower($idea->is_anonymous) == 'yes' ? 'selected' : ''}}>Yes</option>
                         </select> -->
-                        
+
                        <!------------------------------------------------------------------->
 
                         <select name="is_anonymous" id="" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -58,7 +58,7 @@
                     </div>
                     <div class="my-2">
                         <p class="margin-top-20">Category</p>
-                        <select class="select2_2 form-control" multiple="multiple" name="category_ids[]" required>
+                        <select class="select2_2 form-control" multiple id="category_ids" name="category_ids[]" required>
                             @foreach ($categories as $category)
                                 <option value="{{$category->id}}">{{$category->name}}</option>
                             @endforeach
@@ -85,7 +85,6 @@
                     @endforeach
                 </select>
                     </div>
-
                     <!-- <button type="button" onclick="conditionsModal()" class="btn btn-primary btn-ladda" data-toggle="modal" data-target="#termsCondition">Save </button> -->
                     @if ($idea->id)
                         <button type="submit"  data-remodal-target="remodal" class="btn btn-primary waves-effect waves-light">Save</button>
@@ -94,7 +93,7 @@
                     @endif
                     <!-- <button type="button" onclick="conditionsModal()" class="btn btn-primary margin-bottom-10 waves-effect waves-light" data-toggle="modal" data-target="#termsCondition">Save</button> -->
                 </div>
-    
+
                     @include('ideas.modal')
 
                 </form>
@@ -104,7 +103,7 @@
         <!-- /.box-content -->
 
 
-        
+
     </div>
 </div>
 @endsection
@@ -122,7 +121,7 @@
             // alert('Conditions');
             document.getElementById("termsCondition").removeAttribute('hidden');
         }
-        
+
 
         const submitForm = ()=>{
             // console.log('hello')
@@ -137,6 +136,7 @@
         $('#title').val(title);
         $('#description').val(description);
         $('#anonymous').val(anonymous);
+        $('#category_ids').val(category_ids[]);
     }
     </script>
 @endsection

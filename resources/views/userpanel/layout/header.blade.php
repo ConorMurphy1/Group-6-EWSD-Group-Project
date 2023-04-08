@@ -19,6 +19,9 @@
 
     @yield('user-style')
 
+	<!-- Remodal -->
+	<link rel="stylesheet" href="{{asset('adminpanel/assets/plugin/modal/remodal/remodal.css')}}">
+	<link rel="stylesheet" href="{{asset('adminpanel/assets/plugin/modal/remodal/remodal-default-theme.css')}}">
     <style>
         .fix-left {
             top: 0;
