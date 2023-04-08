@@ -214,7 +214,7 @@ class IdeaController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-
+        if ($request->category_ids){
         $data = $request->validate([
             'title' => 'required | string',
             'description' => 'required | string',
@@ -242,23 +242,28 @@ class IdeaController extends Controller
 
         $idea = Idea::create($data);
 
-        for($i = 0; $i < count($request->category_ids); ++$i)
-        {
-            IdeaCategory::create([
-                'idea_id' => $idea->id,
-                'category_id' => $request->category_ids[$i],
-            ]);
+
+            for($i = 0; $i < count($request->category_ids); ++$i)
+            {
+                IdeaCategory::create([
+                    'idea_id' => $idea->id,
+                    'category_id' => $request->category_ids[$i],
+                ]);
+            }
+            if(auth()->user()->role_id == 1 || auth()->user()->role_id == 3){
+                Alert::toast('Idea created successfully', 'success');
+                return redirect()->route('ideas.index');
+            }
+            else{
+                Alert::toast('Idea created successfully', 'success');
+                return redirect()->route('ideas.feed');
+            }
+        }else{
+            Alert::toast('Category missing', 'warning');
+            return back();
         }
 
 
-        if(auth()->user()->role_id == 1 || auth()->user()->role_id == 3){
-            Alert::toast('Idea created successfully', 'success');
-            return redirect()->route('ideas.index');
-        }
-        else{
-            Alert::toast('Idea created successfully', 'success');
-            return redirect()->route('ideas.feed');
-        }
     }
 
 
