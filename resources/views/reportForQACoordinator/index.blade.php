@@ -69,7 +69,8 @@
         </div>
 
         <div class="row my-1">
-            <div class="col-md-6" >
+            <div class="col-lg-5 col-md-5 col-sm-12" style="margin-bottom: 30px;">
+            
                 <div class="chartCard">
                     <div class="chartBox">
                         <span><strong>Anonymous Post Upload Indicator</strong></span>
@@ -77,7 +78,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-lg-5 col-md-5 col-sm-12" style="margin-bottom: 30px;">
+
                 <div class="chartCard" >
                     <div class="chartBox">
                         <span><strong>Total Comments Participants: </strong></span>
@@ -88,11 +90,9 @@
         </div>
         
         <div class="row">
-<<<<<<< HEAD
+
             <div class="col-lg-5 col-md-5 col-sm-12" style="margin-bottom: 30px;">
-=======
-            <div class="col-md-6" >
->>>>>>> e660062abfb48091ca53da5182cf7dfe3ae33c9a
+
                 <div class="chartCard">
                     <div class="chartBox">
                         <span><strong>Active Participants in the event</strong></span>
