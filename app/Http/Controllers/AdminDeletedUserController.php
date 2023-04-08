@@ -47,12 +47,12 @@ class AdminDeletedUserController extends Controller
         return redirect()->route('admin.users.index');
     }
 
-    public function destroy($id)
-    {
-        $user = User::withTrashed()->findOrFail($id);
-        // $user->forceDelete();
+    // public function destroy($id)
+    // {
+    //     $user = User::withTrashed()->findOrFail($id);
+    //     // $user->forceDelete();
 
-        Alert::toast('User account removed!', 'warning');
-        return redirect()->route('admin.users.index');
-    }
+    //     Alert::toast('User account removed!', 'warning');
+    //     return redirect()->route('admin.users.index');
+    // }
 }

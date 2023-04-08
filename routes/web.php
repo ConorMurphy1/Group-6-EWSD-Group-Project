@@ -95,7 +95,7 @@ Route::prefix('admin')->middleware(['auth', 'admin_only'])->group(function() {
     // Admin User Soft Delete UD
     Route::get('/users/deleted', [AdminDeletedUserController::class, 'index'])->name('admin.users.deleted.index');
     Route::put('/users/deleted/{id}/reactivate', [AdminDeletedUserController::class, 'reactivate'])->name('admin.users.deleted.reactivate');
-    Route::delete('/users/deleted/{id}/destroy', [AdminDeletedUserController::class, 'destroy'])->name('admin.users.deleted.destroy');
+    // Route::delete('/users/deleted/{id}/destroy', [AdminDeletedUserController::class, 'destroy'])->name('admin.users.deleted.destroy');
 
     // Role Department CRUD
     Route::resource('roles', RoleController::class);

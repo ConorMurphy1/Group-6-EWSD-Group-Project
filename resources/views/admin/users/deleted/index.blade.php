@@ -51,13 +51,13 @@
                                 <td>{{ $user->deleted_at }}</td>
                                 <td class="flex-warp">
                                     <div class="mx-3 text-center">
-                                        <form action="{{ route('admin.users.deleted.destroy', $user->id) }}" method="post">
+                                        {{-- <form action="{{ route('admin.users.deleted.destroy', $user->id) }}" method="post">
                                             @csrf
                                             @method('delete')
                                             <button type="submit" class="custom-button btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete?')" data-toggle="tooltip" data-placement="top" title="Delete">
                                                 <i class="fa fa-trash-o text-white"></i>
                                             </button>
-                                        </form>
+                                        </form> --}}
                                         <form action="{{ route('admin.users.deleted.reactivate', $user->id) }}" method="POST" class="mt-3">
                                             @csrf
                                             @method('PUT')
