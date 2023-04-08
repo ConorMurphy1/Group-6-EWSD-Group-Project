@@ -116,10 +116,10 @@
 			<!-- /.title -->
 			<ul class="menu js__accordion">
 
-				<li class="current">
+				<li class="{{ request()->routeIs('dashboard') ? 'current' : '' }}">
 					<a class="waves-effect" href="{{route('dashboard')}}"><i class="menu-icon fa fa-home"></i><span>Dashboard</span></a>
 				</li>
-				<li class="">
+				<li class="{{ request()->routeIs('ideas.feed') ? 'current' : '' }}">
 					<a class="waves-effect" href="{{ route('ideas.feed') }}"><i class="menu-icon fa fa-comments-o" aria-hidden="true"></i><span>Ideas Feed</span></a>
 				</li>
 
@@ -127,9 +127,9 @@
 				<li>
 					<a class="waves-effect parent-item js__control" href="#"><i class="menu-icon fa fa-adjust"></i><span>RDU Management</span><span class="menu-arrow fa fa-angle-down"></span></a>
 					<ul class="sub-menu js__content">
-						<li><a class="waves-effect" href="{{ route('roles.index') }}"><i class="menu-icon fa fa-users"></i><span>Roles</span></a></li>
-						<li><a class="waves-effect" href="{{ route('departments.index') }}"><i class="menu-icon fa fa-university"></i><span>Departments</span></a></li>
-                        <li><a class="waves-effect" href="{{ route('admin.users.index') }}"><i class="menu-icon fa fa-user-plus"></i><span>Users</span></a></li>
+						<li><a class="waves-effect {{ request()->routeIs('roles.index') ? 'bg-blue-300' : '' }}" href="{{ route('roles.index') }}"><i class="menu-icon fa fa-users"></i><span>Roles</span></a></li>
+						<li><a class="waves-effect {{ request()->routeIs('departments.index') ? 'bg-blue-300' : '' }}" href="{{ route('departments.index') }}"><i class="menu-icon fa fa-university"></i><span>Departments</span></a></li>
+                        <li><a class="waves-effect {{ request()->routeIs('admin.users.index') ? 'bg-blue-300' : '' }}" href="{{ route('admin.users.index') }}"><i class="menu-icon fa fa-user-plus"></i><span>Users</span></a></li>
 					</ul>
 				</li>
 				@endif
@@ -138,10 +138,10 @@
 				<li>
 					<a class="waves-effect parent-item js__control" href="#"><i class="menu-icon fa fa-exclamation-triangle"></i><span>Reports Management</span><span class="menu-arrow fa fa-angle-down"></span></a>
 					<ul class="sub-menu js__content">
-						<li>
+						<li class="{{ request()->routeIs('admin.reports.ideas') ? 'bg-blue-300' : '' }}">
 							<a class="waves-effect" href="{{ route('admin.reports.ideas') }}"><i class="menu-icon  fa fa-lightbulb-o" aria-hidden="true"></i></i><span>Reported Ideas</span></a>
 						</li>
-						<li>
+						<li class="{{ request()->routeIs('admin.reports.comments') ? 'bg-blue-300' : '' }}">
 							<a class="waves-effect" href="{{ route('admin.reports.comments') }}"><i class="menu-icon fa fa-comment-o" aria-hidden="true"></i></i><span>Reported Comments</span></a>
 						</li>
 					</ul>
@@ -158,21 +158,21 @@
 				{{-- <li>
 					<a class="waves-effect" href=""><i class="menu-icon fa fa-calendar"></i><span>Calendar</span></a>
 				</li> --}}
-				<li>
+				<li class="{{ request()->routeIs('events.index') ? 'current' : '' }}">
 					<a class="waves-effect" href="{{route('events.index')}}"><i class="menu-icon fa fa-calendar"></i><span>Events</span></a>
 				</li>
 
 				@if (auth()->user()->role->role == 'Admin')
-				<li>
+				<li class="{{ request()->routeIs('ideas.index') ? 'current' : '' }}">
 					<a class="waves-effect" href="{{route('ideas.index')}}"><i class="menu-icon fa fa-lightbulb-o"></i><span>Ideas</span></a>
 				</li>
-				<li>
+				<li class="{{ request()->routeIs('comments.index') ? 'current' : '' }}">
 					<a class="waves-effect" href="{{route('comments.index')}}"><i class="menu-icon fa fa-comment-o"></i><span>Comments</span></a>
 				</li>
 				@endif
 
 				@if (auth()->user()->role->role == 'QA Manager')
-				<li>
+				<li class="{{ request()->routeIs('categories.index') ? 'current' : '' }}">
 					<a class="waves-effect" href="{{route('categories.index')}}"><i class="menu-icon fa fa-list"></i><span>Category</span></a>
 				</li>
 				@endif
@@ -181,15 +181,15 @@
 			<h5 class="title">Additions</h5>
 			<!-- /.title -->
 			<ul class="menu js__accordion">
-				<li>
+				<li class="{{ request()->routeIs('admin.profile') ? 'current' : '' }}">
 					<a class="waves-effect" href="{{ route('admin.profile') }}"><i class="menu-icon fa fa-user"></i><span>Profile</span></a>
 				</li>
 
-				<li>
+				<li class="{{ request()->routeIs('stats.index') ? 'current' : '' }}">
 					<a class="waves-effect" href="{{ route('stats.index') }}"><i class="menu-icon fa fa-bar-chart"></i><span>Stats</span></a>
 				</li>
 
-				<li>
+				<li class="{{ request()->routeIs('export-csv') ? 'current' : '' }}">
 					<a class="waves-effect" href="{{ route('export-csv') }}"><i class="menu-icon fa fa-download"></i><span>Dowload zip</span></a>
 				</li>
 
