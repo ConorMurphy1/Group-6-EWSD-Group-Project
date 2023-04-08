@@ -71,6 +71,12 @@ Route::prefix('admin')->middleware(['auth', 'admin_access'])->group(function() {
     // Idea and Comment (To allow QAM to remove reported ideas and comments)
     Route::resource('ideas', IdeaController::class);
     Route::resource('comments', CommentController::class);
+
+    // Admin Profile
+    Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile');
+    Route::get('/edit', [AdminController::class, 'edit'])->name('admin.edit');
+    Route::put('/update', [AdminController::class, 'update'])->name('admin.update');
+    Route::delete('/destroy', [AdminController::class, 'destroy'])->name('admin.destroy');
 });
 
 
@@ -90,12 +96,6 @@ Route::prefix('admin')->middleware(['auth', 'admin_only'])->group(function() {
     Route::get('/users/deleted', [AdminDeletedUserController::class, 'index'])->name('admin.users.deleted.index');
     Route::put('/users/deleted/{id}/reactivate', [AdminDeletedUserController::class, 'reactivate'])->name('admin.users.deleted.reactivate');
     Route::delete('/users/deleted/{id}/destroy', [AdminDeletedUserController::class, 'destroy'])->name('admin.users.deleted.destroy');
-
-    // Admin Profile
-    Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile');
-    Route::get('/edit', [AdminController::class, 'edit'])->name('admin.edit');
-    Route::put('/update', [AdminController::class, 'update'])->name('admin.update');
-    Route::delete('/destroy', [AdminController::class, 'destroy'])->name('admin.destroy');
 
     // Role Department CRUD
     Route::resource('roles', RoleController::class);
