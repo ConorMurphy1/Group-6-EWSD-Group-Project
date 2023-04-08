@@ -116,10 +116,10 @@
 			<!-- /.title -->
 			<ul class="menu js__accordion">
 
-				<li class="current">
+				<li>
 					<a class="waves-effect" href="{{route('dashboard')}}"><i class="menu-icon fa fa-home"></i><span>Dashboard</span></a>
 				</li>
-				<li class="">
+				<li>
 					<a class="waves-effect" href="{{ route('ideas.feed') }}"><i class="menu-icon fa fa-comments-o" aria-hidden="true"></i><span>Ideas Feed</span></a>
 				</li>
 
