@@ -22,7 +22,7 @@
             @csrf
             <div class="inside">
                 <img src="{{ asset('images/Logo-Original.png') }}" alt="">
-                <div class="title"><strong>G6-</strong>Admin</div>
+                <div class="title"><strong>G6-</strong>Blog</div>
                 <!-- /.title -->
                 <div class="frm-title">Login</div>
                 <!-- /.frm-title -->
