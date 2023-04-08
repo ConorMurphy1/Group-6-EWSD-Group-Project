@@ -139,7 +139,20 @@ class AdminUserController extends Controller
 
     /** remove specific user account */
     public function destroy(User $user)
-    {        
+    {
+        $ideas = $user->ideas;
+        $comments = $user->comments;
+
+        foreach($ideas as $idea)
+        {
+            $idea->delete();
+        }
+
+        foreach($comments as $comment)
+        {
+            $comment->delete();
+        }
+
         $user->delete();
         
         Alert::toast('User account removed', 'success');

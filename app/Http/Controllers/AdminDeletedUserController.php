@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
+use App\Models\Idea;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -27,8 +28,20 @@ class AdminDeletedUserController extends Controller
     /** reactivate the user account */
     public function reactivate($id)
     {
-        $user = User::withTrashed()->findOrFail($id);
+        $user = User::onlyTrashed()->findOrFail($id);
+        $deletedIdeas = $user->ideas()->onlyTrashed()->get();
+        $deletedComments = $user->comments()->onlyTrashed()->get();
+
         $user->restore();
+
+        foreach($deletedIdeas as $idea)
+        {
+            $idea->restore();
+        }
+        foreach($deletedComments as $comment)
+        {
+            $comment->restore();
+        }
 
         Alert::toast('User account recovered successfully!', 'success');
         return redirect()->route('admin.users.index');
