@@ -11,7 +11,7 @@ class PasswordController extends Controller
     public function store(Request $request)
     {
         $newPassword = $request->validate([
-            'password' => ['required', 'confirmed']
+            'password' => ['required', 'min:6', 'max:50', 'confirmed'],
         ]);
 
         /** if user attemps to update the same password */
