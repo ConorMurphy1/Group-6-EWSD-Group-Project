@@ -127,9 +127,9 @@
 				<li>
 					<a class="waves-effect parent-item js__control" href="#"><i class="menu-icon fa fa-adjust"></i><span>RDU Management</span><span class="menu-arrow fa fa-angle-down"></span></a>
 					<ul class="sub-menu js__content">
-						<li><a class="waves-effect" href="{{ route('roles.index') }}"><i class="menu-icon fa fa-users"></i><span>Roles</span></a></li>
-						<li><a class="waves-effect" href="{{ route('departments.index') }}"><i class="menu-icon fa fa-university"></i><span>Departments</span></a></li>
-                        <li><a class="waves-effect" href="{{ route('admin.users.index') }}"><i class="menu-icon fa fa-user-plus"></i><span>Users</span></a></li>
+						<li><a class="waves-effect" href="{{ route('roles.index') }}">Roles</a></li>
+						<li><a class="waves-effect" href="{{ route('departments.index') }}">Departments</a></li>
+                        <li><a class="waves-effect" href="{{ route('admin.users.index') }}">Users</a></li>
 					</ul>
 				</li>
 				@endif
