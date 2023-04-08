@@ -115,7 +115,6 @@
 			<h5 class="title">Navigation</h5>
 			<!-- /.title -->
 			<ul class="menu js__accordion">
-
 				<li class="{{ request()->routeIs('dashboard') ? 'current' : '' }}">
 					<a class="waves-effect" href="{{route('dashboard')}}"><i class="menu-icon fa fa-home"></i><span>Dashboard</span></a>
 				</li>
