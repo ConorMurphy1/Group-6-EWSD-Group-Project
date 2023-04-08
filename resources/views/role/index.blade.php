@@ -6,9 +6,9 @@
             <div class="box-content">
                 <h4 class="box-title">Roles</h4>
                 <div>
-                    <a href="{{route('roles.create')}}" class="btn btn-success justify-content-end" @if (Auth::user()->role->id  != 3)
+                    {{-- <a href="{{route('roles.create')}}" class="btn btn-success justify-content-end" @if (Auth::user()->role->id  != 3)
                         onclick="return false;" disabled
-                    @endif>+Add New</a>
+                    @endif>+Add New</a> --}}
                 </div>
                 <!-- /.box-title -->
                 <!-- /.dropdown js__dropdown -->
