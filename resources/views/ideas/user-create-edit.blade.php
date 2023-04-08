@@ -23,8 +23,8 @@
                 <div class="form-group">
                     <label for="inputTopicTitle">Idea Title</label>
                     <div class="tt-value-wrapper">
-                        <input name="title" type="text" id="title" class="form-control" required value="{{$idea->title ?? ''}}" >
-                        <span class="tt-value-input">99</span>
+                        <input name="title" type="text" id="title" class="form-control" required value="{{$idea->title ?? ''}}" data-word-count="99;postTitle" maxlength="99" onkeyup="count_down(this)" >
+                        <span class="tt-value-input" id="postTitle">99</span>
                     </div>
                     <div class="tt-note">Describe your topic well, while keeping the subject as short as possible.</div>
                     @error('title')
@@ -169,6 +169,23 @@
         $('#title').val(title);
         $('#description').val(description);
         $('#is_anonymous').val(is_anonymous);
+    }
+    function count_down(obj){
+        const data_length = obj.getAttribute('data-word-count').split(";")[0];
+        const postTitle = document.getElementById(obj.getAttribute('data-word-count').split(";")[1]);
+        // alert(postTitle);
+
+
+        postTitle.innerHTML = data_length - obj.value.length;
+        // window.alert("dfad");
+
+        if (data_length - obj.value.length < 5) {
+            postTitle.style.color = 'red';
+        }
+        else
+        {
+            postTitle.style.color = 'black';
+        }
     }
 </script>
 @endsection
