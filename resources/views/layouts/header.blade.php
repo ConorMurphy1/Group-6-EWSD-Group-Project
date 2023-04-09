@@ -126,9 +126,9 @@
 				<li>
 					<a class="waves-effect parent-item js__control" href="#"><i class="menu-icon fa fa-adjust"></i><span>RDU Management</span><span class="menu-arrow fa fa-angle-down"></span></a>
 					<ul class="sub-menu js__content">
-						<li><a class="waves-effect {{ request()->routeIs('roles.index') ? 'bg-blue-300' : '' }}" href="{{ route('roles.index') }}"><i class="menu-icon fa fa-users"></i><span>Roles</span></a></li>
-						<li><a class="waves-effect {{ request()->routeIs('departments.index') ? 'bg-blue-300' : '' }}" href="{{ route('departments.index') }}"><i class="menu-icon fa fa-university"></i><span>Departments</span></a></li>
-                        <li><a class="waves-effect {{ request()->routeIs('admin.users.index') ? 'bg-blue-300' : '' }}" href="{{ route('admin.users.index') }}"><i class="menu-icon fa fa-user-plus"></i><span>Users</span></a></li>
+						<li><a class="waves-effect {{ request()->routeIs('roles.index') ? 'bg-blue-300' : '' }}" href="{{ route('roles.index') }}"><span>Roles</span></a></li>
+						<li><a class="waves-effect {{ request()->routeIs('departments.index') ? 'bg-blue-300' : '' }}" href="{{ route('departments.index') }}"><span>Departments</span></a></li>
+                        <li><a class="waves-effect {{ request()->routeIs('admin.users.index') ? 'bg-blue-300' : '' }}" href="{{ route('admin.users.index') }}"><span>Users</span></a></li>
 					</ul>
 				</li>
 				@endif
